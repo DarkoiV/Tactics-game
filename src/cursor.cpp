@@ -7,6 +7,7 @@ cCursor::cCursor(){
 
 //Destructor
 cCursor::~cCursor(){
+	//free cursor sprite
 	SDL_DestroyTexture(m_sprite);
 }
 
@@ -45,16 +46,32 @@ vec2D cCursor::getPosition(){
 
 //Move cursor up
 void cCursor::movUp(){
+	if(m_vPos.y > 0)
+		m_vPos.y--;
+	else
+		std::cout << "[INFO] Cursor at map boundary" << std::endl;
 }
 
 //Move cursor down
 void cCursor::movDown(){
+	if(m_vPos.y < (m_vMapBoundary.y - 1))
+		m_vPos.y++;
+	else
+		std::cout << "[INFO] Cursor at map boundary" << std::endl;
 }
 
 //Move cursor right
 void cCursor::movRight(){
+	if(m_vPos.x < (m_vMapBoundary.x - 1))
+		m_vPos.x++;
+	else
+		std::cout << "[INFO] Cursor at map boundary" << std::endl;
 }
 
 //Move cursor left
 void cCursor::moveLeft(){
+	if(m_vPos.x > 0)
+		m_vPos.x--;
+	else
+		std::cout << "[INFO] Cursor at map boundary" << std::endl;
 }

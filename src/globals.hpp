@@ -45,6 +45,9 @@ enum class eBUTTON{
 	LEFT,
 	SELECT,
 	CANCEL,
+	SPECIAL,
+	SPECIAL2,
 	ESCAPE,
+	CONSOLE,
 	NONE
 };

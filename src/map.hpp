@@ -33,6 +33,7 @@ class cMap{
 
 	public:
 		//Constructor/destructor
+		cMap(vec2D p_vSize);				//Create map of size vSize //used for editor
 		cMap(std::string p_mapName);			//Load map based on its name
 		~cMap();
 

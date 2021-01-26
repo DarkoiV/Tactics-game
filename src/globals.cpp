@@ -73,13 +73,82 @@ void createFrame(){
 
 //Return pressed button
 eBUTTON getPlayerInput(){
-	//Check if player closed game
-	while(SDL_PollEvent(&g_event)){
-		if(g_event.type == SDL_QUIT)
+//Event buttons
+	while (SDL_PollEvent(&g_event)){
+		if(g_event.type == SDL_QUIT){
 			g_bGameIsRunning = false;
+		}
+		if(g_event.type == SDL_KEYUP){
+			switch(g_event.key.keysym.sym){
+				case SDLK_RETURN:
+				case SDLK_z:
+				std::cout << "[INFO] Pressed SELECT" << std::endl;
+				return eBUTTON::SELECT;
+				break;
+
+				case SDLK_x:
+				std::cout << "[INFO] Pressed CANCEL" << std::endl;
+				return eBUTTON::CANCEL;
+				break;
+
+				case SDLK_c:
+				std::cout << "[INFO] Pressed SPECIAL" << std::endl;
+				return eBUTTON::SPECIAL;
+				break;
+
+				case SDLK_v:
+				std::cout << "[INFO] Pressed SPECIAL2" << std::endl;
+				return eBUTTON::SPECIAL2;
+				break;
+
+				case SDLK_ESCAPE:
+				std::cout << "[INFO] Pressed ESC" << std::endl;
+				return eBUTTON::ESCAPE;
+				break;
+
+				case SDLK_F1:
+				std::cout << "[INFO] Pressed CONSOLE COMMAND" << std::endl;
+				return eBUTTON::CONSOLE;
+				break;
+			}
+		}
+	}
+	//Load state
+	const Uint8* keyState = SDL_GetKeyboardState(NULL);
+	static int nUpFrameWait, nDownFrameWait, nRightFrameWait, nLeftFrameWait;
+
+	//Directional buttons
+	if(nUpFrameWait > 0)
+		nUpFrameWait--;
+	else if(keyState[SDL_SCANCODE_UP]){
+			std::cout << "[INFO] Up Pressed" << std::endl;
+			nUpFrameWait = 6;
+			return eBUTTON::UP;
+	}
+	if(nDownFrameWait > 0)
+		nDownFrameWait--;
+	else if(keyState[SDL_SCANCODE_DOWN]){
+			std::cout << "[INFO] Down Pressed" << std::endl;
+			nDownFrameWait = 6;
+			return eBUTTON::DOWN;
+	}
+	if(nRightFrameWait > 0)
+		nRightFrameWait--;
+	else if(keyState[SDL_SCANCODE_RIGHT]){
+			std::cout << "[INFO] Right Pressed" << std::endl;
+			nRightFrameWait = 6;
+			return eBUTTON::RIGHT;
+	}
+	if(nLeftFrameWait > 0)
+		nLeftFrameWait--;
+	else if(keyState[SDL_SCANCODE_LEFT]){
+			std::cout << "[INFO] Left Pressed" << std::endl;
+			nLeftFrameWait = 6;
+			return eBUTTON::LEFT;
 	}
 
-	//Return none if no button pressed
+
+	//If none was pressed
 	return eBUTTON::NONE;
 }
 

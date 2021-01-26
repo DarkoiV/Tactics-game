@@ -1,32 +1,33 @@
 #include "map.hpp"
 
-//Constructor
-cMap::cMap(std::string p_mapName){
-	std::cout << "[INFO] Creating map: " << p_mapName << std::endl;
-	//If map is test map, fill vector with ID 0 and 1
-	if(p_mapName == "testMap"){
-		//Load plains tileset
-		m_tilesetSprite = loadSprite("graphics/plainsTileset.png");
-		//Create size
-		m_vSize.x = 30;
-		m_vSize.y = 25;
-		//Pass size to cursor
-		m_cursor.loadMapSize(m_vSize);
-		//Set position
-		m_cursor.setPosition({7, 7});
-		//Populare tiles
-		for(int y = 0; y < m_vSize.y; y++){
-			for(int x = 0; x < m_vSize.x; x++){
-				sTile createdTile;
-				createdTile.typeID = (x+y) % 2;
-				createdTile.x = x;
-				createdTile.y = y;
-				m_tilesVector.push_back(createdTile);
-			}
+//Constructor based on size
+cMap::cMap(vec2D p_vSize){
+	std::cout << "[INFO] Creating editor map" << std::endl;
+
+	//Load plains tileset, for test map
+	m_tilesetSprite = loadSprite("graphics/plainsTileset.png");
+
+	//Create size
+	m_vSize.x = p_vSize.x;
+	m_vSize.y = p_vSize.y;
+
+	//Pass size to cursor, and set position
+	m_cursor.loadMapSize(m_vSize);
+	m_cursor.setPosition({7, 7});
+
+	//Populare tiles with 1 and 2
+	for(int y = 0; y < m_vSize.y; y++){
+		for(int x = 0; x < m_vSize.x; x++){
+			sTile createdTile;
+			createdTile.typeID = (x+y) % 2;
+			createdTile.x = x;
+			createdTile.y = y;
+			m_tilesVector.push_back(createdTile);
 		}
-		//In test map start in edit mode by default
-		m_mapState = eMAP_STATE::EDIT_MODE;
 	}
+
+	//Map for editor, start in edit mode by default
+	m_mapState = eMAP_STATE::EDIT_MODE;
 
 	//Print in console tile representation
 	std::cout << "[INFO] Map tiles types IDs: " << std::endl;
@@ -41,6 +42,10 @@ cMap::cMap(std::string p_mapName){
 		std::cout << std::endl;
 	}
 
+}
+
+//Constructor that loads from file
+cMap::cMap(std::string p_mapName){
 }
 
 //Destructor
@@ -81,6 +86,23 @@ void cMap::updateNewTurn(){
 
 //Update edit mode
 void cMap::updateEditMode(eBUTTON p_INPUT){
+	switch(p_INPUT){
+		case eBUTTON::UP:
+			m_cursor.movUp();
+			break;
+		case eBUTTON::DOWN:
+			m_cursor.movDown();
+			break;
+		case eBUTTON::RIGHT:
+			m_cursor.movRight();
+			break;
+		case eBUTTON::LEFT:
+			m_cursor.moveLeft();
+			 break;
+		case eBUTTON::NONE:
+		default:
+			 break;
+	}
 }
 
 //Update normal mode
