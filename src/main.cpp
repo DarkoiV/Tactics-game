@@ -10,10 +10,11 @@ int main(){
 		std::cout << "[ERROR] Failed to initialize " << std::endl;
 		g_bGameIsRunning = false;
 	}
-	loadAssets();
+	else
+		loadAssets();
+
+	//temporary
 	cMap testMap("testMap");
-
-
 	while(g_bGameIsRunning){
 		testMap.update(getPlayerInput());
 		testMap.draw();

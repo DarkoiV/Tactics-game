@@ -3,16 +3,16 @@
 #include "globals.hpp"
 #include <string>
 #include <vector>
+#include "cursor.hpp"
 
 #define TILESET_WIDTH 6						//How many cells in tileset per line
-#define TILE_SIZE 24						//Tile size in pixels width and height
 
 class cMap{
 	protected:
 		vec2D m_vSize;					//Size in Tiles
 		vec2D m_vCameraOffset = {0, 0};			//Camera offset in pixels
 		std::vector<sTile> m_tilesVector;		//Vector of tiles structure
-		enum class eMAP_STATE{				//State of map
+		enum class eMAP_STATE{				//Map mode
 			NEW_TURN,
 			EDIT_MODE,
 			NORMAL_MODE,
@@ -20,8 +20,11 @@ class cMap{
 			ENEMY_TURN
 		} m_mapState;
 		SDL_Texture* m_tilesetSprite = NULL;		//Tileset sprite
+		
+		cCursor m_cursor;				//Cursor object
+		int m_nAnimationFrameCounter = 0;		//Counter for animations
 
-		//Update functions for difrent modes
+		//Update functions for differnt modes
 		void updateNewTurn();
 		void updateEditMode(eBUTTON p_INPUT);
 		void updateNormalMode(eBUTTON p_INPUT);

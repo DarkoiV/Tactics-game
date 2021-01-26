@@ -3,13 +3,17 @@
 //Constructor
 cMap::cMap(std::string p_mapName){
 	std::cout << "[INFO] Creating map: " << p_mapName << std::endl;
-	//If map is test map, fill vector with ID 1
+	//If map is test map, fill vector with ID 0 and 1
 	if(p_mapName == "testMap"){
 		//Load plains tileset
-		m_tilesetSprite = loadSprite("graphics/PlainsTileset.png");
+		m_tilesetSprite = loadSprite("graphics/plainsTileset.png");
 		//Create size
 		m_vSize.x = 30;
 		m_vSize.y = 25;
+		//Pass size to cursor
+		m_cursor.loadMapSize(m_vSize);
+		//Set position
+		m_cursor.setPosition({7, 7});
 		//Populare tiles
 		for(int y = 0; y < m_vSize.y; y++){
 			for(int x = 0; x < m_vSize.x; x++){
@@ -24,7 +28,7 @@ cMap::cMap(std::string p_mapName){
 		m_mapState = eMAP_STATE::EDIT_MODE;
 	}
 
-	//Print in console tiles representation
+	//Print in console tile representation
 	std::cout << "[INFO] Map tiles types IDs: " << std::endl;
 	for(int y = 0; y < m_vSize.y; y++){
 		std::cout << "Y:  |";
@@ -64,6 +68,11 @@ void cMap::update(eBUTTON p_INPUT){
 			updateEnemyTurn(); 
 			break;
 	}
+
+	//Update animation frame counter
+	m_nAnimationFrameCounter++;
+	if(m_nAnimationFrameCounter == 60)
+		m_nAnimationFrameCounter = 0;
 }
 
 //Update new turn
@@ -88,6 +97,7 @@ void cMap::updateEnemyTurn(){
 
 //draw map
 void cMap::draw(){
+	//Rectangles for tile usage
 	SDL_Rect srcRect = {0, 0, TILE_SIZE, TILE_SIZE};
 	SDL_Rect dstRect = {0, 0, TILE_SIZE, TILE_SIZE};
 	//Draw tiles
@@ -106,4 +116,7 @@ void cMap::draw(){
 			SDL_RenderCopy(g_renderer, m_tilesetSprite, &srcRect, &dstRect);
 		}
 	}
+
+	//Draw cursor
+	m_cursor.draw(m_nAnimationFrameCounter, m_vCameraOffset);
 }

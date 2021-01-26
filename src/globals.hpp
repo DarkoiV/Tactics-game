@@ -6,6 +6,7 @@
 
 //SDL variables and constans
 #define FPS 60
+#define TILE_SIZE 24
 inline SDL_Window* g_window;
 inline SDL_Renderer* g_renderer;
 inline SDL_Event g_event;

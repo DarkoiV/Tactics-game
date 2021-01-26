@@ -41,7 +41,7 @@ bool initGame(){
 void loadAssets(){
 }
 
-//Load texture
+//Load sprite
 SDL_Texture* loadSprite(std::string p_path){
 	SDL_Surface* loadingSurface;
 	loadingSurface = IMG_Load(p_path.c_str());
@@ -59,7 +59,7 @@ SDL_Texture* loadSprite(std::string p_path){
 	return loadedSprite;
 }
 
-//Create frame, wait if calculations went too fast
+//Create frame, wait for consistent frame rate
 void createFrame(){
 	static Uint32 previousFrameTicks;
 	SDL_RenderPresent(g_renderer);
