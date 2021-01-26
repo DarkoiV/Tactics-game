@@ -7,6 +7,7 @@ cCursor::cCursor(){
 
 //Destructor
 cCursor::~cCursor(){
+	SDL_DestroyTexture(m_sprite);
 }
 
 //Load map size
