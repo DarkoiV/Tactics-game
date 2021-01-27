@@ -74,6 +74,9 @@ void cMap::update(eBUTTON p_INPUT){
 			break;
 	}
 
+	//Update camera
+	updateCamera();
+
 	//Update animation frame counter
 	m_nAnimationFrameCounter++;
 	if(m_nAnimationFrameCounter == 60)
@@ -115,6 +118,35 @@ void cMap::updateUnitMode(eBUTTON p_INPUT){
 
 //Update enemy turn
 void cMap::updateEnemyTurn(){
+}
+
+//Update camera position
+void cMap::updateCamera(){
+	switch(m_cameraMode){
+		default:
+		case eCAMERA::MOVES_ON_EDGE:
+			//Y axis
+			if(m_cursor.getPosition().y * TILE_SIZE + m_vCameraOffset.y < 0){
+				m_vCameraOffset.y += TILE_SIZE;
+				std::cout << "[INFO] Moving camera up" << std::endl;
+			}
+			else if((m_cursor.getPosition().y + 1) * TILE_SIZE + m_vCameraOffset.y > g_windowHeight){
+				m_vCameraOffset.y -= TILE_SIZE;
+				std::cout << "[INFO Moving camera down" << std::endl;
+			}
+			//X axis
+			if(m_cursor.getPosition().x * TILE_SIZE + m_vCameraOffset.x < 0){
+				m_vCameraOffset.x += TILE_SIZE;
+				std::cout << "[INFO] Moving camera right" << std::endl;
+			}
+			else if((m_cursor.getPosition().x + 1) * TILE_SIZE + m_vCameraOffset.x > g_windowWidth){
+				m_vCameraOffset.x -= TILE_SIZE;
+				std::cout << "[INFO Moving camera left" << std::endl;
+			}
+			break;
+		case eCAMERA::CENTERED_ON_CURSOR:
+			break;
+	}
 }
 
 //draw map

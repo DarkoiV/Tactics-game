@@ -14,7 +14,7 @@ int main(){
 		loadAssets();
 
 	//temporary
-	vec2D vMapSize = {25, 20};
+	vec2D vMapSize = {27, 23};
 	cMap testMap(vMapSize);
 	while(g_bGameIsRunning){
 		testMap.update(getPlayerInput());

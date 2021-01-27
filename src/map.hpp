@@ -31,6 +31,13 @@ class cMap{
 		void updateUnitMode(eBUTTON p_INPUT);
 		void updateEnemyTurn();
 
+		//Camera functions
+		void updateCamera();
+		enum class eCAMERA{				//Camera behaviour
+			CENTERED_ON_CURSOR, 
+			MOVES_ON_EDGE
+		} m_cameraMode = eCAMERA::MOVES_ON_EDGE;
+
 	public:
 		//Constructor/destructor
 		cMap(vec2D p_vSize);				//Create map of size vSize //used for editor

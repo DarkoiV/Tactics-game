@@ -27,8 +27,8 @@ void cCursor::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 		srcRect = {CURSOR_SIZE, 0, CURSOR_SIZE, CURSOR_SIZE};
 
 	//Cursor position
-	dstRect = {TILE_SIZE * m_vPos.x - CURSOR_BORDER, 
-		TILE_SIZE * m_vPos.y - CURSOR_BORDER, 
+	dstRect = {TILE_SIZE * m_vPos.x - CURSOR_BORDER + p_vCameraOffset.x, 
+		TILE_SIZE * m_vPos.y - CURSOR_BORDER + p_vCameraOffset.y, 
 		CURSOR_SIZE, CURSOR_SIZE};
 		
 	SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
