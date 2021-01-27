@@ -106,18 +106,23 @@ void cMap::updateEditMode(eBUTTON p_INPUT){
 		//On select, select next tile
 		case eBUTTON::SELECT:
 			m_tilesVector[m_cursor.intPosition()].typeID++;
+			std::cout << "[INFO] Tile at " << m_cursor.intPosition() << " changed(+1)" << std::endl;
 			break;
 		//On cancel, select previous tile
 		case eBUTTON::CANCEL:
 			m_tilesVector[m_cursor.intPosition()].typeID--;
+			std::cout << "[INFO] Tile at " << m_cursor.intPosition() << " changed(-1)" << std::endl;
 			break;
 		//On special 1, copy
 		case eBUTTON::SPECIAL:
 			m_nCopiedTileID = m_tilesVector[m_cursor.intPosition()].typeID;
+			std::cout << "[INFO] Copied tile type: " <<  m_tilesVector[m_cursor.intPosition()].typeID << std::endl;
 			break;
 		//On special 2, paste
 		case eBUTTON::SPECIAL2:
 			m_tilesVector[m_cursor.intPosition()].typeID = m_nCopiedTileID;
+			std::cout <<"[INFO] Pasted tile type: " <<  m_tilesVector[m_cursor.intPosition()].typeID 
+				<< " at: " << m_cursor.intPosition() << std::endl;
 			break;
 		//On none, do nothing, lol
 		case eBUTTON::NONE:
