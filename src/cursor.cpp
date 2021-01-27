@@ -2,13 +2,13 @@
 
 //Constructor
 cCursor::cCursor(){
-	m_sprite = loadSprite("graphics/cursor.png");
+	m_pSprite = loadSprite("graphics/cursor.png");
 }
 
 //Destructor
 cCursor::~cCursor(){
 	//free cursor sprite
-	SDL_DestroyTexture(m_sprite);
+	SDL_DestroyTexture(m_pSprite);
 }
 
 //Load map size
@@ -31,7 +31,7 @@ void cCursor::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 		TILE_SIZE * m_vPos.y - CURSOR_BORDER + p_vCameraOffset.y, 
 		CURSOR_SIZE, CURSOR_SIZE};
 		
-	SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
+	SDL_RenderCopy(g_renderer, m_pSprite, &srcRect, &dstRect);
 }
 
 //Set position

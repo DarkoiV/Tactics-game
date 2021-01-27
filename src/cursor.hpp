@@ -10,7 +10,7 @@ class cCursor{
 		vec2D m_vMapBoundary;					//Keep how far can cursor move, in Tiles
 		vec2D m_vPos;						//Cursor position, in Tiles
 
-		SDL_Texture* m_sprite = NULL;				//Cursor sprite
+		SDL_Texture* m_pSprite = NULL;				//Cursor sprite
 	public:
 		//Constructore/destructor
 		cCursor();

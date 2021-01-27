@@ -20,7 +20,7 @@ enum class eBUTTON;
 void loadConfig();
 bool initGame();
 void loadAssets();
-SDL_Texture* loadSprite(std::string p_path);
+SDL_Texture* loadSprite(std::string p_sPath);
 eBUTTON getPlayerInput();
 void createFrame();
 void quit();

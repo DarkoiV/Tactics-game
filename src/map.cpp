@@ -5,7 +5,7 @@ cMap::cMap(vec2D p_vSize){
 	std::cout << "[INFO] Creating editor map" << std::endl;
 
 	//Load plains tileset, for test map
-	m_tilesetSprite = loadSprite("graphics/plainsTileset.png");
+	m_pTilesetSprite = loadSprite("graphics/plainsTileset.png");
 
 	//Create size
 	m_vSize.x = p_vSize.x;
@@ -45,13 +45,13 @@ cMap::cMap(vec2D p_vSize){
 }
 
 //Constructor that loads from file
-cMap::cMap(std::string p_mapName){
+cMap::cMap(std::string p_sMapName){
 }
 
 //Destructor
 cMap::~cMap(){
 	//Free tileset texture
-	SDL_DestroyTexture(m_tilesetSprite);
+	SDL_DestroyTexture(m_pTilesetSprite);
 }
 
 //Update map
@@ -190,7 +190,7 @@ void cMap::draw(){
 			srcRect.y = (m_tilesVector[x + (y * m_vSize.x)].typeID / TILESET_WIDTH) * TILE_SIZE;
 
 			//Render tile
-			SDL_RenderCopy(g_renderer, m_tilesetSprite, &srcRect, &dstRect);
+			SDL_RenderCopy(g_renderer, m_pTilesetSprite, &srcRect, &dstRect);
 		}
 	}
 

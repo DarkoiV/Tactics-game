@@ -19,7 +19,7 @@ class cMap{
 			UNIT_MODE,
 			ENEMY_TURN
 		} m_mapState;
-		SDL_Texture* m_tilesetSprite = NULL;		//Tileset sprite
+		SDL_Texture* m_pTilesetSprite = NULL;		//Tileset sprite
 		
 		cCursor m_cursor;				//Cursor object
 		int m_nAnimationFrameCounter = 0;		//Counter for animations
@@ -46,7 +46,7 @@ class cMap{
 	public:
 		//Constructor/destructor
 		cMap(vec2D p_vSize);				//Create map of size vSize //used for editor
-		cMap(std::string p_mapName);			//Load map based on its name
+		cMap(std::string p_sMapName);			//Load map based on its name
 		~cMap();
 
 		//Update and draw

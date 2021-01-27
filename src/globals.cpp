@@ -42,20 +42,20 @@ void loadAssets(){
 }
 
 //Load sprite
-SDL_Texture* loadSprite(std::string p_path){
+SDL_Texture* loadSprite(std::string p_sPath){
 	SDL_Surface* loadingSurface;
-	loadingSurface = IMG_Load(p_path.c_str());
+	loadingSurface = IMG_Load(p_sPath.c_str());
 	if(loadingSurface == NULL){
-		std::cout << "[ERROR] " << p_path << " not loaded: " << IMG_GetError() << std::endl;
+		std::cout << "[ERROR] " << p_sPath << " not loaded: " << IMG_GetError() << std::endl;
 		return NULL;
 	}
 	SDL_Texture* loadedSprite = SDL_CreateTextureFromSurface(g_renderer, loadingSurface);
 	if(loadedSprite == NULL){
-		std::cout << "[ERROR] "<< p_path << " texture creation failed: " << IMG_GetError() << std::endl;
+		std::cout << "[ERROR] "<< p_sPath << " texture creation failed: " << IMG_GetError() << std::endl;
 		return NULL;
 	}
 	SDL_FreeSurface(loadingSurface);
-	std::cout << "[OK] " << p_path << " loaded correctly" << std::endl;
+	std::cout << "[OK] " << p_sPath << " loaded correctly" << std::endl;
 	return loadedSprite;
 }
 
