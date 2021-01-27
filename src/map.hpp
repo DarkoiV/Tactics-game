@@ -32,11 +32,16 @@ class cMap{
 		void updateEnemyTurn();
 
 		//Camera functions
-		void updateCamera();
-		enum class eCAMERA{				//Camera behaviour
+		void updateCamera();				//Update camera position
+		enum class eCAMERA{				//Camera behaviour mode
 			CENTERED_ON_CURSOR, 
 			MOVES_ON_EDGE
 		} m_cameraMode = eCAMERA::MOVES_ON_EDGE;
+
+		//Edit mode variables and functions
+		int m_nCopiedTileID = 0;			//Store copied tile
+
+		void updateTilesData();				//Load movCost etc
 
 	public:
 		//Constructor/destructor

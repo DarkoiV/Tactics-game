@@ -90,6 +90,7 @@ void cMap::updateNewTurn(){
 //Update edit mode
 void cMap::updateEditMode(eBUTTON p_INPUT){
 	switch(p_INPUT){
+		//Move cursor
 		case eBUTTON::UP:
 			m_cursor.movUp();
 			break;
@@ -101,7 +102,24 @@ void cMap::updateEditMode(eBUTTON p_INPUT){
 			break;
 		case eBUTTON::LEFT:
 			m_cursor.moveLeft();
-			 break;
+			break;
+		//On select, select next tile
+		case eBUTTON::SELECT:
+			m_tilesVector[m_cursor.intPosition()].typeID++;
+			break;
+		//On cancel, select previous tile
+		case eBUTTON::CANCEL:
+			m_tilesVector[m_cursor.intPosition()].typeID--;
+			break;
+		//On special 1, copy
+		case eBUTTON::SPECIAL:
+			m_nCopiedTileID = m_tilesVector[m_cursor.intPosition()].typeID;
+			break;
+		//On special 2, paste
+		case eBUTTON::SPECIAL2:
+			m_tilesVector[m_cursor.intPosition()].typeID = m_nCopiedTileID;
+			break;
+		//On none, do nothing, lol
 		case eBUTTON::NONE:
 		default:
 			 break;
@@ -163,8 +181,8 @@ void cMap::draw(){
 			dstRect.x = (x*TILE_SIZE) + m_vCameraOffset.x;
 
 			//chose tile from sprite
-			srcRect.x = (m_tilesVector[x + (y * m_vSize.y)].typeID % TILESET_WIDTH) * TILE_SIZE;
-			srcRect.y = (m_tilesVector[x + (y * m_vSize.y)].typeID / TILESET_WIDTH) * TILE_SIZE;
+			srcRect.x = (m_tilesVector[x + (y * m_vSize.x)].typeID % TILESET_WIDTH) * TILE_SIZE;
+			srcRect.y = (m_tilesVector[x + (y * m_vSize.x)].typeID / TILESET_WIDTH) * TILE_SIZE;
 
 			//Render tile
 			SDL_RenderCopy(g_renderer, m_tilesetSprite, &srcRect, &dstRect);

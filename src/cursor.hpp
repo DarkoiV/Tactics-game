@@ -23,6 +23,7 @@ class cCursor{
 		//Positioning
 		void setPosition(vec2D p_vPos);
 		vec2D getPosition();
+		int intPosition();
 		void movUp();
 		void movDown();
 		void movRight();
