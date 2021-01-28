@@ -1,5 +1,5 @@
 #include "globals.hpp"
-#include "map.hpp"
+#include "battle_scene.hpp"
 
 int main(){
 	//Load configuration files
@@ -15,10 +15,10 @@ int main(){
 
 	//temporary
 	vec2D vMapSize = {27, 23};
-	cMap testMap(vMapSize);
+	cBattleScene currentScene(vMapSize);
 	while(g_bGameIsRunning){
-		testMap.update(getPlayerInput());
-		testMap.draw();
+		currentScene.update(getPlayerInput());
+		currentScene.draw();
 		createFrame();
 	}
 
