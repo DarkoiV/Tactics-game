@@ -29,7 +29,6 @@ void quit();
 struct vec2D{
 	int x;
 	int y;
-
 };
 
 inline std::ostream& operator << (std::ostream &os, const vec2D &s){
