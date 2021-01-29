@@ -99,7 +99,7 @@ eBUTTON getPlayerInput(){
 			}
 		}
 		//Check key presses 
-		else if(g_event.type == SDL_KEYDOWN){
+		else if(g_event.type == SDL_KEYDOWN and g_event.key.repeat == 0){
 			switch(g_event.key.keysym.sym){
 				case SDLK_RETURN:
 				case SDLK_z:
