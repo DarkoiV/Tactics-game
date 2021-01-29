@@ -23,17 +23,7 @@ cMap::cMap(vec2D p_vSize){
 	}
 
 	//Print in console tile representation
-	std::cout << "[INFO] Map tiles types IDs: " << std::endl;
-	for(int y = 0; y < m_vSize.y; y++){
-		std::cout << "Y:  |";
-		for(int x = 0; x < m_vSize.x; x++){
-			if(m_tilesVector[x + (y * m_vSize.x)].typeID < 10)
-				std::cout <<  "0" << m_tilesVector[x + (y * m_vSize.x)].typeID << "|"; 
-			else
-				std::cout << m_tilesVector[x + (y * m_vSize.x)].typeID << "|";
-		}
-		std::cout << std::endl;
-	}
+	printTilesTypes();
 
 }
 
@@ -49,6 +39,21 @@ cMap::~cMap(){
 
 //Update map
 void cMap::update(eBUTTON p_INPUT){
+}
+
+//Print tiles types
+void cMap::printTilesTypes(){
+	std::cout << "[INFO] Map tiles types IDs: " << std::endl;
+	for(int y = 0; y < m_vSize.y; y++){
+		std::cout << "Y:  |";
+		for(int x = 0; x < m_vSize.x; x++){
+			if(m_tilesVector[x + (y * m_vSize.x)].typeID < 10)
+				std::cout <<  "0" << m_tilesVector[x + (y * m_vSize.x)].typeID << "|"; 
+			else
+				std::cout << m_tilesVector[x + (y * m_vSize.x)].typeID << "|";
+		}
+		std::cout << std::endl;
+	}
 }
 
 //Get Tile

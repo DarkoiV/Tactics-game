@@ -20,6 +20,7 @@ class cMap{
 		~cMap();
 
 		//Methods
+		void printTilesTypes();				//Print tiles types to console
 		sTile& getTile(vec2D p_vPos);			//Get tile at position
 
 		//Update and draw
