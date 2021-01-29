@@ -4,16 +4,20 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-//SDL variables and constans
+//SDL variables and constans used for rendering
 #define FPS 60
 #define TILE_SIZE 24
 inline SDL_Window* g_window;
 inline SDL_Renderer* g_renderer;
-inline SDL_Event g_event;
 inline int g_windowWidth = 576;
 inline int g_windowHeight = 360;
-inline bool g_bGameIsRunning = true;
 inline int g_nScaleFactor = 2;
+
+//SDL variables and constans used for events
+inline bool g_bGameIsRunning = true;
+inline bool g_bConsoleCommandIssued = false;
+inline std::string g_sConsoleCommand = "";
+inline SDL_Event g_event;
 enum class eBUTTON;
 
 //Functions
@@ -52,6 +56,5 @@ enum class eBUTTON{
 	SPECIAL,
 	SPECIAL2,
 	ESCAPE,
-	CONSOLE,
 	NONE
 };

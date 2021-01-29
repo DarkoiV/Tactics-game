@@ -34,6 +34,8 @@ bool initGame(){
 	}
 	SDL_RenderSetLogicalSize(g_renderer, g_windowWidth, g_windowHeight);
 	std::cout << "[OK] Global renderer created" << std::endl;
+	//Disable SDL text input, because for some reason it is on by default
+	SDL_StopTextInput();
 	return true;
 }
 
@@ -73,12 +75,31 @@ void createFrame(){
 
 //Return pressed button
 eBUTTON getPlayerInput(){
-//Event buttons
+	//Check if anything used command
+	if(g_bConsoleCommandIssued){
+		std::cout << "[WARRNING] '" << g_sConsoleCommand << "' not recognized here" << std::endl;
+		g_bConsoleCommandIssued = false;
+	}
+	//Event buttons
 	while (SDL_PollEvent(&g_event)){
+		//Check if asked for quit
 		if(g_event.type == SDL_QUIT){
 			g_bGameIsRunning = false;
 		}
-		if(g_event.type == SDL_KEYUP){
+		//Process console command input
+		if(SDL_IsTextInputActive()){
+			//Send console command
+			if(g_event.type == SDL_KEYDOWN and g_event.key.keysym.sym == SDLK_RETURN){
+				std::cout << "[INFO] Command issued: " << g_sConsoleCommand << std::endl;
+				g_bConsoleCommandIssued = true;
+				SDL_StopTextInput();
+			}
+			if(g_event.type == SDL_TEXTINPUT){
+				g_sConsoleCommand += g_event.text.text;
+			}
+		}
+		//Check key presses 
+		else if(g_event.type == SDL_KEYDOWN){
 			switch(g_event.key.keysym.sym){
 				case SDLK_RETURN:
 				case SDLK_z:
@@ -108,7 +129,10 @@ eBUTTON getPlayerInput(){
 
 				case SDLK_F1:
 				std::cout << "[INFO] Pressed CONSOLE COMMAND" << std::endl;
-				return eBUTTON::CONSOLE;
+				//Start accepting console input and empty string
+				g_sConsoleCommand = "";
+				SDL_StartTextInput();
+				return eBUTTON::NONE;
 				break;
 			}
 		}
