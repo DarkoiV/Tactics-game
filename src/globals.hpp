@@ -20,10 +20,14 @@ inline std::string g_sConsoleCommand = "";
 inline SDL_Event g_event;
 enum class eBUTTON;
 
+//Global assets
+inline SDL_Texture* g_pConsoleTextTexture = nullptr;
+
 //Functions
 void loadConfig();
 bool initGame();
 void loadAssets();
+void freeAssets();
 SDL_Texture* loadSprite(std::string p_sPath);
 eBUTTON getPlayerInput();
 void createFrame();

@@ -41,6 +41,12 @@ bool initGame(){
 
 //Load all global assets
 void loadAssets(){
+	g_pConsoleTextTexture = loadSprite("graphics/consoleText.png");
+}
+
+//Free all global assets
+void freeAssets(){
+	SDL_DestroyTexture(g_pConsoleTextTexture);
 }
 
 //Load sprite
