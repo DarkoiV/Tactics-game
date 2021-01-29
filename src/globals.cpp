@@ -100,6 +100,9 @@ eBUTTON getPlayerInput(){
 				g_bConsoleCommandIssued = true;
 				SDL_StopTextInput();
 			}
+			if(g_event.type == SDL_KEYDOWN and g_event.key.keysym.sym == SDLK_BACKSPACE and g_sConsoleCommand.size() > 0){
+				g_sConsoleCommand.pop_back();
+			}
 			if(g_event.type == SDL_TEXTINPUT){
 				g_sConsoleCommand += g_event.text.text;
 			}
