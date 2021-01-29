@@ -83,7 +83,7 @@ void createFrame(){
 eBUTTON getPlayerInput(){
 	//Check if anything used command
 	if(g_bConsoleCommandIssued){
-		std::cout << "[WARRNING] '" << g_sConsoleCommand << "' not recognized here" << std::endl;
+		std::cout << "[WARNING] '" << g_sConsoleCommand << "' not recognized here" << std::endl;
 		g_bConsoleCommandIssued = false;
 	}
 	//Event buttons
