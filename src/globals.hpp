@@ -62,3 +62,10 @@ enum class eBUTTON{
 	ESCAPE,
 	NONE
 };
+
+enum class eDIRECTION{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+};
