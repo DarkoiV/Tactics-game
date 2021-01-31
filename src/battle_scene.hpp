@@ -1,9 +1,13 @@
 #pragma once
 
+#include <queue>
+#include <memory>
+
 #include "scene.hpp"
 #include "map.hpp"
 #include "cursor.hpp"
 #include "unit.hpp"
+#include "command.hpp"
 
 class cBattleScene : public cScene{
 	protected:
@@ -11,6 +15,8 @@ class cBattleScene : public cScene{
 		cCursor m_cursor;
 		cMap m_map;
 		cUnit m_unit;
+
+		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
 
 		//variables
 		vec2D m_vCameraOffset = {0,0};				//Camera offset in pixels

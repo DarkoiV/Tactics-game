@@ -9,6 +9,7 @@
 class cUnit{
 	protected:
 		vec2D m_vPos;					//Position in tiles
+		vec2D m_vAnimationOffset = {0,0};		//Offset for animation
 
 		enum class eUNIT_STATE{				//State of unit
 			IDLE,
@@ -29,6 +30,8 @@ class cUnit{
 
 		//Methods
 		void setPosition(vec2D p_vNewPos);		//Set position on map
+		void movPosition(vec2D p_vChange);		//Move position by value of vector(for animation)
+		void finalizeMovement();			//Reset animation offset, and set position
 
 		//Update/Draw
 		void update();

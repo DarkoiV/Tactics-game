@@ -21,6 +21,19 @@ void cUnit::setPosition(vec2D p_vNewPos){
 	m_vPos = p_vNewPos;
 }
 
+//Move position by value of vector (inPixels)
+void cUnit::movPosition(vec2D p_vChange){
+	m_vAnimationOffset.x += p_vChange.x;
+	m_vAnimationOffset.y += p_vChange.y;
+}
+
+//Finalize movement, reset offset from animation and confirm new position
+void cUnit::finalizeMovement(){
+	m_vPos.x += m_vAnimationOffset.x / TILE_SIZE;
+	m_vPos.y += m_vAnimationOffset.y / TILE_SIZE;
+	m_vAnimationOffset = {0, 0};
+}
+
 //Update unit
 void cUnit::update(){
 }
@@ -51,8 +64,8 @@ void cUnit::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 	srcRect.x = (p_nAnimationFrame / 15) * TILE_SIZE;
 
 	//Set destination
-	dstRect = {m_vPos.x * TILE_SIZE + p_vCameraOffset.x, 
-		m_vPos.y * TILE_SIZE + p_vCameraOffset.y + UNIT_TILE_OFFSET, 
+	dstRect = {m_vPos.x * TILE_SIZE + p_vCameraOffset.x + m_vAnimationOffset.x, 
+		m_vPos.y * TILE_SIZE + p_vCameraOffset.y + UNIT_TILE_OFFSET + m_vAnimationOffset.y, 
 		TILE_SIZE, TILE_SIZE};
 
 	//Copy to renderer

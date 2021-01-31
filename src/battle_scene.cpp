@@ -49,6 +49,17 @@ void cBattleScene::updateCamera(){
 
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
+	//Check command queue
+	if(not m_commandQueue.empty()){
+		std::cout << "[INFO] Executing command" << std::endl;
+		m_commandQueue.front()->execute();
+		//if completed delete it from queue
+		if(m_commandQueue.front()->isCompleted())
+			m_commandQueue.pop();
+	}
+
+
+	//Call mode specific update method
 	updateEdit(p_INPUT);
 
 	//Update camera
@@ -96,6 +107,10 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 			m_map.getTile(m_cursor.getPosition()).typeID = m_nCopiedTileID;
 			std::cout <<"[INFO] Pasted tile type: " <<  m_map.getTile(m_cursor.getPosition()).typeID
 				<< " at: " << m_cursor.getPosition() << std::endl;
+			break;
+		//TMP to test commands
+		case eBUTTON::ESCAPE:
+			m_commandQueue.push(std::unique_ptr<cCommand> (new cCommandMove(&m_unit, eDIRECTION::EAST)));
 			break;
 		//On none, do nothing, lol
 		case eBUTTON::NONE:
