@@ -3,7 +3,7 @@
 //Constructor
 cUnit::cUnit(){
 	//Create testing unit
-	m_unitState = UNIT_STATE::IDLE;
+	m_unitState = eUNIT_STATE::IDLE;
 	m_bUsesGlobalSprite = false;
 	m_pSprite = loadSprite("graphics/infantry.png");
 }
@@ -31,19 +31,19 @@ void cUnit::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 	SDL_Rect dstRect;
 
 	switch(m_unitState){
-		case UNIT_STATE::IDLE:
+		case eUNIT_STATE::IDLE:
 			srcRect.y = 0;
 			break;
-		case UNIT_STATE::WALKING_NORTH:
+		case eUNIT_STATE::WALKING_NORTH:
 			srcRect.y = TILE_SIZE;
 			break;
-		case UNIT_STATE::WALKING_SOUTH:
+		case eUNIT_STATE::WALKING_SOUTH:
 			srcRect.y = 2 * TILE_SIZE;
 			break;
-		case UNIT_STATE::WALKING_EAST:
+		case eUNIT_STATE::WALKING_EAST:
 			srcRect.y = 3 * TILE_SIZE;
 			break;
-		case UNIT_STATE::WALKING_WEST:
+		case eUNIT_STATE::WALKING_WEST:
 			srcRect.y = 4 * TILE_SIZE;
 			break;
 	}

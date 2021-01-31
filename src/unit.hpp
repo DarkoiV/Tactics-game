@@ -10,7 +10,7 @@ class cUnit{
 	protected:
 		vec2D m_vPos;					//Position in tiles
 
-		enum class UNIT_STATE{				//State of unit
+		enum class eUNIT_STATE{				//State of unit
 			IDLE,
 			WALKING_NORTH,
 			WALKING_SOUTH,
