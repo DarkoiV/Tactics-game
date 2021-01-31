@@ -3,12 +3,14 @@
 #include "scene.hpp"
 #include "map.hpp"
 #include "cursor.hpp"
+#include "unit.hpp"
 
 class cBattleScene : public cScene{
 	protected:
 		//objects
 		cCursor m_cursor;
 		cMap m_map;
+		cUnit m_unit;
 
 		//variables
 		vec2D m_vCameraOffset = {0,0};				//Camera offset in pixels

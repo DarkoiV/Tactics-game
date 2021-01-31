@@ -6,6 +6,9 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 	m_cursor.loadMapSize(p_vMapSize);
 	m_cursor.setPosition({7, 7});
 
+	//set unit position
+	m_unit.setPosition({7, 7});
+
 	//start in edit mode
 	m_sceneMode = eSCENE_MODE::EDIT_MAP;
 }
@@ -106,6 +109,9 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 void cBattleScene::draw(){
 	//Draw map, pass camera offset
 	m_map.draw(m_vCameraOffset);
+
+	//Draw units, pass animation frame and camera offset
+	m_unit.draw(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw cursor, pass animation frame and camera offset
 	m_cursor.draw(m_nAnimationFrameCounter, m_vCameraOffset);
