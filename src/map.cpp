@@ -41,6 +41,34 @@ cMap::~cMap(){
 void cMap::update(eBUTTON p_INPUT){
 }
 
+//Increase tile type 
+void cMap::tileTypeIncrease(vec2D p_vTilePos){
+	std::cout << "[INFO] Increased tile type at " << p_vTilePos << std::endl;
+	m_tilesVector[p_vTilePos.x + (p_vTilePos.y * m_vSize.x)].typeID++;
+}
+
+//Decrease tile type
+void cMap::tileTypeDecrease(vec2D p_vTilePos){
+	if(m_tilesVector[p_vTilePos.x + (p_vTilePos.y * m_vSize.x)].typeID > 0){
+		std::cout << "[INFO] Decreased tile type at " << p_vTilePos << std::endl;
+		m_tilesVector[p_vTilePos.x + (p_vTilePos.y * m_vSize.x)].typeID--;
+	}
+	else
+		std::cout << "[INFO] Can't have typeID below 0! " << std::endl;
+}
+
+//Copy tile type
+int cMap::tileTypeCopy(vec2D p_vTilePos){
+	std::cout << "Copied tile from " << p_vTilePos << std::endl;
+	return m_tilesVector[p_vTilePos.x + (p_vTilePos.y * m_vSize.x)].typeID;
+}
+
+//Paste tile type
+void cMap::tileTypepaste(vec2D p_vTilePos, int p_nType){
+	std::cout << "Pasted tile type: " << p_nType << ", to position: " << p_vTilePos << std::endl;
+	m_tilesVector[p_vTilePos.x + (p_vTilePos.y * m_vSize.x)].typeID = p_nType;
+}
+
 //Print tiles types
 void cMap::printTilesTypes(){
 	std::cout << "[INFO] Map tiles types IDs: " << std::endl;
@@ -54,11 +82,6 @@ void cMap::printTilesTypes(){
 		}
 		std::cout << std::endl;
 	}
-}
-
-//Get Tile
-sTile& cMap::getTile(vec2D p_vPos){
-	return m_tilesVector[p_vPos.x + (p_vPos.y * m_vSize.x)];
 }
 
 //Reference map

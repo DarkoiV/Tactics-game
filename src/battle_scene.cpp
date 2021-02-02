@@ -106,24 +106,19 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 			break;
 		//On select, select next tile
 		case eBUTTON::SELECT:
-			m_map.getTile(m_cursor.getPosition()).typeID++;
-			std::cout << "[INFO] Tile at " << m_cursor.getPosition() << " changed(+1)" << std::endl;
+			m_map.tileTypeIncrease(m_cursor.getPosition());
 			break;
 		//On cancel, select previous tile
 		case eBUTTON::CANCEL:
-			m_map.getTile(m_cursor.getPosition()).typeID--;
-			std::cout << "[INFO] Tile at " << m_cursor.getPosition() << " changed(-1)" << std::endl;
+			m_map.tileTypeDecrease(m_cursor.getPosition());
 			break;
 		//On special 1, copy
 		case eBUTTON::SPECIAL:
-			m_nCopiedTileID = m_map.getTile(m_cursor.getPosition()).typeID;
-			std::cout << "[INFO] Copied tile type: " <<  m_map.getTile(m_cursor.getPosition()).typeID << std::endl;
+			m_nCopiedTileID = m_map.tileTypeCopy(m_cursor.getPosition());
 			break;
 		//On special 2, paste
 		case eBUTTON::SPECIAL2:
-			m_map.getTile(m_cursor.getPosition()).typeID = m_nCopiedTileID;
-			std::cout <<"[INFO] Pasted tile type: " <<  m_map.getTile(m_cursor.getPosition()).typeID
-				<< " at: " << m_cursor.getPosition() << std::endl;
+			m_map.tileTypepaste(m_cursor.getPosition(), m_nCopiedTileID);
 			break;
 		//On none, do nothing, lol
 		case eBUTTON::NONE:
