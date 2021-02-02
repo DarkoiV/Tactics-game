@@ -16,6 +16,8 @@ class cBattleScene : public cScene{
 		cMap m_map;
 		cUnit m_unit;
 
+		//Command handling
+		bool checkCommandQueue();				//Returns true if commands are being processed
 		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
 
 		//variables
@@ -25,6 +27,7 @@ class cBattleScene : public cScene{
 			BATTLE_PREP,
 			NEW_TURN,
 			PLAYER_TURN,
+			PLAYER_UNIT_MODE,
 			ENEMY_TURN,
 			EDIT_MAP
 		} m_sceneMode;
@@ -33,6 +36,8 @@ class cBattleScene : public cScene{
 
 		//Update for diffrent modes
 		void updateEdit(eBUTTON p_INPUT);
+		void updatePlayerTurn(eBUTTON p_INPUT);
+		void updatePlayerUnitMode(eBUTTON p_INPUT);
 
 		//Camera functions
 		void updateCamera();

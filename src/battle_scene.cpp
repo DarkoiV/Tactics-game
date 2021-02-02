@@ -17,6 +17,19 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 cBattleScene::cBattleScene(std::string p_sMapName) : m_map(p_sMapName){
 }
 
+//Check command queue and handle commands
+bool cBattleScene::checkCommandQueue(){
+	if(not m_commandQueue.empty()){
+		m_commandQueue.front()->execute();
+		//if completed delete it from queue
+		if(m_commandQueue.front()->isCompleted())
+			m_commandQueue.pop();
+
+		return true;
+	}
+	return false;
+}
+
 //update camera 
 void cBattleScene::updateCamera(){	
 	switch(m_cameraMode){
@@ -49,19 +62,23 @@ void cBattleScene::updateCamera(){
 
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
-	//Check command queue
-	if(not m_commandQueue.empty()){
-		std::cout << "[INFO] Executing command" << std::endl;
-		m_commandQueue.front()->execute();
-		//if completed delete it from queue
-		if(m_commandQueue.front()->isCompleted())
-			m_commandQueue.pop();
-	}
-
+	//Check command queue, and disable input on command processing
+	if(checkCommandQueue())
+		p_INPUT = eBUTTON::NONE;
 
 	//Call mode specific update method
-	updateEdit(p_INPUT);
-
+	switch(m_sceneMode){
+		default:
+		case eSCENE_MODE::EDIT_MAP:
+			updateEdit(p_INPUT);
+			break;
+		case eSCENE_MODE::PLAYER_TURN:
+			updatePlayerTurn(p_INPUT);
+			break;
+		case eSCENE_MODE::PLAYER_UNIT_MODE:
+			updatePlayerUnitMode(p_INPUT);
+			break;
+	}
 	//Update camera
 	updateCamera();
 
@@ -108,16 +125,20 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 			std::cout <<"[INFO] Pasted tile type: " <<  m_map.getTile(m_cursor.getPosition()).typeID
 				<< " at: " << m_cursor.getPosition() << std::endl;
 			break;
-		//TMP to test commands
-		case eBUTTON::ESCAPE:
-			m_commandQueue.push(std::unique_ptr<cCommand> (new cCommandMove(&m_unit, eDIRECTION::EAST)));
-			break;
 		//On none, do nothing, lol
 		case eBUTTON::NONE:
 		default:
 			 break;
 	}
 
+}
+
+//Update player turn
+void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
+}
+
+//Update plyer unit mode
+void cBattleScene::updatePlayerUnitMode(eBUTTON p_INPUT){
 }
 
 //draw
