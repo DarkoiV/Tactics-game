@@ -44,11 +44,6 @@ vec2D cCursor::getPosition(){
 	return m_vPos;
 }
 
-//Get int position in vector
-int cCursor::intPosition(){
-	return (m_vMapBoundary.x * m_vPos.y) + m_vPos.x;
-}
-
 //Move cursor up
 void cCursor::movUp(){
 	if(m_vPos.y > 0)
