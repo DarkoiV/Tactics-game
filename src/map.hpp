@@ -22,6 +22,8 @@ class cMap{
 		//Methods
 		void printTilesTypes();				//Print tiles types to console
 		sTile& getTile(vec2D p_vPos);			//Get tile at position
+		const std::vector<sTile>& refMap();		//Get map reference
+		vec2D getMapSize();				//Get map size
 
 		//Update and draw
 		void update(eBUTTON p_INPUT);			//Process input and update

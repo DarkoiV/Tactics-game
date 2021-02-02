@@ -61,6 +61,16 @@ sTile& cMap::getTile(vec2D p_vPos){
 	return m_tilesVector[p_vPos.x + (p_vPos.y * m_vSize.x)];
 }
 
+//Reference map
+const std::vector<sTile>& cMap::refMap(){
+	return m_tilesVector;
+}
+
+//Get map size
+vec2D cMap::getMapSize(){
+	return m_vSize;
+}
+
 //draw map
 void cMap::draw(vec2D p_vCameraOffset){
 	//Rectangles for tile usage
