@@ -62,6 +62,9 @@ void cBattleScene::updateCamera(){
 
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
+	//TMP calculateRange
+	m_unit.calculateRange(m_map.refMap(), m_map.getMapSize());
+	
 	//Check command queue, and disable input on command processing
 	if(checkCommandQueue())
 		p_INPUT = eBUTTON::NONE;
@@ -140,6 +143,9 @@ void cBattleScene::updatePlayerUnitMode(eBUTTON p_INPUT){
 void cBattleScene::draw(){
 	//Draw map, pass camera offset
 	m_map.draw(m_vCameraOffset);
+
+	//Draw unit range
+	m_unit.drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
 	m_unit.draw(m_nAnimationFrameCounter, m_vCameraOffset);
