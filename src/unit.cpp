@@ -84,8 +84,6 @@ void cUnit::calculateRange(const std::vector<sTile> &p_map, vec2D p_vMapSize){
 		}
 	}
 
-	std::cout << std::endl;
-
 	//create vector of range tiles
 	m_rangeVector.clear();
 	for(auto const& [key, value] : m_rangeMap){
