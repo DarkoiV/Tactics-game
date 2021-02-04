@@ -22,6 +22,7 @@ enum class eBUTTON;
 
 //Global assets
 inline SDL_Texture* g_pConsoleTextTexture = nullptr;
+inline SDL_Texture* g_pRangeTileset = nullptr;
 
 //Functions
 void loadConfig();
@@ -46,8 +47,6 @@ inline std::ostream& operator << (std::ostream &os, const vec2D &s){
 struct sTile{
 	int typeID;
 	int movCost;
-	int x;
-	int y;
 };
 
 enum class eBUTTON{
