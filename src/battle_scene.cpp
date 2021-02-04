@@ -17,19 +17,6 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 cBattleScene::cBattleScene(std::string p_sMapName) : m_map(p_sMapName){
 }
 
-//Check command queue and handle commands
-bool cBattleScene::checkCommandQueue(){
-	if(not m_commandQueue.empty()){
-		m_commandQueue.front()->execute();
-		//if completed delete it from queue
-		if(m_commandQueue.front()->isCompleted())
-			m_commandQueue.pop();
-
-		return true;
-	}
-	return false;
-}
-
 //update camera 
 void cBattleScene::updateCamera(){	
 	switch(m_cameraMode){
@@ -64,11 +51,11 @@ void cBattleScene::updateCamera(){
 void cBattleScene::update(eBUTTON p_INPUT){
 	//TMP calculateRange
 	m_unit.calculateRange(m_map.refMap(), m_map.getMapSize());
-	
-	//Check command queue, and disable input on command processing
-	if(checkCommandQueue())
-		p_INPUT = eBUTTON::NONE;
 
+	//Check if commands are processed, if so disable inputs
+	if(m_commander.isProcessingCommands())
+		p_INPUT = eBUTTON::NONE;
+	
 	//Call mode specific update method
 	switch(m_sceneMode){
 		default:

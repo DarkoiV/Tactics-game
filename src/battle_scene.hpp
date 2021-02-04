@@ -1,24 +1,18 @@
 #pragma once
 
-#include <queue>
-#include <memory>
-
 #include "scene.hpp"
 #include "map.hpp"
 #include "cursor.hpp"
 #include "unit.hpp"
-#include "command.hpp"
+#include "commander.hpp"
 
 class cBattleScene : public cScene{
 	protected:
 		//objects
 		cCursor m_cursor;
 		cMap m_map;
+		cCommander m_commander;
 		cUnit m_unit;
-
-		//Command handling
-		bool checkCommandQueue();				//Returns true if commands are being processed
-		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
 
 		//variables
 		vec2D m_vCameraOffset = {0,0};				//Camera offset in pixels
