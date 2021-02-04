@@ -5,16 +5,16 @@ void cCommandMove::execute(){
 	//Move in right direction
 	switch(m_DIRECTION){
 		case eDIRECTION::NORTH:
-			m_unit->movPosition({-m_vel, 0});
+			m_unit->movPosition({0, -m_vel});
 			break;
 		case eDIRECTION::SOUTH:
-			m_unit->movPosition({m_vel, 0});
-			break;
-		case eDIRECTION::EAST:
 			m_unit->movPosition({0, m_vel});
 			break;
+		case eDIRECTION::EAST:
+			m_unit->movPosition({m_vel, 0});
+			break;
 		case eDIRECTION::WEST:
-			m_unit->movPosition({0, -m_vel});
+			m_unit->movPosition({-m_vel, 0});
 			break;
 	}
 
