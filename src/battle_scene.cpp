@@ -129,6 +129,8 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 			 break;
 	}
 
+	//Update all tiles mov cost
+	m_map.setTilesMovCost();
 }
 
 //Update player turn

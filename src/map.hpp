@@ -31,6 +31,7 @@ class cMap{
 		//Get/set
 		const std::vector<sTile>& refMap();		//Get map reference
 		vec2D getMapSize();				//Get map size
+		void setTilesMovCost();				//Set tiles movement cost
 
 		//Update and draw
 		void update(eBUTTON p_INPUT);			//Process input and update

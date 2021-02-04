@@ -93,7 +93,6 @@ void cUnit::calculateRange(const std::vector<sTile> &p_map, vec2D p_vMapSize){
 		tilePos.x = key % p_vMapSize.x;
 		tilePos.y = key / p_vMapSize.x;
 		m_rangeVector.push_back(tilePos);
-		std::cout << tilePos << ", ";
 	}
 }
 

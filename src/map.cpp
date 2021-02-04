@@ -16,15 +16,10 @@ cMap::cMap(vec2D p_vSize){
 		for(int x = 0; x < m_vSize.x; x++){
 			sTile createdTile;
 			createdTile.typeID = (x+y) % 2;
-			createdTile.x = x;
-			createdTile.y = y;
+			createdTile.movCost = 1;
 			m_tilesVector.push_back(createdTile);
 		}
 	}
-
-	//Print in console tile representation
-	printTilesTypes();
-
 }
 
 //Constructor that loads from file
@@ -92,6 +87,16 @@ const std::vector<sTile>& cMap::refMap(){
 //Get map size
 vec2D cMap::getMapSize(){
 	return m_vSize;
+}
+
+//Set tiles mov cost
+void cMap::setTilesMovCost(){
+	for(int i = 0; i < m_tilesVector.size(); i++){
+		if(m_tilesVector[i].typeID > 5 and m_tilesVector[i].typeID < 24)
+			m_tilesVector[i].movCost = 99;
+		else
+			m_tilesVector[i].movCost = 1;
+	}
 }
 
 //draw map
