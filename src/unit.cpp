@@ -36,7 +36,7 @@ void cUnit::finalizeMovement(){
 }
 
 //Calculate range
-void cUnit::calculateRange(const std::vector<sTile> &p_map, vec2D p_vMapSize){
+void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapSize){
 	//Create stack and push first position onto it
 	std::stack<int>	stackOfTiles;
 	stackOfTiles.push(m_vPos.x + (m_vPos.y * p_vMapSize.x));
@@ -57,19 +57,33 @@ void cUnit::calculateRange(const std::vector<sTile> &p_map, vec2D p_vMapSize){
 		const int SOUTH_TILE = stackOfTiles.top() + oneLine;
 		const int EAST_TILE = stackOfTiles.top() + 1;
 		const int WEST_TILE = stackOfTiles.top() - 1;
-		const int TILES[4] = {NORTH_TILE, SOUTH_TILE, EAST_TILE, WEST_TILE};
+		std::vector<int> TILES;
+		//Check if tiles are within map
+		if( not (NORTH_TILE < 0) ){
+			TILES.push_back(NORTH_TILE);
+		}
+		if( not (SOUTH_TILE > p_vMapSize.x * p_vMapSize.y) ){
+			TILES.push_back(SOUTH_TILE);
+		}
+		if( not (EAST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x) ){
+			TILES.push_back(EAST_TILE);
+		}
+		if(not (WEST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x) ){
+			TILES.push_back(WEST_TILE);
+		}
 
 		//Flag
 		bool bTileFound = false;
 
 		//Check tiles
-		for(int i = 0; i < 4; i++){
+		for(int i = 0; i < TILES.size(); i++){	
 			//Check if tile is in range and (if was not visisted or distance is shorther than previous visit)
-			if(p_map[TILES[i]].movCost + m_rangeMap[CURRENT_TILE] <= m_unitAttributes.mov
+			if(p_tileVector[TILES[i]].movCost + m_rangeMap[CURRENT_TILE] <= m_unitAttributes.mov
 			and (!m_rangeMap.count(TILES[i]) 
-			or m_rangeMap[TILES[i]] > m_rangeMap[CURRENT_TILE] + p_map[CURRENT_TILE].movCost)){
+			or m_rangeMap[TILES[i]] > m_rangeMap[CURRENT_TILE] + p_tileVector[CURRENT_TILE].movCost))
+			{
 				//Add tile to map with shortest known distance
-				m_rangeMap[TILES[i]] = p_map[TILES[i]].movCost + m_rangeMap[CURRENT_TILE];
+				m_rangeMap[TILES[i]] = p_tileVector[TILES[i]].movCost + m_rangeMap[CURRENT_TILE];
 				//Push tile to stack 
 				stackOfTiles.push(TILES[i]);
 				//Set flag that new tile found
