@@ -65,9 +65,6 @@ void cBattleScene::update(eBUTTON p_INPUT){
 		case eSCENE_MODE::PLAYER_TURN:
 			updatePlayerTurn(p_INPUT);
 			break;
-		case eSCENE_MODE::PLAYER_UNIT_MODE:
-			updatePlayerUnitMode(p_INPUT);
-			break;
 	}
 	//Update camera
 	updateCamera();
@@ -110,7 +107,7 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 		case eBUTTON::SPECIAL2:
 			m_map.tileTypepaste(m_cursor.getPosition(), m_nCopiedTileID);
 			break;
-		//On none, do nothing, lol
+		//On none(or not used input here), do nothing, lol
 		case eBUTTON::NONE:
 		default:
 			 break;
@@ -122,10 +119,15 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 
 //Update player turn
 void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
-}
-
-//Update plyer unit mode
-void cBattleScene::updatePlayerUnitMode(eBUTTON p_INPUT){
+	//Behaviour based on state
+	switch(m_turnMode){
+		case eTURN_MODE::NOTHING_SELECTED:
+			break;
+		case eTURN_MODE::UNIT_SELECTED:
+			break;
+		case eTURN_MODE::UNIT_MOVED:
+			break;
+	}
 }
 
 //draw

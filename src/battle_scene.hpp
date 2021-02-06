@@ -21,17 +21,15 @@ class cBattleScene : public cScene{
 			BATTLE_PREP,
 			NEW_TURN,
 			PLAYER_TURN,
-			PLAYER_UNIT_MODE,
 			ENEMY_TURN,
 			EDIT_MAP
 		} m_sceneMode;
 
-		int m_nAnimationFrameCounter = 0;
+		int m_nAnimationFrameCounter = 0;			//Counter used for displaying animations
 
 		//Update for diffrent modes
 		void updateEdit(eBUTTON p_INPUT);
 		void updatePlayerTurn(eBUTTON p_INPUT);
-		void updatePlayerUnitMode(eBUTTON p_INPUT);
 
 		//Camera functions
 		void updateCamera();
@@ -42,6 +40,17 @@ class cBattleScene : public cScene{
 
 		//Edit mode variables
 		int m_nCopiedTileID = 0;
+
+		//PLayer turn variables and methods
+		enum class eTURN_MODE{
+			NOTHING_SELECTED,
+			UNIT_SELECTED,
+			UNIT_MOVED
+		} m_turnMode = eTURN_MODE::NOTHING_SELECTED;
+
+		void nothingSelected();
+		void unitSelected();
+		void unitMoved();
 
 
 	public:
