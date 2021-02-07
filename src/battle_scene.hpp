@@ -48,9 +48,11 @@ class cBattleScene : public cScene{
 			UNIT_MOVED
 		} m_turnMode = eTURN_MODE::NOTHING_SELECTED;
 
-		void nothingSelected();
-		void unitSelected();
-		void unitMoved();
+		void nothingSelected(eBUTTON p_INPUT);				//Selecting unit on map
+		void unitSelected(eBUTTON p_INPUT);				//Oder unit to move around
+		void selectAction(eBUTTON p_INPUT);				//Select action after movement
+
+		int m_nSelectedUnit = -1;					//ID of selected unit
 
 
 	public:

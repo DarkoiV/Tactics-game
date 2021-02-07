@@ -66,6 +66,7 @@ void cBattleScene::update(eBUTTON p_INPUT){
 			updatePlayerTurn(p_INPUT);
 			break;
 	}
+
 	//Update camera
 	updateCamera();
 
@@ -107,6 +108,10 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 		case eBUTTON::SPECIAL2:
 			m_map.tileTypepaste(m_cursor.getPosition(), m_nCopiedTileID);
 			break;
+		//TMP switch modes, later open menu
+		case eBUTTON::ESCAPE:
+			m_sceneMode = eSCENE_MODE::PLAYER_TURN;
+			break;
 		//On none(or not used input here), do nothing, lol
 		case eBUTTON::NONE:
 		default:
@@ -119,15 +124,100 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 
 //Update player turn
 void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
-	//Behaviour based on state
-	switch(m_turnMode){
-		case eTURN_MODE::NOTHING_SELECTED:
+	//Move cursor, or open menu, other input processed in turn specific mode
+	switch (p_INPUT) {
+		case eBUTTON::UP:
+			m_cursor.movUp();
 			break;
-		case eTURN_MODE::UNIT_SELECTED:
+		case eBUTTON::DOWN:
+			m_cursor.movDown();
 			break;
-		case eTURN_MODE::UNIT_MOVED:
+		case eBUTTON::RIGHT:
+			m_cursor.movRight();
+			break;
+		case eBUTTON::LEFT:
+			m_cursor.moveLeft();
+			break;
+		//TMP switch modes, later open menu
+		case eBUTTON::ESCAPE:
+			m_sceneMode = eSCENE_MODE::EDIT_MAP;
+			break;
+		default:
 			break;
 	}
+
+	//Behaviour based on turn state
+	switch(m_turnMode){
+		case eTURN_MODE::NOTHING_SELECTED:
+			nothingSelected(p_INPUT);
+			break;
+		case eTURN_MODE::UNIT_SELECTED:
+			unitSelected(p_INPUT);
+			break;
+		case eTURN_MODE::UNIT_MOVED:
+			selectAction(p_INPUT);
+			break;
+	}
+}
+
+//Behaviour when no unit was selected
+void cBattleScene::nothingSelected(eBUTTON p_INPUT){
+	switch(p_INPUT){
+		case eBUTTON::SELECT:
+			//Check if there is unit under cursor
+			if(m_unit.isHere(m_cursor.getPosition())){
+				//If there is, set which one and change mode to unit selected
+				std::cout << "[INFO] Selected unit" << std::endl;
+				m_nSelectedUnit = 1;
+				m_turnMode = eTURN_MODE::UNIT_SELECTED;
+			}
+			break;
+		case eBUTTON::NONE:
+		default:
+			break;
+	}
+
+}
+
+//Move selected unit
+void cBattleScene::unitSelected(eBUTTON p_INPUT){
+	switch(p_INPUT){
+		case eBUTTON::SELECT:
+			//Check if move is withing range, if so move unit
+			if (m_unit.isMoveInRange(m_cursor.highlightedTile())){
+				std::cout << "[INFO] Moving unit" << std::endl;
+				//Load stack with directions for movement
+				std::stack<eDIRECTION> pathStack; 
+				pathStack = m_unit.getPathToTile(m_cursor.highlightedTile(), m_map.getMapSize());
+	
+				//Translate stack to commands
+				while(not pathStack.empty()){
+					//Add command
+					m_commander.moveUnit(&m_unit, pathStack.top());
+					pathStack.pop();
+				}
+				
+				//Switch to action turn mode
+				m_turnMode = eTURN_MODE::UNIT_MOVED;
+			}
+			break;
+		case eBUTTON::CANCEL:
+			//Deselect unit
+			std::cout << "[INFO] Unit deselected" << std::endl;
+			m_nSelectedUnit = -1;
+			m_turnMode = eTURN_MODE::NOTHING_SELECTED;
+			break;
+		case eBUTTON::NONE:
+		default:
+			break;
+	}
+}
+
+//Select action to perform after move
+void cBattleScene::selectAction(eBUTTON p_INPUT){
+	//TMP switch to selection
+	m_turnMode = eTURN_MODE::NOTHING_SELECTED;
+	m_nSelectedUnit = -1;
 }
 
 //draw
@@ -135,8 +225,9 @@ void cBattleScene::draw(){
 	//Draw map, pass camera offset
 	m_map.draw(m_vCameraOffset);
 
-	//Draw unit range
-	m_unit.drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
+	//Draw unit range only for selected unit
+	if(m_nSelectedUnit != -1)
+		m_unit.drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
 	m_unit.draw(m_nAnimationFrameCounter, m_vCameraOffset);
