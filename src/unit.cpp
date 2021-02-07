@@ -35,6 +35,14 @@ void cUnit::finalizeMovement(){
 	m_vAnimationOffset = {0, 0};
 }
 
+//Check if unit is on passed position
+bool cUnit::isHere(vec2D p_vPos){
+	if(m_vPos.x == p_vPos.x and m_vPos.y == p_vPos.y)
+		return true;
+	else
+		return false;
+}
+
 //Calculate range
 void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapSize){
 	//Create stack and push first position onto it

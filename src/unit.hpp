@@ -45,6 +45,7 @@ class cUnit{
 		void setPosition(vec2D p_vNewPos);		//Set position on map
 		void movPosition(vec2D p_vChange);		//Move position by value of vector(for animation)
 		void finalizeMovement();			//Reset animation offset, and set position
+		bool isHere(vec2D p_vPos);			//Returns true when unit pos matches passed vector
 
 		//Calculate movement range
 		void calculateRange(const std::vector<sTile>& p_map, vec2D p_vMapSize);
