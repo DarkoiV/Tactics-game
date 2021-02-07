@@ -150,7 +150,7 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 		if( not (EAST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x) ){
 			TILES.push_back(EAST_TILE);
 		}
-		if(not (WEST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x) ){
+		if(not (WEST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x or WEST_TILE < 0 or WEST_TILE > p_vMapSize.x * p_vMapSize.y) ){
 			TILES.push_back(WEST_TILE);
 		}
 
