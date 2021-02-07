@@ -46,6 +46,7 @@ class cUnit{
 		void movPosition(vec2D p_vChange);		//Move position by value of vector(for animation)
 		void finalizeMovement();			//Reset animation offset, and set position
 		bool isHere(vec2D p_vPos);			//Returns true when unit pos matches passed vector
+		bool isMoveInRange(int p_nTargetTile);		//Returns true when tile is within range of a unit
 
 		//Calculate movement range
 		void calculateRange(const std::vector<sTile>& p_map, vec2D p_vMapSize);

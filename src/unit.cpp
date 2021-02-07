@@ -43,6 +43,14 @@ bool cUnit::isHere(vec2D p_vPos){
 		return false;
 }
 
+//Check if tile it within range
+bool cUnit::isMoveInRange(int p_nTargetTile){
+	if(m_rangeMap.count(p_nTargetTile))
+		return true;
+	else
+		return false;
+}
+
 //Calculate range
 void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapSize){
 	//Create stack and push first position onto it
