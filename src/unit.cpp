@@ -43,12 +43,67 @@ bool cUnit::isHere(vec2D p_vPos){
 		return false;
 }
 
-//Check if tile it within range
+//Check if tile is within range
 bool cUnit::isMoveInRange(int p_nTargetTile){
 	if(m_rangeMap.count(p_nTargetTile))
 		return true;
 	else
 		return false;
+}
+
+//Returns stack of directions, which is a path to target tile
+std::stack<eDIRECTION> cUnit::getPathToTile(int p_nTargetTile, vec2D p_vMapSize){
+	std::stack<eDIRECTION> pathStack;
+
+	//check if tile is valid target
+	if(not m_rangeMap.count(p_nTargetTile)){
+		std::cout << "[ERROR] Tile is not valid target of movement" << std::endl;
+		return pathStack;
+	}
+
+	int nDistance = m_rangeMap[p_nTargetTile];			//Load distance
+	int nCurrentTile = p_nTargetTile;				//Set starting tile 
+
+	//Look for tile with smaller distance untill distance to unit is zero
+	while(nDistance > 0){
+		//Surrounding tiles
+		const int NORTH_TILE = nCurrentTile - p_vMapSize.x;
+		const int SOUTH_TILE = nCurrentTile + p_vMapSize.x;
+		const int EAST_TILE = nCurrentTile + 1;
+		const int WEST_TILE = nCurrentTile - 1;
+
+		//Look if tile is in range and with shorter path
+		if(m_rangeMap.count(NORTH_TILE) and m_rangeMap[NORTH_TILE] < m_rangeMap[nCurrentTile]){
+			pathStack.push(eDIRECTION::SOUTH);
+			//Set new tile as curently checked tile
+			nCurrentTile = NORTH_TILE;
+		}
+		else if(m_rangeMap.count(SOUTH_TILE) and m_rangeMap[NORTH_TILE] < m_rangeMap[nCurrentTile]){
+			pathStack.push(eDIRECTION::NORTH);
+			//Set new tile as curently checked tile
+			nCurrentTile = NORTH_TILE;
+		}
+		else if(m_rangeMap.count(EAST_TILE) and m_rangeMap[EAST_TILE] < m_rangeMap[nCurrentTile]){
+			pathStack.push(eDIRECTION::WEST);
+			//Set new tile as curently checked tile
+			nCurrentTile = NORTH_TILE;
+		}
+		else if(m_rangeMap.count(WEST_TILE) and m_rangeMap[WEST_TILE] < m_rangeMap[nCurrentTile]){
+			pathStack.push(eDIRECTION::EAST);
+			//Set new tile as curently checked tile
+			nCurrentTile = NORTH_TILE;
+		}
+		else{
+			std::cout << "[ERROR] Cannot determine proper path, returning empty path" << std::endl;
+			pathStack.empty();
+			return pathStack;
+		}
+		//Load new distance
+		nDistance = m_rangeMap[nCurrentTile];
+	}
+
+	//Return stack with path 
+	return pathStack;
 }
 
 //Calculate range
@@ -134,7 +189,7 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 //Update unit
 void cUnit::update(){
 }
-
+ 
 //Draw to screen
 void cUnit::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 	SDL_Rect srcRect;

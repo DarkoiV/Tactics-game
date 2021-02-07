@@ -48,8 +48,9 @@ class cUnit{
 		bool isHere(vec2D p_vPos);			//Returns true when unit pos matches passed vector
 		bool isMoveInRange(int p_nTargetTile);		//Returns true when tile is within range of a unit
 
-		//Calculate movement range
+		//Calculate movement range, and path
 		void calculateRange(const std::vector<sTile>& p_map, vec2D p_vMapSize);
+		std::stack<eDIRECTION> getPathToTile(int p_nTargetTile, vec2D p_vMapSize);
 
 		//Update/Draw
 		void update();
