@@ -78,24 +78,28 @@ std::stack<eDIRECTION> cUnit::getPathToTile(int p_nTargetTile, vec2D p_vMapSize)
 			//Set new tile as curently checked tile
 			nCurrentTile = NORTH_TILE;
 		}
-		else if(m_rangeMap.count(SOUTH_TILE) and m_rangeMap[NORTH_TILE] < m_rangeMap[nCurrentTile]){
+		else if(m_rangeMap.count(SOUTH_TILE) and m_rangeMap[SOUTH_TILE] < m_rangeMap[nCurrentTile]){
 			pathStack.push(eDIRECTION::NORTH);
 			//Set new tile as curently checked tile
-			nCurrentTile = NORTH_TILE;
+			nCurrentTile = SOUTH_TILE;
+
 		}
 		else if(m_rangeMap.count(EAST_TILE) and m_rangeMap[EAST_TILE] < m_rangeMap[nCurrentTile]){
 			pathStack.push(eDIRECTION::WEST);
 			//Set new tile as curently checked tile
-			nCurrentTile = NORTH_TILE;
+			nCurrentTile = EAST_TILE;
 		}
 		else if(m_rangeMap.count(WEST_TILE) and m_rangeMap[WEST_TILE] < m_rangeMap[nCurrentTile]){
 			pathStack.push(eDIRECTION::EAST);
 			//Set new tile as curently checked tile
-			nCurrentTile = NORTH_TILE;
+			nCurrentTile = WEST_TILE;
 		}
 		else{
 			std::cout << "[ERROR] Cannot determine proper path, returning empty path" << std::endl;
-			pathStack.empty();
+			//empty stack
+			while(not pathStack.empty()){
+				pathStack.pop();
+			}
 			return pathStack;
 		}
 		//Load new distance
