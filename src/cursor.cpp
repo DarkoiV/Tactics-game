@@ -44,6 +44,11 @@ vec2D cCursor::getPosition(){
 	return m_vPos;
 }
 
+//Return ID of highlited tile
+int cCursor::highlightedTile(){
+	return m_vPos.x + m_vPos.y * m_vMapBoundary.x;
+}
+
 //Move cursor up
 void cCursor::movUp(){
 	if(m_vPos.y > 0)
