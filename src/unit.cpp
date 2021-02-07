@@ -48,16 +48,23 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 	//One line of difrence for easier calculation
 	const int oneLine = p_vMapSize.x;
 
+	//Vector holding tiles type Id for bordering tiles 
+	std::vector<int> TILES;
+
 	//Calculate range
 	while(not stackOfTiles.empty()){
+		//Set current tile
 		const int CURRENT_TILE = stackOfTiles.top();
+
+		//Clear vector of tiles from previous loop
+		TILES.clear();
 
 		//All tiles to check
 		const int NORTH_TILE = stackOfTiles.top() - oneLine;
 		const int SOUTH_TILE = stackOfTiles.top() + oneLine;
 		const int EAST_TILE = stackOfTiles.top() + 1;
 		const int WEST_TILE = stackOfTiles.top() - 1;
-		std::vector<int> TILES;
+
 		//Check if tiles are within map
 		if( not (NORTH_TILE < 0) ){
 			TILES.push_back(NORTH_TILE);
@@ -72,7 +79,7 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 			TILES.push_back(WEST_TILE);
 		}
 
-		//Flag
+		//Flag for checking if new reachable tile was found
 		bool bTileFound = false;
 
 		//Check tiles
