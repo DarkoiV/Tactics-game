@@ -144,13 +144,13 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 		if( not (NORTH_TILE < 0) ){
 			TILES.push_back(NORTH_TILE);
 		}
-		if( not (SOUTH_TILE > p_vMapSize.x * p_vMapSize.y) ){
+		if( not (SOUTH_TILE > (p_vMapSize.x * p_vMapSize.y) -1) ){
 			TILES.push_back(SOUTH_TILE);
 		}
 		if( not (EAST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x) ){
 			TILES.push_back(EAST_TILE);
 		}
-		if( not (WEST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x or WEST_TILE < 0 or WEST_TILE > p_vMapSize.x * p_vMapSize.y) ){
+		if( not (WEST_TILE / p_vMapSize.x != CURRENT_TILE / p_vMapSize.x or WEST_TILE < 0) ){
 			TILES.push_back(WEST_TILE);
 		}
 
@@ -158,7 +158,7 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 		bool bTileFound = false;
 
 		//Check tiles
-		for(int i = 0; i < TILES.size(); i++){	
+		for(size_t i = 0; i < TILES.size(); i++){	
 			//Check if tile is in range and (if was not visisted or distance is shorther than previous visit)
 			if(p_tileVector[TILES[i]].movCost + m_rangeMap[CURRENT_TILE] <= m_unitAttributes.mov
 			and (!m_rangeMap.count(TILES[i]) 
@@ -242,7 +242,7 @@ void cUnit::drawRange(int p_nAnimationFrame, vec2D p_vCameraOffset){
 	}
 
 	//Draw range tiles to screen 
-	for(int i = 0; i < m_rangeVector.size(); i++){
+	for(size_t i = 0; i < m_rangeVector.size(); i++){
 		dstRect.x = m_rangeVector[i].x * TILE_SIZE + p_vCameraOffset.x;
 		dstRect.y = m_rangeVector[i].y * TILE_SIZE + p_vCameraOffset.y;
 		SDL_RenderCopy(g_renderer, g_pRangeTileset, &srcRect, &dstRect);
