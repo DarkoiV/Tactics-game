@@ -105,7 +105,7 @@ void cMap::draw(vec2D p_vCameraOffset){
 	SDL_Rect srcRect = {0, 0, TILE_SIZE, TILE_SIZE};
 	SDL_Rect dstRect = {0, 0, TILE_SIZE, TILE_SIZE};
 	//Draw tiles
-	for(int y = 0; y < m_vSize.y; y++){
+	for(size_t y = 0; y < m_vSize.y; y++){
 		//Set Y placement
 		dstRect.y = (y * TILE_SIZE) + p_vCameraOffset.y;
 		for(int x = 0; x < m_vSize.x; x++){

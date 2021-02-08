@@ -33,7 +33,7 @@ void cText::draw(){
 			m_vCharacterSize.y};
 
 	//Loop through string and render chars
-	for(int i = 0; i < m_sTextToRender.size(); i++){
+	for(size_t i = 0; i < m_sTextToRender.size(); i++){
 		//Select char from texture
 		srcRect.x = ((m_sTextToRender[i] - 32) % CHARS_PER_ROW) * m_vCharacterSize.x;
 		srcRect.y = ((m_sTextToRender[i] - 32) / CHARS_PER_ROW) * m_vCharacterSize.y;
