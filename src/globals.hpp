@@ -34,7 +34,7 @@ eBUTTON getPlayerInput();
 void createFrame();
 void quit();
 
-//Structures for use in game
+//Structures/enums definitions
 struct vec2D{
 	int x;
 	int y;
