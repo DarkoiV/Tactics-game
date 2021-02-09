@@ -13,6 +13,7 @@ bool cCommander::isProcessingCommands(){
 	return true;
 }
 
+//Create and push new move command to queue
 void cCommander::moveUnit(cUnit *p_unit, eDIRECTION p_DIRECTION){
-	m_commandQueue.push(std::unique_ptr<cCommand> (new cCommandMove(p_unit, p_DIRECTION)));
+	m_commandQueue.push(std::unique_ptr<cCommand> (std::make_unique<cCommandMove>(p_unit, p_DIRECTION)));
 }
