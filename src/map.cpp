@@ -91,7 +91,7 @@ vec2D cMap::getMapSize(){
 
 //Set tiles mov cost
 void cMap::setTilesMovCost(){
-	for(int i = 0; i < m_tilesVector.size(); i++){
+	for(size_t i = 0; i < m_tilesVector.size(); i++){
 		if(m_tilesVector[i].typeID > 5 and m_tilesVector[i].typeID < 24)
 			m_tilesVector[i].movCost = 99;
 		else
@@ -105,7 +105,7 @@ void cMap::draw(vec2D p_vCameraOffset){
 	SDL_Rect srcRect = {0, 0, TILE_SIZE, TILE_SIZE};
 	SDL_Rect dstRect = {0, 0, TILE_SIZE, TILE_SIZE};
 	//Draw tiles
-	for(size_t y = 0; y < m_vSize.y; y++){
+	for(int y = 0; y < m_vSize.y; y++){
 		//Set Y placement
 		dstRect.y = (y * TILE_SIZE) + p_vCameraOffset.y;
 		for(int x = 0; x < m_vSize.x; x++){
