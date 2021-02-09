@@ -14,9 +14,10 @@ class cBattleScene : public cScene{
 		cCommander m_commander;
 		cUnit m_unit;
 
-		//variables
-		vec2D m_vCameraOffset = {0,0};				//Camera offset in pixels
+		//Unit containers
+		std::vector<std::shared_ptr<cUnit>> m_unitVector;
 
+		//Scene modes
 		enum class eSCENE_MODE{
 			BATTLE_PREP,
 			NEW_TURN,
@@ -27,21 +28,28 @@ class cBattleScene : public cScene{
 
 		int m_nAnimationFrameCounter = 0;			//Counter used for displaying animations
 
-		//Update for diffrent modes
+		//Updates for diffrent modes
 		void updateEdit(eBUTTON p_INPUT);
 		void updatePlayerTurn(eBUTTON p_INPUT);
 
-		//Camera functions
+//////////////////CAMERA////////////////////////////////////////////////////////////////////////////////////////////////////////
+	protected:
+		vec2D m_vCameraOffset = {0,0};				//Camera offset in pixels
+
 		void updateCamera();
 		enum class eCAMERA{					//Behaviour of camera
 			CENTERED,
 			EDGE_SCROLLING
 		} m_cameraMode = eCAMERA::EDGE_SCROLLING;
 
-		//Edit mode variables
+//////////////////EDIT MODE/////////////////////////////////////////////////////////////////////////////////////////////////////
+	protected:
 		int m_nCopiedTileID = 0;
 
-		//PLayer turn variables and methods
+
+
+//////////////////PLAYER TURN//////////////////////////////////////////////////////////////////////////////////////////////////
+	protected:
 		enum class eTURN_MODE{
 			NOTHING_SELECTED,
 			UNIT_SELECTED,
@@ -53,8 +61,10 @@ class cBattleScene : public cScene{
 		void selectAction(eBUTTON p_INPUT);				//Select action after movement
 
 		int m_nSelectedUnit = -1;					//ID of selected unit
+		cUnit* getSelectedUnit();					//Return selected unit, or nullptr if (-1)
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	public:
 		//constructor/destructor
 		cBattleScene(vec2D p_vMapSize);

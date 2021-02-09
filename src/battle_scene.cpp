@@ -6,8 +6,9 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 	m_cursor.loadMapSize(p_vMapSize);
 	m_cursor.setPosition({7, 7});
 
-	//set unit position
-	m_unit.setPosition({7, 7});
+	//Create and set unit position
+	m_unitVector.emplace_back(std::make_shared<cUnit>());
+	m_unitVector[0].get()->setPosition({7 , 7});
 
 	//start in edit mode
 	m_sceneMode = eSCENE_MODE::EDIT_MAP;
@@ -50,7 +51,7 @@ void cBattleScene::updateCamera(){
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
 	//TMP calculateRange
-	m_unit.calculateRange(m_map.refMap(), m_map.getMapSize());
+	m_unitVector[0]->calculateRange(m_map.refMap(), m_map.getMapSize());
 
 	//Check if commands are processed, if so disable inputs
 	if(m_commander.isProcessingCommands())
@@ -165,10 +166,10 @@ void cBattleScene::nothingSelected(eBUTTON p_INPUT){
 	switch(p_INPUT){
 		case eBUTTON::SELECT:
 			//Check if there is unit under cursor
-			if(m_unit.isHere(m_cursor.getPosition())){
+			if(m_unitVector[0]->isHere(m_cursor.getPosition())){
 				//If there is, set which one and change mode to unit selected
 				std::cout << "[INFO] Selected unit" << std::endl;
-				m_nSelectedUnit = 1;
+				m_nSelectedUnit = 0;
 				m_turnMode = eTURN_MODE::UNIT_SELECTED;
 			}
 			break;
@@ -184,16 +185,17 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 	switch(p_INPUT){
 		case eBUTTON::SELECT:
 			//Check if move is withing range, if so move unit
-			if (m_unit.isMoveInRange(m_cursor.highlightedTile())){
+			if (getSelectedUnit()->isMoveInRange(m_cursor.highlightedTile())){
 				std::cout << "[INFO] Moving unit" << std::endl;
+
 				//Load stack with directions for movement
 				std::stack<eDIRECTION> pathStack; 
-				pathStack = m_unit.getPathToTile(m_cursor.highlightedTile(), m_map.getMapSize());
+				pathStack = getSelectedUnit()->getPathToTile(m_cursor.highlightedTile(), m_map.getMapSize());
 	
 				//Translate stack to commands
 				while(not pathStack.empty()){
 					//Add command
-					m_commander.moveUnit(&m_unit, pathStack.top());
+					m_commander.moveUnit(getSelectedUnit(), pathStack.top());
 					pathStack.pop();
 				}
 				
@@ -213,6 +215,19 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 	}
 }
 
+//Get selected unit
+cUnit* cBattleScene::getSelectedUnit(){
+	if(m_nSelectedUnit == -1){
+		std::cout << "[ERROR] Call to selected unit when no unit is selected" << std::endl;
+		return nullptr;
+	}
+	if(m_nSelectedUnit >= m_unitVector.size()){
+		std::cout << "[ERROR] Selected unit does not exist" << std::endl;
+		return nullptr;
+	}
+	return m_unitVector[m_nSelectedUnit].get();
+}
+
 //Select action to perform after move
 void cBattleScene::selectAction(eBUTTON p_INPUT){
 	//TMP switch to selection
@@ -227,10 +242,10 @@ void cBattleScene::draw(){
 
 	//Draw unit range only for selected unit
 	if(m_nSelectedUnit != -1)
-		m_unit.drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
+		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
-	m_unit.draw(m_nAnimationFrameCounter, m_vCameraOffset);
+	m_unitVector[0]->draw(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw cursor, pass animation frame and camera offset
 	m_cursor.draw(m_nAnimationFrameCounter, m_vCameraOffset);
