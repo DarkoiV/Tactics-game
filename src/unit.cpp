@@ -2,6 +2,7 @@
 
 //Constructor
 cUnit::cUnit(){
+	std::cout << "[INFO] Creating unit" << std::endl;
 	//Create testing unit
 	m_unitState = eUNIT_STATE::IDLE;
 	m_bUsesGlobalSprite = false;
@@ -11,6 +12,7 @@ cUnit::cUnit(){
 
 //Destructor
 cUnit::~cUnit(){
+	std::cout << "{INFO] Destroying unit" << std::endl;
 	//If not using global sprite, free it
 	if(not m_bUsesGlobalSprite){
 		SDL_DestroyTexture(m_pSprite);
@@ -196,8 +198,8 @@ void cUnit::update(){
  
 //Draw to screen
 void cUnit::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
-	SDL_Rect srcRect;
-	SDL_Rect dstRect;
+	SDL_Rect srcRect = {0, 0, TILE_SIZE, TILE_SIZE};
+	SDL_Rect dstRect = {0, 0, TILE_SIZE, TILE_SIZE};
 
 	switch(m_unitState){
 		case eUNIT_STATE::IDLE:
