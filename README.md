@@ -8,7 +8,7 @@ SDL2-image
 
 ## Controls
 For now game starts in edit mode,  
-esc: switches between modes
+esc: switches between modes  
 arrows: move cursor
 
 #### Edit Mode 
