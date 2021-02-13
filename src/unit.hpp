@@ -1,6 +1,7 @@
 #pragma once
 
 #include "globals.hpp"
+#include "asset_manager.hpp"
 #include <vector>
 #include <stack>
 #include <map>
@@ -33,8 +34,8 @@ class cUnit{
 		std::vector<vec2D> m_rangeVector;		//Vector of tiles in range
 
 		//Graphics
-		bool m_bUsesGlobalSprite;
 		SDL_Texture* m_pSprite;
+		SDL_Texture* m_pRangeTile;
 
 	public:
 		//Constructor/destructor

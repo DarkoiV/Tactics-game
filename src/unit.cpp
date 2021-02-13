@@ -5,18 +5,15 @@ cUnit::cUnit(){
 	std::cout << "[INFO] Creating unit" << std::endl;
 	//Create testing unit
 	m_unitState = eUNIT_STATE::IDLE;
-	m_bUsesGlobalSprite = false;
-	m_pSprite = loadSprite("graphics/infantry.png");
+	cAssetManager& assets = cAssetManager::getInstance();
+	m_pSprite = assets.getSprite("infantry");
+	m_pRangeTile = assets.getSprite("rangeTile");
 	m_unitAttributes.mov = 5;
 }
 
 //Destructor
 cUnit::~cUnit(){
 	std::cout << "{INFO] Destroying unit" << std::endl;
-	//If not using global sprite, free it
-	if(not m_bUsesGlobalSprite){
-		SDL_DestroyTexture(m_pSprite);
-	}
 }
 
 //Set position on map
@@ -247,6 +244,6 @@ void cUnit::drawRange(int p_nAnimationFrame, vec2D p_vCameraOffset){
 	for(size_t i = 0; i < m_rangeVector.size(); i++){
 		dstRect.x = m_rangeVector[i].x * TILE_SIZE + p_vCameraOffset.x;
 		dstRect.y = m_rangeVector[i].y * TILE_SIZE + p_vCameraOffset.y;
-		SDL_RenderCopy(g_renderer, g_pRangeTileset, &srcRect, &dstRect);
+		SDL_RenderCopy(g_renderer, m_pRangeTile, &srcRect, &dstRect);
 	}
 }
