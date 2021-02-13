@@ -13,7 +13,7 @@ class cAssetManager{
 
 	public:
 		//Get instance of asset manager
-		static cAssetManager getInstance(){
+		static cAssetManager& getInstance(){
 			static cAssetManager instance;
 			return instance;
 		}
