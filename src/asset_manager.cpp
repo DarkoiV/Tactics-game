@@ -10,6 +10,7 @@ cAssetManager::cAssetManager(){
 	//Unit sprites
 	m_spriteMap["infantry"] = loadSprite("graphics/infantry.png");
 	m_spriteMap["rangeTile"] = loadSprite("graphics/range.png");
+	SDL_SetTextureAlphaMod(m_spriteMap["rangeTile"], 125);
 
 	//Text sprites
 	m_spriteMap["consoleText"] = loadSprite("graphics/consoleText.png");
