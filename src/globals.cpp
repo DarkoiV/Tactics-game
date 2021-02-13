@@ -39,21 +39,6 @@ bool initGame(){
 	return true;
 }
 
-//Load all global assets
-void loadAssets(){
-	//Conole text
-	g_pConsoleTextTexture = loadSprite("graphics/consoleText.png");
-	//Range tileset
-	g_pRangeTileset = loadSprite("graphics/range.png");
-	SDL_SetTextureAlphaMod(g_pRangeTileset, 125);
-}
-
-//Free all global assets
-void freeAssets(){
-	SDL_DestroyTexture(g_pConsoleTextTexture);
-	SDL_DestroyTexture(g_pRangeTileset);
-}
-
 //Load sprite
 SDL_Texture* loadSprite(std::string p_sPath){
 	SDL_Surface* loadingSurface;
