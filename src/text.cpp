@@ -6,7 +6,8 @@ cText::cText(const vec2D p_vOriginPoint){
 	m_vOriginPoint = p_vOriginPoint;
 
 	//For now use console text only
-	m_pTextSprite = g_pConsoleTextTexture;
+	cAssetManager& assets = cAssetManager::getInstance();
+	m_pTextSprite = assets.getSprite("consoleText");
 
 	//Get character dimensions
 	SDL_QueryTexture(m_pTextSprite, NULL, NULL, &m_vCharacterSize.x, &m_vCharacterSize.y);
@@ -16,7 +17,6 @@ cText::cText(const vec2D p_vOriginPoint){
 
 //Destructor
 cText::~cText(){
-	//Dont free any sprites since ALL TEXT will use global assets
 }
 
 //Update text to render

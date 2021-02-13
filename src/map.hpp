@@ -1,6 +1,7 @@
 #pragma once
 
 #include "globals.hpp"
+#include "asset_manager.hpp"
 #include <string>
 #include <vector>
 #include "cursor.hpp"
@@ -11,7 +12,7 @@ class cMap{
 	protected:
 		vec2D m_vSize;					//Size in Tiles
 		std::vector<sTile> m_tilesVector;		//Vector of tiles structure
-		SDL_Texture* m_pTilesetSprite = NULL;		//Tileset sprite
+		SDL_Texture* m_pTilesetSprite = nullptr;	//Tileset sprite
 		
 	public:
 		//Constructor/destructor

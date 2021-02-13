@@ -11,8 +11,6 @@ int main(){
 		std::cout << "[ERROR] Failed to initialize " << std::endl;
 		g_bGameIsRunning = false;
 	}
-	else
-		loadAssets();
 
 	//Create command propmt text object
 	cText prompt({25, g_windowHeight - 25});
@@ -32,7 +30,6 @@ int main(){
 	}
 
 	//Quit game and free assets
-	freeAssets();
 	quit();
 	return 0;
 }

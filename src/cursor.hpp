@@ -1,6 +1,7 @@
 #pragma once
 
 #include "globals.hpp"
+#include "asset_manager.hpp"
 
 #define CURSOR_SIZE 30 							//Size of cursor sprite
 #define CURSOR_BORDER 3							//How much cursor goes outside tile
@@ -10,7 +11,7 @@ class cCursor{
 		vec2D m_vMapBoundary;					//Keep how far can cursor move, in Tiles
 		vec2D m_vPos;						//Cursor position, in Tiles
 
-		SDL_Texture* m_pSprite = NULL;				//Cursor sprite
+		SDL_Texture* m_pSprite = nullptr;			//Cursor sprite
 	public:
 		//Constructore/destructor
 		cCursor();

@@ -2,13 +2,12 @@
 
 //Constructor
 cCursor::cCursor(){
-	m_pSprite = loadSprite("graphics/cursor.png");
+	cAssetManager& assets = cAssetManager::getInstance();
+	m_pSprite = assets.getSprite("cursor");
 }
 
 //Destructor
 cCursor::~cCursor(){
-	//free cursor sprite
-	SDL_DestroyTexture(m_pSprite);
 }
 
 //Load map size

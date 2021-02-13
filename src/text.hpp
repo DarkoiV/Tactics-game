@@ -1,6 +1,7 @@
 #pragma once
 
 #include "globals.hpp"
+#include "asset_manager.hpp"
 
 //All text sprites have to follow this:
 #define CHARS_PER_COLUMN 6
