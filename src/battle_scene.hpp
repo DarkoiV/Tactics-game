@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sstream>
 #include "scene.hpp"
 #include "map.hpp"
 #include "cursor.hpp"

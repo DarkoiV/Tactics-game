@@ -134,6 +134,32 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 
 //Process issued command
 void cBattleScene::processConsoleCommand(std::string p_sCommand){
+	//Split string
+	std::vector<std::string> arguments;
+	std::string argument;
+	std::stringstream commandStream(p_sCommand);
+	while(getline(commandStream, argument, ' '))
+			arguments.push_back(argument);
+
+	//Process arguments
+	if(arguments.size() > 0 and arguments[0] == "spawn"){
+		if(arguments.size() > 1 and arguments[1] == "ally"){
+			std::cout << "[INFO] Spawning ally unit" << std::endl;
+			addAllyUnit("Infantry");
+
+			//Reset flag
+			g_bConsoleCommandIssued = false;
+		}
+		else if(arguments.size() > 1 and arguments[1] == "enemy"){
+			std::cout << "[INFO] Sprawning enemy unit" << std::endl;
+
+			//Reset flag
+			g_bConsoleCommandIssued = false;
+		}
+		else{
+			std::cout << "[WARNING] Unknown spawn argument" << std::endl;
+		}
+	}
 }
 
 //Add allied unit to map
