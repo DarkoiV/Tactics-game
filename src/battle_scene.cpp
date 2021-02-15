@@ -6,12 +6,14 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 	m_cursor.loadMapSize(p_vMapSize);
 	m_cursor.setPosition({7, 7});
 
-	//Create and set unit position
-	m_unitVector.emplace_back(std::make_shared<cUnit>());
-	m_unitVector[0].get()->setPosition({7 , 7});
-
 	//start in edit mode
 	m_sceneMode = eSCENE_MODE::EDIT_MAP;
+
+	//TMP Add 2 units
+	addAllyUnit("Infantry");
+	addAllyUnit("Infantry");
+	m_allyVector[1]->setPosition({10, 10});
+
 }
 
 //constructor loading from file
@@ -50,8 +52,13 @@ void cBattleScene::updateCamera(){
 
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
+	//Check for console input
+	if(g_bConsoleCommandIssued)
+		processConsoleCommand(g_sConsoleCommand);
+
 	//TMP calculateRange
-	m_unitVector[0]->calculateRange(m_map.refMap(), m_map.getMapSize());
+	for(auto &UNIT : m_sortedUnitVector)
+		UNIT->calculateRange(m_map.refMap(), m_map.getMapSize());
 
 	//Check if commands are processed, if so disable inputs
 	if(m_commander.isProcessingCommands())
@@ -76,6 +83,8 @@ void cBattleScene::update(eBUTTON p_INPUT){
 	if(m_nAnimationFrameCounter == 60)
 		m_nAnimationFrameCounter = 0;
 }
+
+///////////////////////EDIT MODE/////////////////////////////////////////////////////////////////////////////////////////////
 
 //Update edit mode
 void cBattleScene::updateEdit(eBUTTON p_INPUT){
@@ -123,6 +132,28 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 	m_map.setTilesMovCost();
 }
 
+//Process issued command
+void cBattleScene::processConsoleCommand(std::string p_sCommand){
+}
+
+//Add allied unit to map
+void cBattleScene::addAllyUnit(std::string p_sUnitName){
+	//Later unit name will load JSON to get unit type data, for now just ignore and add infantry
+	auto newUnit = std::make_shared<cUnit>();
+	m_allyVector.push_back(newUnit);
+	m_sortedUnitVector.push_back(newUnit);
+
+	//Set position under the cursor
+	newUnit->setPosition(m_cursor.getPosition());	
+}
+
+//Add enemy unit to map
+void cBattleScene::addEnemyUnit(std::string p_sUnitName){
+	//Later unit name will load JSON to get unit type data
+}
+
+///////////////////////PLAYER TURN///////////////////////////////////////////////////////////////////////////////////////////
+
 //Update player turn
 void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
 	//Move cursor, or open menu, other input processed in turn specific mode
@@ -165,12 +196,15 @@ void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
 void cBattleScene::nothingSelected(eBUTTON p_INPUT){
 	switch(p_INPUT){
 		case eBUTTON::SELECT:
-			//Check if there is unit under cursor
-			if(m_unitVector[0]->isHere(m_cursor.getPosition())){
-				//If there is, set which one and change mode to unit selected
-				std::cout << "[INFO] Selected unit" << std::endl;
-				m_nSelectedUnit = 0;
-				m_turnMode = eTURN_MODE::UNIT_SELECTED;
+			//Check if there is allied unit under cursor
+			for(size_t i = 0; i < m_allyVector.size(); i++){
+				if(m_allyVector[i]->isHere(m_cursor.getPosition())){
+					//If there is, set which one and change mode to unit selected
+					std::cout << "[INFO] Selected unit" << std::endl;
+					m_nSelectedUnit = i;
+					m_turnMode = eTURN_MODE::UNIT_SELECTED;
+					break;
+				}
 			}
 			break;
 		case eBUTTON::NONE:
@@ -203,12 +237,14 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 				m_turnMode = eTURN_MODE::UNIT_MOVED;
 			}
 			break;
+
 		case eBUTTON::CANCEL:
 			//Deselect unit
 			std::cout << "[INFO] Unit deselected" << std::endl;
 			m_nSelectedUnit = -1;
 			m_turnMode = eTURN_MODE::NOTHING_SELECTED;
 			break;
+
 		case eBUTTON::NONE:
 		default:
 			break;
@@ -221,11 +257,11 @@ cUnit* cBattleScene::getSelectedUnit(){
 		std::cout << "[ERROR] Call to selected unit when no unit is selected" << std::endl;
 		return nullptr;
 	}
-	if(m_nSelectedUnit >= m_unitVector.size()){
+	if(m_nSelectedUnit >= m_allyVector.size() or m_nSelectedUnit < -1){
 		std::cout << "[ERROR] Selected unit does not exist" << std::endl;
 		return nullptr;
 	}
-	return m_unitVector[m_nSelectedUnit].get();
+	return m_allyVector[m_nSelectedUnit].get();
 }
 
 //Select action to perform after move
@@ -245,8 +281,11 @@ void cBattleScene::draw(){
 		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
-	m_unitVector[0]->draw(m_nAnimationFrameCounter, m_vCameraOffset);
+	for(auto &UNIT : m_sortedUnitVector)
+		UNIT->draw(m_nAnimationFrameCounter, m_vCameraOffset);
+	
 
 	//Draw cursor, pass animation frame and camera offset
 	m_cursor.draw(m_nAnimationFrameCounter, m_vCameraOffset);
 }
+

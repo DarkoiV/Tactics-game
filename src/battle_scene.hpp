@@ -15,7 +15,9 @@ class cBattleScene : public cScene{
 		cUnit m_unit;
 
 		//Unit containers
-		std::vector<std::shared_ptr<cUnit>> m_unitVector;
+		std::vector<std::shared_ptr<cUnit>> m_allyVector;
+		std::vector<std::shared_ptr<cUnit>> m_enemyVector;
+		std::vector<std::shared_ptr<cUnit>> m_sortedUnitVector;
 
 		//Scene modes
 		enum class eSCENE_MODE{
@@ -45,7 +47,11 @@ class cBattleScene : public cScene{
 //////////////////EDIT MODE/////////////////////////////////////////////////////////////////////////////////////////////////////
 	protected:
 		int m_nCopiedTileID = 0;
+		
+		void processConsoleCommand(std::string p_sCommand);	//Process text from console
 
+		void addAllyUnit(std::string p_sUnitName);
+		void addEnemyUnit(std::string p_sUnitName);
 
 
 //////////////////PLAYER TURN//////////////////////////////////////////////////////////////////////////////////////////////////
