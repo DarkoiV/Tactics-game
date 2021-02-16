@@ -272,10 +272,13 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 		case eBUTTON::LEFT:
 			m_cursor.moveLeft();
 			break;
-			
+		
+		//Move unit 
 		case eBUTTON::SELECT:
-			//Check if move is withing range, if so move unit
-			if (getSelectedUnit()->isMoveInRange(m_cursor.highlightedTile())){
+			//Check if move is withing range and no allied unit blocks destination, if so move unit
+			if (getSelectedUnit()->isMoveInRange(m_cursor.highlightedTile()) 
+				and m_occupiedByAllySet.count(m_cursor.highlightedTile()) == 0 ){
+
 				std::cout << "[INFO] Moving unit" << std::endl;
 
 				//Load stack with directions for movement
