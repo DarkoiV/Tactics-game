@@ -67,7 +67,7 @@ bool cUnit::isMoveInRange(int p_nTargetTile){
 
 //Return which tile is occupied by this unit
 int cUnit::occupiesTile(vec2D p_vMapSize){
-	return m_vPos.x + m_vPos.y * p_vMapSize.y;
+	return m_vPos.x + (m_vPos.y * p_vMapSize.x);
 }
 
 //Returns stack of directions, which is a path to target tile
@@ -130,7 +130,7 @@ std::stack<eDIRECTION> cUnit::getPathToTile(int p_nTargetTile, vec2D p_vMapSize)
 }
 
 //Calculate range
-void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapSize){
+void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, const std::set<int>& p_blockedTilesSet, vec2D p_vMapSize){
 	//Create stack and push first position onto it
 	std::stack<int>	stackOfTiles;
 	stackOfTiles.push(m_vPos.x + (m_vPos.y * p_vMapSize.x));
@@ -179,9 +179,11 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, vec2D p_vMapS
 		//Check tiles
 		for(size_t i = 0; i < TILES.size(); i++){	
 			//Check if tile is in range and (if was not visisted or distance is shorther than previous visit)
+			//And if not occupied by enemy team
 			if(p_tileVector[TILES[i]].movCost + m_rangeMap[CURRENT_TILE] <= m_unitAttributes.mov
 			and (!m_rangeMap.count(TILES[i]) 
-			or m_rangeMap[TILES[i]] > m_rangeMap[CURRENT_TILE] + p_tileVector[CURRENT_TILE].movCost))
+			or m_rangeMap[TILES[i]] > m_rangeMap[CURRENT_TILE] + p_tileVector[CURRENT_TILE].movCost)
+			and not p_blockedTilesSet.count(TILES[i]))
 			{
 				//Add tile to map with shortest known distance
 				m_rangeMap[TILES[i]] = p_tileVector[TILES[i]].movCost + m_rangeMap[CURRENT_TILE];

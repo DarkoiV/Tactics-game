@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sstream>
+#include <set>
 #include "scene.hpp"
 #include "map.hpp"
 #include "cursor.hpp"
@@ -18,6 +19,12 @@ class cBattleScene : public cScene{
 		std::vector<std::shared_ptr<cUnit>> m_allyVector;
 		std::vector<std::shared_ptr<cUnit>> m_enemyVector;
 		std::vector<std::shared_ptr<cUnit>> m_sortedUnitVector;
+
+		//Sets of occupied tiles 
+		std::set<int> m_occupiedByAllySet;
+		std::set<int> m_occupiedByEnemySet;
+
+		void updateOccupiedTiles();
 
 		//Scene modes
 		enum class eSCENE_MODE{

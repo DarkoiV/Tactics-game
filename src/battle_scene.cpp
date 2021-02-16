@@ -50,15 +50,30 @@ void cBattleScene::updateCamera(){
 
 }
 
+//Updat occupied tiles
+void cBattleScene::updateOccupiedTiles(){
+	//TMP clean sets, but later will only delete pos after move
+	m_occupiedByAllySet.clear();
+	m_occupiedByEnemySet.clear();
+
+
+	for(auto &UNIT : m_allyVector)
+		m_occupiedByAllySet.insert(UNIT->occupiesTile(m_map.getMapSize()));
+
+	for(auto &UNIT : m_enemyVector)
+		m_occupiedByEnemySet.insert(UNIT->occupiesTile(m_map.getMapSize()));
+}
+
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
 	//Check for console input
 	if(g_bConsoleCommandIssued)
 		processConsoleCommand(g_sConsoleCommand);
 
-	//TMP calculateRange
-	for(auto &UNIT : m_sortedUnitVector)
-		UNIT->calculateRange(m_map.refMap(), m_map.getMapSize());
+	//TMP calculateRange and update occupiesTile
+	for(auto &UNIT : m_allyVector)
+		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
+	updateOccupiedTiles();
 
 	//Check if commands are processed, if so disable inputs
 	if(m_commander.isProcessingCommands())
@@ -165,7 +180,6 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 
 //Add allied unit to map
 void cBattleScene::addAllyUnit(std::string p_sUnitName){
-	//Later unit name will load JSON to get unit type data, for now just ignore and add infantry
 	auto newUnit = std::make_shared<cUnit>(p_sUnitName);
 	m_allyVector.push_back(newUnit);
 	m_sortedUnitVector.push_back(newUnit);
@@ -176,7 +190,6 @@ void cBattleScene::addAllyUnit(std::string p_sUnitName){
 
 //Add enemy unit to map
 void cBattleScene::addEnemyUnit(std::string p_sUnitName){
-	//Later unit name will load JSON to get unit type data
 	auto newUnit = std::make_shared<cUnit>(p_sUnitName);
 	m_enemyVector.push_back(newUnit);
 	m_sortedUnitVector.push_back(newUnit);

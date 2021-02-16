@@ -5,6 +5,7 @@
 #include <vector>
 #include <stack>
 #include <map>
+#include <set>
 
 #define UNIT_SPRITE_ROWS 5
 #define UNIT_SPRITE_COLUMNS 4
@@ -52,7 +53,9 @@ class cUnit{
 		int occupiesTile(vec2D p_vMapSize);		//Returns tile which is occupied by unit
 
 		//Calculate movement range, and path
-		void calculateRange(const std::vector<sTile>& p_map, vec2D p_vMapSize);
+		void calculateRange(const std::vector<sTile>& p_mapTiles, 
+				const std::set<int>& p_TilesOccupiedByOposingTeam, 
+				vec2D p_vMapSize);
 		std::stack<eDIRECTION> getPathToTile(int p_nTargetTile, vec2D p_vMapSize);
 
 		//Update/Draw
