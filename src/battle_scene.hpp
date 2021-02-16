@@ -30,16 +30,14 @@ class cBattleScene : public cScene{
 		enum class eSCENE_MODE{
 			BATTLE_PREP,
 			NEW_TURN,
-			PLAYER_TURN,
+			PLAYER_TURN_NOTHING_SELECTED,
+			PLAYER_TURN_SELECTED,
+			PLAYER_TURN_ACTION,
 			ENEMY_TURN,
 			EDIT_MAP
 		} m_sceneMode;
 
 		int m_nAnimationFrameCounter = 0;			//Counter used for displaying animations
-
-		//Updates for diffrent modes
-		void updateEdit(eBUTTON p_INPUT);
-		void updatePlayerTurn(eBUTTON p_INPUT);
 
 //////////////////CAMERA////////////////////////////////////////////////////////////////////////////////////////////////////////
 	protected:
@@ -53,6 +51,8 @@ class cBattleScene : public cScene{
 
 //////////////////EDIT MODE/////////////////////////////////////////////////////////////////////////////////////////////////////
 	protected:
+		void updateEdit(eBUTTON p_INPUT);			//Mode specific update
+
 		int m_nCopiedTileID = 0;
 		
 		void processConsoleCommand(std::string p_sCommand);	//Process text from console
@@ -63,12 +63,6 @@ class cBattleScene : public cScene{
 
 //////////////////PLAYER TURN//////////////////////////////////////////////////////////////////////////////////////////////////
 	protected:
-		enum class eTURN_MODE{
-			NOTHING_SELECTED,
-			UNIT_SELECTED,
-			UNIT_MOVED
-		} m_turnMode = eTURN_MODE::NOTHING_SELECTED;
-
 		void nothingSelected(eBUTTON p_INPUT);				//Selecting unit on map
 		void unitSelected(eBUTTON p_INPUT);				//Oder unit to move around
 		void selectAction(eBUTTON p_INPUT);				//Select action after movement

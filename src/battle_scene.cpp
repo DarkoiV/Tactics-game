@@ -82,11 +82,24 @@ void cBattleScene::update(eBUTTON p_INPUT){
 	//Call mode specific update method
 	switch(m_sceneMode){
 		default:
+		//Edit mode
 		case eSCENE_MODE::EDIT_MAP:
 			updateEdit(p_INPUT);
 			break;
-		case eSCENE_MODE::PLAYER_TURN:
-			updatePlayerTurn(p_INPUT);
+
+		//Player turn, move unit
+		case eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED:
+			nothingSelected(p_INPUT);
+			break;
+
+		//Player turn, move unit
+		case eSCENE_MODE::PLAYER_TURN_SELECTED:
+			unitSelected(p_INPUT);
+			break;
+
+		//Player turn, select action
+		case eSCENE_MODE::PLAYER_TURN_ACTION:
+			selectAction(p_INPUT);
 			break;
 	}
 
@@ -135,7 +148,7 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 			break;
 		//TMP switch modes, later open menu
 		case eBUTTON::ESCAPE:
-			m_sceneMode = eSCENE_MODE::PLAYER_TURN;
+			m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
 			break;
 		//On none(or not used input here), do nothing, lol
 		case eBUTTON::NONE:
@@ -200,10 +213,10 @@ void cBattleScene::addEnemyUnit(std::string p_sUnitName){
 
 ///////////////////////PLAYER TURN///////////////////////////////////////////////////////////////////////////////////////////
 
-//Update player turn
-void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
-	//Move cursor, or open menu, other input processed in turn specific mode
-	switch (p_INPUT) {
+//Behaviour when no unit was selected
+void cBattleScene::nothingSelected(eBUTTON p_INPUT){
+	switch(p_INPUT){
+		//Move cursor
 		case eBUTTON::UP:
 			m_cursor.movUp();
 			break;
@@ -216,31 +229,7 @@ void cBattleScene::updatePlayerTurn(eBUTTON p_INPUT){
 		case eBUTTON::LEFT:
 			m_cursor.moveLeft();
 			break;
-		//TMP switch modes, later open menu
-		case eBUTTON::ESCAPE:
-			m_sceneMode = eSCENE_MODE::EDIT_MAP;
-			break;
-		default:
-			break;
-	}
 
-	//Behaviour based on turn state
-	switch(m_turnMode){
-		case eTURN_MODE::NOTHING_SELECTED:
-			nothingSelected(p_INPUT);
-			break;
-		case eTURN_MODE::UNIT_SELECTED:
-			unitSelected(p_INPUT);
-			break;
-		case eTURN_MODE::UNIT_MOVED:
-			selectAction(p_INPUT);
-			break;
-	}
-}
-
-//Behaviour when no unit was selected
-void cBattleScene::nothingSelected(eBUTTON p_INPUT){
-	switch(p_INPUT){
 		case eBUTTON::SELECT:
 			//Check if there is allied unit under cursor
 			for(size_t i = 0; i < m_allyVector.size(); i++){
@@ -248,11 +237,18 @@ void cBattleScene::nothingSelected(eBUTTON p_INPUT){
 					//If there is, set which one and change mode to unit selected
 					std::cout << "[INFO] Selected unit" << std::endl;
 					m_nSelectedUnit = i;
-					m_turnMode = eTURN_MODE::UNIT_SELECTED;
+					m_sceneMode = eSCENE_MODE::PLAYER_TURN_SELECTED;
 					break;
 				}
 			}
 			break;
+
+		//TMP Switch to edit mode. later open menu
+		case eBUTTON::ESCAPE:
+			m_sceneMode = eSCENE_MODE::EDIT_MAP;
+			break;
+
+		//Nothing
 		case eBUTTON::NONE:
 		default:
 			break;
@@ -263,6 +259,20 @@ void cBattleScene::nothingSelected(eBUTTON p_INPUT){
 //Move selected unit
 void cBattleScene::unitSelected(eBUTTON p_INPUT){
 	switch(p_INPUT){
+		//Move cursor
+		case eBUTTON::UP:
+			m_cursor.movUp();
+			break;
+		case eBUTTON::DOWN:
+			m_cursor.movDown();
+			break;
+		case eBUTTON::RIGHT:
+			m_cursor.movRight();
+			break;
+		case eBUTTON::LEFT:
+			m_cursor.moveLeft();
+			break;
+			
 		case eBUTTON::SELECT:
 			//Check if move is withing range, if so move unit
 			if (getSelectedUnit()->isMoveInRange(m_cursor.highlightedTile())){
@@ -280,7 +290,7 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 				}
 				
 				//Switch to action turn mode
-				m_turnMode = eTURN_MODE::UNIT_MOVED;
+				m_sceneMode = eSCENE_MODE::PLAYER_TURN_ACTION;
 			}
 			break;
 
@@ -288,7 +298,7 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 			//Deselect unit
 			std::cout << "[INFO] Unit deselected" << std::endl;
 			m_nSelectedUnit = -1;
-			m_turnMode = eTURN_MODE::NOTHING_SELECTED;
+			m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
 			break;
 
 		case eBUTTON::NONE:
@@ -313,7 +323,7 @@ cUnit* cBattleScene::getSelectedUnit(){
 //Select action to perform after move
 void cBattleScene::selectAction(eBUTTON p_INPUT){
 	//TMP switch to selection
-	m_turnMode = eTURN_MODE::NOTHING_SELECTED;
+	m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
 	m_nSelectedUnit = -1;
 }
 
