@@ -10,8 +10,8 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 	m_sceneMode = eSCENE_MODE::EDIT_MAP;
 
 	//TMP Add 2 units
-	addAllyUnit("Infantry");
-	addAllyUnit("Infantry");
+	addAllyUnit("infantry");
+	addAllyUnit("infantry");
 	m_allyVector[1]->setPosition({10, 10});
 
 }
@@ -145,13 +145,14 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 	if(arguments.size() > 0 and arguments[0] == "spawn"){
 		if(arguments.size() > 1 and arguments[1] == "ally"){
 			std::cout << "[INFO] Spawning ally unit" << std::endl;
-			addAllyUnit("Infantry");
+			addAllyUnit("infantry");
 
 			//Reset flag
 			g_bConsoleCommandIssued = false;
 		}
 		else if(arguments.size() > 1 and arguments[1] == "enemy"){
 			std::cout << "[INFO] Sprawning enemy unit" << std::endl;
+			addEnemyUnit("enemyInfantry");
 
 			//Reset flag
 			g_bConsoleCommandIssued = false;
@@ -165,7 +166,7 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 //Add allied unit to map
 void cBattleScene::addAllyUnit(std::string p_sUnitName){
 	//Later unit name will load JSON to get unit type data, for now just ignore and add infantry
-	auto newUnit = std::make_shared<cUnit>();
+	auto newUnit = std::make_shared<cUnit>(p_sUnitName);
 	m_allyVector.push_back(newUnit);
 	m_sortedUnitVector.push_back(newUnit);
 
@@ -176,6 +177,12 @@ void cBattleScene::addAllyUnit(std::string p_sUnitName){
 //Add enemy unit to map
 void cBattleScene::addEnemyUnit(std::string p_sUnitName){
 	//Later unit name will load JSON to get unit type data
+	auto newUnit = std::make_shared<cUnit>(p_sUnitName);
+	m_enemyVector.push_back(newUnit);
+	m_sortedUnitVector.push_back(newUnit);
+
+	//Set position under the cursor
+	newUnit->setPosition(m_cursor.getPosition());	
 }
 
 ///////////////////////PLAYER TURN///////////////////////////////////////////////////////////////////////////////////////////

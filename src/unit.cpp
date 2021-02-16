@@ -1,14 +1,29 @@
 #include "unit.hpp"
 
 //Constructor
-cUnit::cUnit(){
-	std::cout << "[INFO] Creating unit" << std::endl;
-	//Create testing unit
-	m_unitState = eUNIT_STATE::IDLE;
+cUnit::cUnit(std::string p_sUnitType){
+	std::cout << "[INFO] Creating unit type: " << p_sUnitType << std::endl;
+
+	//Get asset manager instance
 	cAssetManager& assets = cAssetManager::getInstance();
-	m_pSprite = assets.getSprite("infantry");
-	m_pRangeTile = assets.getSprite("rangeTile");
-	m_unitAttributes.mov = 5;
+
+	//Set starting state
+	m_unitState = eUNIT_STATE::IDLE;
+
+	//Create unit
+	if(p_sUnitType == "infantry"){
+		m_pSprite = assets.getSprite("infantry");
+		m_pRangeTile = assets.getSprite("rangeTile");
+		m_unitAttributes.mov = 5;
+	}
+	else if(p_sUnitType == "enemyInfantry"){
+		m_pSprite = assets.getSprite("enemyInfantry");
+		m_pRangeTile = assets.getSprite("rangeTile");
+		m_unitAttributes.mov = 5;
+	}
+	else{
+		std::cout << "[ERROR] Wrong unit type" << std::endl;
+	}
 }
 
 //Destructor

@@ -13,7 +13,6 @@ class cBattleScene : public cScene{
 		cCursor m_cursor;
 		cMap m_map;
 		cCommander m_commander;
-		cUnit m_unit;
 
 		//Unit containers
 		std::vector<std::shared_ptr<cUnit>> m_allyVector;

@@ -39,7 +39,7 @@ class cUnit{
 
 	public:
 		//Constructor/destructor
-		cUnit();
+		cUnit(std::string p_sUnitType);
 		~cUnit();
 
 		//Methods
