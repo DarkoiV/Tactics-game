@@ -9,7 +9,12 @@ SDL2-image
 ## Controls
 For now game starts in edit mode,  
 esc: switches between modes  
-arrows: move cursor
+arrows: move cursor  
+F1: opens console prompt  
+
+##### Console commands:
+"spawn ally" - spawns allied infantry under cursor  
+"spawn enemy" - spawns enemy infantry under cursor  
 
 #### Edit Mode 
 z: change tile to next type,  
@@ -22,5 +27,5 @@ z: select/move
 x: deselect  
 
 ## Assets sources
-(If not mentioned, that means it was made by me)\
+(If not mentioned, it was made by me)\
 Console text sprite: https://opengameart.org/content/16x12-terminal-bitmap-font  
