@@ -9,6 +9,7 @@ cAssetManager::cAssetManager(){
 
 	//Unit sprites
 	m_spriteMap["infantry"] = loadSprite("graphics/infantry.png");
+	m_spriteMap["enemyInfantry"] = loadSprite("graphics/infantry.png");
 	m_spriteMap["rangeTile"] = loadSprite("graphics/range.png");
 	SDL_SetTextureAlphaMod(m_spriteMap["rangeTile"], 125);
 
