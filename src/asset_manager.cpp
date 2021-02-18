@@ -15,6 +15,10 @@ cAssetManager::cAssetManager(){
 
 	//Text sprites
 	m_spriteMap["consoleText"] = loadSprite("graphics/consoleText.png");
+	m_spriteMap["textColor1"] = loadSprite("graphics/gnshText1.png");
+
+	//Bos sprite
+	m_spriteMap["box"] = loadSprite("graphics/box.png");
 }
 
 //Destructor, frees all assets
