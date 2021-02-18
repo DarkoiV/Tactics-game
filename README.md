@@ -29,3 +29,4 @@ x: deselect
 ## Assets sources
 (If not mentioned, it was made by me)\
 Console text sprite: https://opengameart.org/content/16x12-terminal-bitmap-font  
+Gnsh text sprite: https://opengameart.org/content/bitmap-font-0  
