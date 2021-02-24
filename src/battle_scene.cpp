@@ -1,4 +1,5 @@
 #include "battle_scene.hpp"
+#include "ui_box.hpp"
 
 //constructor for editor
 cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
@@ -332,6 +333,7 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 
 //draw
 void cBattleScene::draw(){
+	cBox box;
 	//Draw map, pass camera offset
 	m_map.draw(m_vCameraOffset);
 
@@ -346,5 +348,5 @@ void cBattleScene::draw(){
 
 	//Draw cursor, pass animation frame and camera offset
 	m_cursor.draw(m_nAnimationFrameCounter, m_vCameraOffset);
+	box.draw();
 }
-

@@ -1,6 +1,6 @@
 #include "text.hpp"
 
-//Constructor
+//Constructor for console text
 cText::cText(const vec2D p_vOriginPoint){
 	//Set origin point
 	m_vOriginPoint = p_vOriginPoint;
@@ -8,6 +8,31 @@ cText::cText(const vec2D p_vOriginPoint){
 	//For now use console text only
 	cAssetManager& assets = cAssetManager::getInstance();
 	m_pTextSprite = assets.getSprite("consoleText");
+
+	//Get character dimensions
+	SDL_QueryTexture(m_pTextSprite, NULL, NULL, &m_vCharacterSize.x, &m_vCharacterSize.y);
+	m_vCharacterSize.x = m_vCharacterSize.x / CHARS_PER_ROW;
+	m_vCharacterSize.y = m_vCharacterSize.y / CHARS_PER_COLUMN;
+}
+
+//Constructor for colored text
+cText::cText(const vec2D p_vOriginPoint, int p_nColor){
+	//Set origin point
+	m_vOriginPoint = p_vOriginPoint;
+	
+	//Sprite
+	std::string spriteName = "textColor";
+	spriteName += p_nColor;
+
+	//Load correct color text sprite
+	cAssetManager& assets = cAssetManager::getInstance();
+	m_pTextSprite = assets.getSprite(spriteName);
+
+	//Check if correct sprite loaded, set using color text true
+	if(m_pTextSprite == nullptr)
+		std::cout << "[ERROR] Wrong text sprite " << std::endl;
+	else
+		m_bUsingColorText = true;
 
 	//Get character dimensions
 	SDL_QueryTexture(m_pTextSprite, NULL, NULL, &m_vCharacterSize.x, &m_vCharacterSize.y);
