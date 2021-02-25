@@ -71,6 +71,11 @@ void cText::changeTextColor(int p_nColor){
 		std::cout << "[WARNING] Console text doesn't have ability to change color" << std::endl;
 }
 
+//Set new origin point
+void cText::setNewOriginPoint(vec2D p_vNewOriginPoint){
+	m_vOriginPoint = p_vNewOriginPoint;
+}
+
 //Update text to render
 void cText::update(const std::string p_sNewText){
 	m_sTextToRender = p_sNewText;

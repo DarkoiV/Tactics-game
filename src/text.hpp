@@ -27,7 +27,10 @@ class cText{
 		//Methods
 		int getTextLenght();				//Returns lenght of text in pixels
 		int getTextHeight();				//Returns height of character in pixels
-		void changeTextColor(int p_nColor);		//Changes color of text
+
+		void changeTextColor(int p_nColor);			//Changes color of text
+		void setNewOriginPoint(vec2D p_vNewOriginPoint);	//Set new origin point of text
+
 		void update(const std::string p_sNewText);
 		void draw();
 
