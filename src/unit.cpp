@@ -72,6 +72,10 @@ int cUnit::occupiesTile(vec2D p_vMapSize){
 	return m_vPos.x + (m_vPos.y * p_vMapSize.x);
 }
 
+Uint8 cUnit::getPossibleActions(){
+	return m_unitPossibleActionFlags;
+}
+
 //Returns stack of directions, which is a path to target tile
 std::stack<eDIRECTION> cUnit::getPathToTile(int p_nTargetTile, vec2D p_vMapSize){
 	std::stack<eDIRECTION> pathStack;

@@ -32,21 +32,17 @@ void cBox::setCapacity(vec2D p_vInnerSize){
 	vec2D newBoxSize;
 
 	//Set size x
-	newBoxSize.x = (p_vInnerSize.x / m_vTileSize.x) + 3;
-	if(p_vInnerSize.x % 2 == 0)
-		p_vInnerSize.x++;
+	newBoxSize.x = (p_vInnerSize.x / m_vTileSize.x) + 2;
 
 	//Set size y
-	newBoxSize.y = (p_vInnerSize.y / m_vTileSize.y) + 3;
-	if(p_vInnerSize.y % 2 == 0)
-		p_vInnerSize.y++;
+	newBoxSize.y = (p_vInnerSize.y / m_vTileSize.y) + 2;
 
 	setSize(newBoxSize);
 }
 
-//Get inner orgin, and inner line width
+//Get inner orgin
 vec2D cBox::getInnerOrgin(){
-	return { m_vNoOfTiles.x - 2, m_vNoOfTiles.y - 2 };
+	return { m_vOriginPoint.x + m_vTileSize.x, m_vOriginPoint.y + m_vTileSize.y };
 }
 
 //Get inner line width
@@ -60,6 +56,7 @@ void cBox::setPosition(vec2D p_vPos){
 	m_vOriginPoint = p_vPos;
 }
 
+//Center box on screen
 void cBox::centerBox(){
 	std::cout << "[INFO] Box position set centered" << std::endl;
 

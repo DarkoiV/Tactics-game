@@ -22,7 +22,7 @@ cText::cText(const vec2D p_vOriginPoint, int p_nColor){
 	
 	//Sprite
 	std::string spriteName = "textColor";
-	spriteName += p_nColor;
+	spriteName += std::to_string(p_nColor);
 
 	//Load correct color text sprite
 	cAssetManager& assets = cAssetManager::getInstance();
@@ -62,7 +62,7 @@ void cText::changeTextColor(int p_nColor){
 			return;
 		}
 		std::string spriteName = "textColor";
-		spriteName += p_nColor;
+		spriteName += std::to_string(p_nColor);
 
 		cAssetManager& assets = cAssetManager::getInstance();
 		m_pTextSprite = assets.getSprite(spriteName);
@@ -73,6 +73,7 @@ void cText::changeTextColor(int p_nColor){
 
 //Set new origin point
 void cText::setNewOriginPoint(vec2D p_vNewOriginPoint){
+	std::cout << "New origin point of text " << p_vNewOriginPoint << std::endl;
 	m_vOriginPoint = p_vNewOriginPoint;
 }
 
