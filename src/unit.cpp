@@ -15,11 +15,13 @@ cUnit::cUnit(std::string p_sUnitType){
 		m_pSprite = assets.getSprite("infantry");
 		m_pRangeTile = assets.getSprite("rangeTile");
 		m_unitAttributes.mov = 5;
+		m_unitPossibleActionFlags = ACTION_ATTACK + ACTION_WAIT;
 	}
 	else if(p_sUnitType == "enemyInfantry"){
 		m_pSprite = assets.getSprite("enemyInfantry");
 		m_pRangeTile = assets.getSprite("rangeTile");
 		m_unitAttributes.mov = 5;
+		m_unitPossibleActionFlags = ACTION_ATTACK + ACTION_WAIT;
 	}
 	else{
 		std::cout << "[ERROR] Wrong unit type" << std::endl;

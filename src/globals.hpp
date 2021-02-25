@@ -28,6 +28,12 @@ eBUTTON getPlayerInput();
 void createFrame();
 void quit();
 
+//Action flags
+constexpr Uint8 ACTION_ATTACK = 1;
+constexpr Uint8 ACTION_MAGICK = 2;
+constexpr Uint8 ACTION_HEAL = 4;
+constexpr Uint8 ACTION_WAIT = 8;
+
 //Structures/enums definitions
 struct vec2D{
 	int x;

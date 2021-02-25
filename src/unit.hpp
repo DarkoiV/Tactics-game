@@ -23,6 +23,8 @@ class cUnit{
 		vec2D m_vPos;					//Position in tiles
 		vec2D m_vAnimationOffset = {0,0};		//Offset for animation
 
+		Uint8 m_unitPossibleActionFlags;		//Possible actions of this unit, as defined by flags
+
 		enum class eUNIT_STATE{				//State of unit
 			IDLE,
 			WALKING_NORTH,
