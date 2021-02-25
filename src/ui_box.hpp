@@ -20,9 +20,13 @@ class cBox{
 
 		//Methods
 		void setSize(vec2D p_vNoOfTiles);		//Set size of box in tiles
-		vec2D getCapacity();				//Get inner size of box in pixels
-		
-		void setPosition(vec2D p_vPos);			//Set orgin point of box
+		void setCapacity(vec2D p_vInnerSize);		//Set inner size of box in minimum pixels
+	
+		vec2D getInnerOrgin();				//Return position of first inner tile
+		int getInnerLineLenght();			//Return inner line width;
+
+		void setPosition(vec2D p_vPosOfOriginPoint);	//Set orgin point of box
+		void centerBox();				//Set position of box as centered
 
 		void draw();
 };

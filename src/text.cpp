@@ -44,6 +44,33 @@ cText::cText(const vec2D p_vOriginPoint, int p_nColor){
 cText::~cText(){
 }
 
+//Get text lenght in pixels
+int cText::getTextLenght(){
+	return m_sTextToRender.length() * m_vCharacterSize.x;
+}
+
+//Get text height in pixels
+int cText::getTextHeight(){
+	return m_vCharacterSize.y;
+}
+
+//Change color of displayed text
+void cText::changeTextColor(int p_nColor){
+	if(m_bUsingColorText){
+		if(p_nColor <= 0 or p_nColor > m_nLastPossibleColor){
+			std::cout << "[WARNING] This color is not available" << std::endl;
+			return;
+		}
+		std::string spriteName = "textColor";
+		spriteName += p_nColor;
+
+		cAssetManager& assets = cAssetManager::getInstance();
+		m_pTextSprite = assets.getSprite(spriteName);
+	}
+	else
+		std::cout << "[WARNING] Console text doesn't have ability to change color" << std::endl;
+}
+
 //Update text to render
 void cText::update(const std::string p_sNewText){
 	m_sTextToRender = p_sNewText;

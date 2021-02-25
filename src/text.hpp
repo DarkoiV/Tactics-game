@@ -14,6 +14,7 @@ class cText{
 		vec2D m_vOriginPoint;				//Where does text start
 
 		bool m_bUsingColorText = false;	
+		int m_nLastPossibleColor = 2;			//Which color is last possible to access
 
 		SDL_Texture* m_pTextSprite;			//Pointer to text texture
 
@@ -24,6 +25,9 @@ class cText{
 		~cText();
 
 		//Methods
+		int getTextLenght();				//Returns lenght of text in pixels
+		int getTextHeight();				//Returns height of character in pixels
+		void changeTextColor(int p_nColor);		//Changes color of text
 		void update(const std::string p_sNewText);
 		void draw();
 
