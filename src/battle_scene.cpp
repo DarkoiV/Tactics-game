@@ -1,5 +1,4 @@
 #include "battle_scene.hpp"
-#include "ui_box.hpp"
 
 //constructor for editor
 cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
@@ -311,6 +310,30 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 	}
 }
 
+//Select action to perform after move
+void cBattleScene::selectAction(eBUTTON p_INPUT){
+	//Show action menu after all move commands were processed
+	if(m_actionMenu.isHidden() and m_commander.noCommands())
+		m_actionMenu.showActionMenu(getSelectedUnit()->getPossibleActions());
+
+	//everything else do when menu is shown
+	else if(not m_actionMenu.isHidden()){
+		//Process input
+		switch (p_INPUT){
+			case eBUTTON::SELECT:
+				//Hide menu and do things base on return from action menu
+				m_actionMenu.hideActionMenu();
+				switch (m_actionMenu.getSelectedAction()) {
+					case 0:
+						m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}
+
 //Get selected unit
 cUnit* cBattleScene::getSelectedUnit(){
 	if(m_nSelectedUnit == -1){
@@ -324,21 +347,13 @@ cUnit* cBattleScene::getSelectedUnit(){
 	return m_allyVector[m_nSelectedUnit].get();
 }
 
-//Select action to perform after move
-void cBattleScene::selectAction(eBUTTON p_INPUT){
-	//TMP switch to selection
-	m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
-	m_nSelectedUnit = -1;
-}
-
 //draw
 void cBattleScene::draw(){
-	cBox box;
 	//Draw map, pass camera offset
 	m_map.draw(m_vCameraOffset);
 
-	//Draw unit range only for selected unit
-	if(m_nSelectedUnit != -1)
+	//Draw unit range only for selected unit and only in selected mode
+	if(m_nSelectedUnit != -1 and m_sceneMode == eSCENE_MODE::PLAYER_TURN_SELECTED)
 		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
@@ -348,5 +363,7 @@ void cBattleScene::draw(){
 
 	//Draw cursor, pass animation frame and camera offset
 	m_cursor.draw(m_nAnimationFrameCounter, m_vCameraOffset);
-	box.draw();
+
+	//Draw action menu
+	m_actionMenu.draw();
 }

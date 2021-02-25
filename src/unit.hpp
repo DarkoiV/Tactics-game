@@ -54,6 +54,8 @@ class cUnit{
 		bool isMoveInRange(int p_nTargetTile);		//Returns true when tile is within range of a unit
 		int occupiesTile(vec2D p_vMapSize);		//Returns tile which is occupied by unit
 
+		Uint8 getPossibleActions();			//Returns flags for possible actions of unit
+
 		//Calculate movement range, and path
 		void calculateRange(const std::vector<sTile>& p_mapTiles, 
 				const std::set<int>& p_TilesOccupiedByOposingTeam, 

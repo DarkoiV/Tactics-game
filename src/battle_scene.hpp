@@ -7,6 +7,7 @@
 #include "cursor.hpp"
 #include "unit.hpp"
 #include "commander.hpp"
+#include "action_menu.hpp"
 
 class cBattleScene : public cScene{
 	protected:
@@ -14,6 +15,7 @@ class cBattleScene : public cScene{
 		cCursor m_cursor;
 		cMap m_map;
 		cCommander m_commander;
+		cActionMenu m_actionMenu;
 
 		//Unit containers
 		std::vector<std::shared_ptr<cUnit>> m_allyVector;

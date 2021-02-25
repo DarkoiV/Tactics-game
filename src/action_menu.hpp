@@ -11,7 +11,20 @@ class cActionMenu{
 		cBox m_box;
 		std::vector<cText> m_textVector;
 
+		bool m_bHidden = true;
+
+		int m_nSelected = 0;
+
 	public:
-		cActionMenu();
+		
+		//Methods
+		void showActionMenu(const Uint8 p_possibleActionFlags);
+
+		bool isHidden(){return m_bHidden;}; 
+
+		int getSelectedAction();
+
+		void hideActionMenu();
+
 		void draw();
 };
