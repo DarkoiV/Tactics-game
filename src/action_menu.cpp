@@ -40,12 +40,9 @@ void cActionMenu::showActionMenu(const Uint8 p_possibleActionFlags){
 		TEXT.setNewOriginPoint(newPos);
 		newPos.y += TEXT.getTextHeight() + 1;
 	}
-}
 
-//Get selected action
-int cActionMenu::getSelectedAction(){
-	//For now return 0 which is equivalent to wait
-	return 0;
+	//Set color of selected text
+	m_textVector[0].changeTextColor(2);
 }
 
 //Hide and reset action menu
@@ -53,6 +50,36 @@ void cActionMenu::hideActionMenu(){
 	m_bHidden = true;
 	m_nSelected = 0;
 	m_textVector.clear();
+}
+
+//Get selected action
+eACTION cActionMenu::getSelectedAction(){
+	//For now return wait
+	return eACTION::WAIT;
+}
+
+//Move selected option up
+void cActionMenu::movSelectionUP(){
+	if(m_nSelected > 0){
+		std::cout << "[INFO] Moving menu selection up" << std::endl;
+		m_textVector[m_nSelected].changeTextColor(1);
+		m_nSelected--;
+		m_textVector[m_nSelected].changeTextColor(2);
+	}
+	else
+		std::cout << "[INFO] Selection already at top" << std::endl;
+}
+
+//Move selected option down
+void cActionMenu::movSelectionDOWN(){
+	if(m_nSelected < (int)m_textVector.size() - 1){
+		std::cout << "[INFO] Moving menu selection down" << std::endl;
+		m_textVector[m_nSelected].changeTextColor(1);
+		m_nSelected++;
+		m_textVector[m_nSelected].changeTextColor(2);
+	}
+	else
+		std::cout << "[INFO] Selection already at bottom" << std::endl;
 }
 
 //Draw if not hidden

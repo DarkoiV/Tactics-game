@@ -6,8 +6,8 @@ cBattleScene::cBattleScene(vec2D p_vMapSize) : m_map(p_vMapSize){
 	m_cursor.loadMapSize(p_vMapSize);
 	m_cursor.setPosition({7, 7});
 
-	//start in edit mode
-	m_sceneMode = eSCENE_MODE::EDIT_MAP;
+	//start in new turn
+	m_sceneMode = eSCENE_MODE::NEW_TURN;
 
 	//TMP Add 2 units
 	addAllyUnit("infantry");
@@ -52,10 +52,8 @@ void cBattleScene::updateCamera(){
 
 //Updat occupied tiles
 void cBattleScene::updateOccupiedTiles(){
-	//TMP clean sets, but later will only delete pos after move
 	m_occupiedByAllySet.clear();
 	m_occupiedByEnemySet.clear();
-
 
 	for(auto &UNIT : m_allyVector)
 		m_occupiedByAllySet.insert(UNIT->occupiesTile(m_map.getMapSize()));
@@ -64,16 +62,19 @@ void cBattleScene::updateOccupiedTiles(){
 		m_occupiedByEnemySet.insert(UNIT->occupiesTile(m_map.getMapSize()));
 }
 
+//Update ranges
+void cBattleScene::updateRanges(){
+	for(auto &UNIT : m_allyVector)
+		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
+	for(auto &UNIT : m_enemyVector)
+		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
+}
+
 //Update
 void cBattleScene::update(eBUTTON p_INPUT){
 	//Check for console input
 	if(g_bConsoleCommandIssued)
 		processConsoleCommand(g_sConsoleCommand);
-
-	//TMP calculateRange and update occupiesTile
-	for(auto &UNIT : m_allyVector)
-		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
-	updateOccupiedTiles();
 
 	//Check if commands are processed, if so disable inputs
 	if(m_commander.isProcessingCommands())
@@ -81,7 +82,12 @@ void cBattleScene::update(eBUTTON p_INPUT){
 	
 	//Call mode specific update method
 	switch(m_sceneMode){
+		//New Turn
 		default:
+		case eSCENE_MODE::NEW_TURN:
+			startNewTurn();
+			break;
+
 		//Edit mode
 		case eSCENE_MODE::EDIT_MAP:
 			updateEdit(p_INPUT);
@@ -213,6 +219,21 @@ void cBattleScene::addEnemyUnit(std::string p_sUnitName){
 
 ///////////////////////PLAYER TURN///////////////////////////////////////////////////////////////////////////////////////////
 
+//Begining of new turn
+void cBattleScene::startNewTurn(){
+	m_nTurnCounter++;
+	std::cout << "[INFO] Starting turn: " << m_nTurnCounter << std::endl;
+
+	//Recalculate ranges and occupied tiles
+	updateOccupiedTiles();
+	updateRanges();
+
+	//Reset units inactive status
+
+	//Switch to player turn
+	m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+}
+
 //Behaviour when no unit was selected
 void cBattleScene::nothingSelected(eBUTTON p_INPUT){
 	switch(p_INPUT){
@@ -320,13 +341,28 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 	else if(not m_actionMenu.isHidden()){
 		//Process input
 		switch (p_INPUT){
+			case eBUTTON::UP:
+				m_actionMenu.movSelectionUP();
+				break;
+
+			case eBUTTON::DOWN:
+				m_actionMenu.movSelectionDOWN();
+				break;
+
 			case eBUTTON::SELECT:
-				//Hide menu and do things base on return from action menu
+				//Hide menu and do things based on return from action menu
 				m_actionMenu.hideActionMenu();
 				switch (m_actionMenu.getSelectedAction()) {
-					case 0:
+					default:
+					case eACTION::WAIT:
+						//Deselect unit, set unit as inactive, and switch to player turn nothing selected
+						m_nSelectedUnit = -1;
 						m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
 				}
+
+				//After action recalculate positions and occupied tiles
+				updateOccupiedTiles();
+				updateRanges();
 				break;
 			default:
 				break;
@@ -353,7 +389,7 @@ void cBattleScene::draw(){
 	m_map.draw(m_vCameraOffset);
 
 	//Draw unit range only for selected unit and only in selected mode
-	if(m_nSelectedUnit != -1 and m_sceneMode == eSCENE_MODE::PLAYER_TURN_SELECTED)
+	if(m_nSelectedUnit != -1)
 		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset

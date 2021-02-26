@@ -73,4 +73,4 @@ enum class eACTION{
 	ATTACK,
 	MAGIC,
 	HEAL,
-}
+};

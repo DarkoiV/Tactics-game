@@ -27,6 +27,7 @@ class cBattleScene : public cScene{
 		std::set<int> m_occupiedByEnemySet;
 
 		void updateOccupiedTiles();
+		void updateRanges();
 
 		//Scene modes
 		enum class eSCENE_MODE{
@@ -40,6 +41,7 @@ class cBattleScene : public cScene{
 		} m_sceneMode;
 
 		int m_nAnimationFrameCounter = 0;			//Counter used for displaying animations
+		int m_nTurnCounter = 0;					//Counter for which turn it is now
 
 //////////////////CAMERA////////////////////////////////////////////////////////////////////////////////////////////////////////
 	protected:
@@ -65,6 +67,7 @@ class cBattleScene : public cScene{
 
 //////////////////PLAYER TURN//////////////////////////////////////////////////////////////////////////////////////////////////
 	protected:
+		void startNewTurn();						//Start new turn
 		void nothingSelected(eBUTTON p_INPUT);				//Selecting unit on map
 		void unitSelected(eBUTTON p_INPUT);				//Oder unit to move around
 		void selectAction(eBUTTON p_INPUT);				//Select action after movement
