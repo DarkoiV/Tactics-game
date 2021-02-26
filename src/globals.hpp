@@ -67,3 +67,10 @@ enum class eDIRECTION{
 	EAST,
 	WEST
 };
+
+enum class eACTION{
+	WAIT,
+	ATTACK,
+	MAGIC,
+	HEAL,
+}
