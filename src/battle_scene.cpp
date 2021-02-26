@@ -67,7 +67,7 @@ void cBattleScene::updateRanges(){
 	for(auto &UNIT : m_allyVector)
 		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
 	for(auto &UNIT : m_enemyVector)
-		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
+		UNIT->calculateRange(m_map.refMap(), m_occupiedByAllySet, m_map.getMapSize());
 }
 
 //Update
