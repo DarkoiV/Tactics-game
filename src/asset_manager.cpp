@@ -16,6 +16,7 @@ cAssetManager::cAssetManager(){
 	//Text sprites
 	m_spriteMap["consoleText"] = loadSprite("graphics/consoleText.png");
 	m_spriteMap["textColor1"] = loadSprite("graphics/gnshText1.png");
+	m_spriteMap["textColor2"] = loadSprite("graphics/gnshText2.png");
 
 	//Box sprite
 	m_spriteMap["box"] = loadSprite("graphics/box.png");
