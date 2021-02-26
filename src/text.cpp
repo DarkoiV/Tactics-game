@@ -73,7 +73,7 @@ void cText::changeTextColor(int p_nColor){
 
 //Set new origin point
 void cText::setNewOriginPoint(vec2D p_vNewOriginPoint){
-	std::cout << "New origin point of text " << p_vNewOriginPoint << std::endl;
+	std::cout << "[INFO] New origin point of text " << p_vNewOriginPoint << std::endl;
 	m_vOriginPoint = p_vNewOriginPoint;
 }
 
