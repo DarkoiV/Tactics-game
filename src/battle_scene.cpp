@@ -170,21 +170,27 @@ void cBattleScene::updateEdit(eBUTTON p_INPUT){
 void cBattleScene::processConsoleCommand(std::string p_sCommand){
 	//Split string
 	std::vector<std::string> arguments;
-	std::string argument;
+	std::string current_argument;
 	std::stringstream commandStream(p_sCommand);
-	while(getline(commandStream, argument, ' '))
-			arguments.push_back(argument);
+	while(getline(commandStream, current_argument, ' '))
+			arguments.push_back(current_argument);
 
 	//Process arguments
-	if(arguments.size() > 0 and arguments[0] == "spawn"){
-		if(arguments.size() > 1 and arguments[1] == "ally"){
+	if(arguments.size() < 1){
+		std::cout << "[INFO] Empty command provided" << std::endl;
+	}
+	else if(arguments[0] == "spawn"){
+		if(arguments.size() < 2){
+			std::cout << "[WARNING] Not enough arguments for SPAWN" << std::endl;
+		}
+		else if(arguments[1] == "ally"){
 			std::cout << "[INFO] Spawning ally unit" << std::endl;
 			addAllyUnit("infantry");
 
 			//Reset flag
 			g_bConsoleCommandIssued = false;
 		}
-		else if(arguments.size() > 1 and arguments[1] == "enemy"){
+		else if(arguments[1] == "enemy"){
 			std::cout << "[INFO] Sprawning enemy unit" << std::endl;
 			addEnemyUnit("enemyInfantry");
 
@@ -194,6 +200,14 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 		else{
 			std::cout << "[WARNING] Unknown spawn argument" << std::endl;
 		}
+	}
+	else if(arguments[0] == "new_turn"){
+		std::cout << "[INFO] starting new turn" << std::endl;
+		m_nSelectedUnit = -1;
+		m_sceneMode = eSCENE_MODE::NEW_TURN;
+
+		//Reset flag
+		g_bConsoleCommandIssued = false;
 	}
 }
 
@@ -228,7 +242,9 @@ void cBattleScene::startNewTurn(){
 	updateOccupiedTiles();
 	updateRanges();
 
-	//Reset units inactive status
+	//Reset units exhaustion status
+	for(auto &UNIT : m_sortedUnitVector)
+		UNIT->setNotExhausted();
 
 	//Switch to player turn
 	m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
