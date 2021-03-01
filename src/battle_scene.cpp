@@ -252,9 +252,10 @@ void cBattleScene::nothingSelected(eBUTTON p_INPUT){
 			break;
 
 		case eBUTTON::SELECT:
-			//Check if there is allied unit under cursor
+			//Check if there is allied unit under cursor, and if is not exhausted
 			for(size_t i = 0; i < m_allyVector.size(); i++){
-				if(m_allyVector[i]->isHere(m_cursor.getPosition())){
+				if(m_allyVector[i]->isHere(m_cursor.getPosition()) 
+				and m_allyVector[i]->isNotExhausted()){
 					//If there is, set which one and change mode to unit selected
 					std::cout << "[INFO] Selected unit" << std::endl;
 					m_nSelectedUnit = i;
@@ -357,9 +358,11 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 				switch (m_actionMenu.getSelectedAction()) {
 					default:
 					case eACTION::WAIT:
-						//Deselect unit, set unit as inactive, and switch to player turn nothing selected
+						//Set unit as inactive, deselect, and switch to player turn nothing selected
+						getSelectedUnit()->setExhausted();
 						m_nSelectedUnit = -1;
 						m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+						break;
 				}
 
 				//After action recalculate positions and occupied tiles

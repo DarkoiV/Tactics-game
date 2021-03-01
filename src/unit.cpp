@@ -83,6 +83,16 @@ int cUnit::occupiesTile(vec2D p_vMapSize){
 	return m_vPos.x + (m_vPos.y * p_vMapSize.x);
 }
 
+//Set unit as exhausted
+void cUnit::setExhausted(){
+	m_bExhausted = true;
+}
+
+//Set unit as not exhausted
+void cUnit::setNotExhausted(){
+	m_bExhausted = false;
+}
+
 //Return possible actions by this unit, as Uint8 flag
 Uint8 cUnit::getPossibleActions(){
 	return m_unitPossibleActionFlags;
@@ -264,7 +274,13 @@ void cUnit::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 		TILE_SIZE, TILE_SIZE};
 
 	//Copy to renderer
-	SDL_RenderCopy(g_renderer, m_pSprite, &srcRect, &dstRect);
+	if(m_bExhausted){
+		SDL_SetTextureColorMod(m_pSprite, 125, 125, 125);
+		SDL_RenderCopy(g_renderer, m_pSprite, &srcRect, &dstRect);
+		SDL_SetTextureColorMod(m_pSprite, 255, 255, 255);
+	}
+	else
+		SDL_RenderCopy(g_renderer, m_pSprite, &srcRect, &dstRect);
 }
 
 //Draw range to screen

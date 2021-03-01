@@ -36,6 +36,8 @@ class cUnit{
 		std::map<int, int> m_rangeMap;			//Map of tiles in range, and distance to them
 		std::vector<vec2D> m_rangeVector;		//Vector of tiles in range
 
+		bool m_bExhausted = false;			//Units get exhausted after move
+
 		//Graphics
 		SDL_Texture* m_pSprite;
 		SDL_Texture* m_pRangeTile;
@@ -54,6 +56,11 @@ class cUnit{
 		bool isHere(vec2D p_vPos);			//Returns true when unit pos matches passed vector
 		bool isMoveInRange(int p_nTargetTile);		//Returns true when tile is within range of a unit
 		int occupiesTile(vec2D p_vMapSize);		//Returns tile which is occupied by unit
+
+		//Exhaustion methods
+		void setExhausted();
+		void setNotExhausted();
+		bool isNotExhausted(){return !m_bExhausted;};
 
 		Uint8 getPossibleActions();			//Returns flags for possible actions of unit
 
