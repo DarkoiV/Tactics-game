@@ -296,9 +296,11 @@ void cBattleScene::unitSelected(eBUTTON p_INPUT){
 		
 		//Move unit 
 		case eBUTTON::SELECT:
-			//Check if move is withing range and no allied unit blocks destination, if so move unit
+			//Check if move is withing range and no allied unit blocks destination(and this unit is not himself, 
+			//If so move unit
 			if (getSelectedUnit()->isMoveInRange(m_cursor.highlightedTile()) 
-				and m_occupiedByAllySet.count(m_cursor.highlightedTile()) == 0 ){
+				and ( m_occupiedByAllySet.count(m_cursor.highlightedTile()) == 0 
+				or getSelectedUnit()->isHere(m_cursor.getPosition()))) {
 
 				std::cout << "[INFO] Moving unit" << std::endl;
 
@@ -364,6 +366,14 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 				updateOccupiedTiles();
 				updateRanges();
 				break;
+
+			//Reset position
+			case eBUTTON::CANCEL:
+				getSelectedUnit()->resetPosition(m_map.getMapSize());
+				m_actionMenu.hideActionMenu();
+				m_sceneMode = eSCENE_MODE::PLAYER_TURN_SELECTED;
+				break;
+
 			default:
 				break;
 		}

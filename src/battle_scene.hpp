@@ -36,6 +36,7 @@ class cBattleScene : public cScene{
 			PLAYER_TURN_NOTHING_SELECTED,
 			PLAYER_TURN_SELECTED,
 			PLAYER_TURN_ACTION,
+			PLAYER_TURN_TARGET,
 			ENEMY_TURN,
 			EDIT_MAP
 		} m_sceneMode;

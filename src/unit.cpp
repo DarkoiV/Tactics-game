@@ -51,6 +51,17 @@ void cUnit::finalizeMovement(){
 	m_vAnimationOffset = {0, 0};
 }
 
+//Revert position of unit to one at begining of turn
+void cUnit::resetPosition(vec2D p_vMapSize){
+	for(auto const& [tile, distance] : m_rangeMap){
+		if(distance == 0){
+			setPosition({tile % p_vMapSize.x, tile / p_vMapSize.x});
+			return;
+		}
+	}
+	std::cout << "[ERROR] No return position found! " << std::endl;
+}
+
 //Check if unit is on passed position
 bool cUnit::isHere(vec2D p_vPos){
 	if(m_vPos.x == p_vPos.x and m_vPos.y == p_vPos.y)
@@ -72,6 +83,7 @@ int cUnit::occupiesTile(vec2D p_vMapSize){
 	return m_vPos.x + (m_vPos.y * p_vMapSize.x);
 }
 
+//Return possible actions by this unit, as Uint8 flag
 Uint8 cUnit::getPossibleActions(){
 	return m_unitPossibleActionFlags;
 }
