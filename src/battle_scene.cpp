@@ -406,7 +406,7 @@ cUnit* cBattleScene::getSelectedUnit(){
 		std::cout << "[ERROR] Call to selected unit when no unit is selected" << std::endl;
 		return nullptr;
 	}
-	if(m_nSelectedUnit >= m_allyVector.size() or m_nSelectedUnit < -1){
+	if(m_nSelectedUnit >= (int)m_allyVector.size() or m_nSelectedUnit < -1){
 		std::cout << "[ERROR] Selected unit does not exist" << std::endl;
 		return nullptr;
 	}
