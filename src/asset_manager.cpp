@@ -13,6 +13,7 @@ cAssetManager::cAssetManager(){
 	m_spriteMap["rangeTile"] = loadSprite("graphics/range.png");
 	m_spriteMap["attackRangeTile"] = loadSprite("graphics/attackRange.png");
 	SDL_SetTextureAlphaMod(m_spriteMap["rangeTile"], 125);
+	SDL_SetTextureAlphaMod(m_spriteMap["attackRangeTile"], 125);
 
 	//Text sprites
 	m_spriteMap["consoleText"] = loadSprite("graphics/consoleText.png");

@@ -15,6 +15,8 @@ struct sUnitAttributes{
 	int HP;							//Unit current health
 	int maxHP;						//Unit max hp
 	int mov;						//Unit max travelable distance
+	int minActionRange;					//Min distance from unit to attack
+	int maxActionRange;					//Max distance from unit to attack
 };
 
 class cUnit{
@@ -35,12 +37,14 @@ class cUnit{
 
 		std::map<int, int> m_rangeMap;			//Map of tiles in range, and distance to them
 		std::vector<vec2D> m_rangeVector;		//Vector of tiles in range
+		std::vector<vec2D> m_actionVector;		//Vector of action tiles, that are not in mov range
 
 		bool m_bExhausted = false;			//Units get exhausted after move
 
 		//Graphics
-		SDL_Texture* m_pSprite;
-		SDL_Texture* m_pRangeTile;
+		SDL_Texture* m_pSprite = nullptr;
+		SDL_Texture* m_pRangeTile = nullptr;
+		SDL_Texture* m_pActionRangeTile = nullptr; 
 
 	public:
 		//Constructor/destructor

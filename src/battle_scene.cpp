@@ -205,6 +205,7 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 		std::cout << "[INFO] starting new turn" << std::endl;
 		m_nSelectedUnit = -1;
 		m_sceneMode = eSCENE_MODE::NEW_TURN;
+		m_actionMenu.hideActionMenu();
 
 		//Reset flag
 		g_bConsoleCommandIssued = false;

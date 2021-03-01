@@ -14,13 +14,19 @@ cUnit::cUnit(std::string p_sUnitType){
 	if(p_sUnitType == "infantry"){
 		m_pSprite = assets.getSprite("infantry");
 		m_pRangeTile = assets.getSprite("rangeTile");
+		m_pActionRangeTile = assets.getSprite("attackRangeTile");
 		m_unitAttributes.mov = 5;
+		m_unitAttributes.minActionRange = 1;
+		m_unitAttributes.maxActionRange = 1;
 		m_unitPossibleActionFlags = ACTION_ATTACK;
 	}
 	else if(p_sUnitType == "enemyInfantry"){
 		m_pSprite = assets.getSprite("enemyInfantry");
 		m_pRangeTile = assets.getSprite("rangeTile");
+		m_pActionRangeTile = assets.getSprite("attackRangeTile");
 		m_unitAttributes.mov = 5;
+		m_unitAttributes.minActionRange = 1;
+		m_unitAttributes.maxActionRange = 1;
 		m_unitPossibleActionFlags = ACTION_ATTACK;
 	}
 	else{
@@ -229,14 +235,66 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, const std::se
 		}
 	}
 
-	//create vector of range tiles
+	//create vector of range tiles, and create possible to attack tiles
 	m_rangeVector.clear();
-	for(auto const& [key, value] : m_rangeMap){
+	std::set<int> actionTilesSet;
+	for(auto const& [CURRENT_TILE, DISTANCE] : m_rangeMap){
+		//Add to vector of range tiles
 		vec2D tilePos;
-		tilePos.x = key % p_vMapSize.x;
-		tilePos.y = key / p_vMapSize.x;
+		tilePos.x = CURRENT_TILE % p_vMapSize.x;
+		tilePos.y = CURRENT_TILE / p_vMapSize.x;
 		m_rangeVector.push_back(tilePos);
+
+		//Add possible action tiles from this position
+		for(int i = m_unitAttributes.minActionRange; i <= m_unitAttributes.maxActionRange; i++){
+			//Skip i = 0 loop
+			if(i <= 0)
+				continue;
+
+			//All tiles to check, including they diagonals in clock rotation
+			int NORTH_TILE[i];
+			int SOUTH_TILE[i]; 
+			int EAST_TILE[i];
+			int WEST_TILE[i];
+			for(int j = 0; j < i; j++){
+				NORTH_TILE[j] = CURRENT_TILE - (i * oneLine) + (j * oneLine) - j;
+				SOUTH_TILE[j] = CURRENT_TILE + (i * oneLine) - (j * oneLine) + j;
+				EAST_TILE[j] = CURRENT_TILE + i - j - (j * oneLine);
+				WEST_TILE[j] = CURRENT_TILE - i + j + (j * oneLine);
+			}
+
+			//Check if tiles are within map border, and not already present in range map
+			for(int j = 0; j < i; j++){
+				if( not (NORTH_TILE[j] < 0) 
+						and m_rangeMap.count(NORTH_TILE[j]) == 0){
+					actionTilesSet.insert(NORTH_TILE[j]);
+				}
+				if( not (SOUTH_TILE[j] > (p_vMapSize.x * p_vMapSize.y) -1) 
+						and m_rangeMap.count(SOUTH_TILE[j]) == 0){
+					actionTilesSet.insert(SOUTH_TILE[j]);
+				}
+				if( not ( (EAST_TILE[j] / p_vMapSize.x) + j != CURRENT_TILE / p_vMapSize.x) 
+						and m_rangeMap.count(EAST_TILE[j]) == 0){
+					actionTilesSet.insert(EAST_TILE[j]);
+				}
+				if( not ( (WEST_TILE[j] / p_vMapSize.x) - j != CURRENT_TILE / p_vMapSize.x 
+						or WEST_TILE[j] < 0) 
+						and m_rangeMap.count(WEST_TILE[j]) == 0){
+					actionTilesSet.insert(WEST_TILE[j]);
+				}
+			}
+		}
 	}
+
+	//Add set tiles to range vector
+	m_actionVector.clear();
+	for(auto const& CURRENT_TILE : actionTilesSet){
+		vec2D tilePos;
+		tilePos.x = CURRENT_TILE % p_vMapSize.x;
+		tilePos.y = CURRENT_TILE / p_vMapSize.x;
+		m_actionVector.push_back(tilePos);
+	}
+
 }
 
 //Update unit
@@ -301,5 +359,11 @@ void cUnit::drawRange(int p_nAnimationFrame, vec2D p_vCameraOffset){
 		dstRect.x = m_rangeVector[i].x * TILE_SIZE + p_vCameraOffset.x;
 		dstRect.y = m_rangeVector[i].y * TILE_SIZE + p_vCameraOffset.y;
 		SDL_RenderCopy(g_renderer, m_pRangeTile, &srcRect, &dstRect);
+	}
+	//Draw action tiles to screen
+	for(size_t i = 0; i < m_actionVector.size(); i++){
+		dstRect.x = m_actionVector[i].x * TILE_SIZE + p_vCameraOffset.x;
+		dstRect.y = m_actionVector[i].y * TILE_SIZE + p_vCameraOffset.y;
+		SDL_RenderCopy(g_renderer, m_pActionRangeTile, &srcRect, &dstRect);
 	}
 }
