@@ -11,6 +11,7 @@ cAssetManager::cAssetManager(){
 	m_spriteMap["infantry"] = loadSprite("graphics/infantry.png");
 	m_spriteMap["enemyInfantry"] = loadSprite("graphics/enemyInfantry.png");
 	m_spriteMap["rangeTile"] = loadSprite("graphics/range.png");
+	m_spriteMap["attackRangeTile"] = loadSprite("graphics/attackRange.png");
 	SDL_SetTextureAlphaMod(m_spriteMap["rangeTile"], 125);
 
 	//Text sprites
