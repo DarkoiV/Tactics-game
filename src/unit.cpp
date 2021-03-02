@@ -330,14 +330,22 @@ void cUnit::draw(int p_nAnimationFrame, vec2D p_vCameraOffset){
 		case eUNIT_STATE::WALKING_WEST:
 			srcRect.y = 4 * TILE_SIZE;
 			break;
+		case eUNIT_STATE::TOOK_DAMAGE:
+			srcRect.y = 5 * TILE_SIZE;
+			break;
 	}
-	//Animation frame
-	srcRect.x = (p_nAnimationFrame / 15) * TILE_SIZE;
 
 	//Set destination
 	dstRect = {m_vPos.x * TILE_SIZE + p_vCameraOffset.x + m_vAnimationOffset.x, 
 		m_vPos.y * TILE_SIZE + p_vCameraOffset.y + UNIT_TILE_OFFSET + m_vAnimationOffset.y, 
 		TILE_SIZE, TILE_SIZE};
+
+	//Animation frame
+	srcRect.x = (p_nAnimationFrame / 15) * TILE_SIZE;
+	if(m_unitState == eUNIT_STATE::TOOK_DAMAGE){
+		srcRect.x = ((p_nAnimationFrame / 4) % 4) * TILE_SIZE;
+		dstRect.x += ((-2) * p_nAnimationFrame % 2) + ( (2) * (p_nAnimationFrame - 1) % 1);
+	}
 
 	//Copy to renderer
 	if(m_bExhausted){

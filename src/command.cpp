@@ -88,11 +88,16 @@ void cCommandAttack::execute(){
 				m_attackingUnit->movPosition({m_vel, 0});
 				break;
 		}
+		m_targetUnit->m_unitState = cUnit::eUNIT_STATE::TOOK_DAMAGE;
+	}
+	else if(m_nAttackFrame == 60){
+		m_targetUnit->m_unitState = cUnit::eUNIT_STATE::IDLE;
+		m_attackingUnit->setExhausted();
 	}
 
-	m_nAttackFrame++;
-	if(m_nAttackFrame == 60)
+	if(m_nAttackFrame == 61)
 		m_completed = true;
+	m_nAttackFrame++;
 }
 
 bool cCommandAttack::isCompleted(){

@@ -33,9 +33,9 @@ void cCommander::attackUnit(cUnit *p_attackingUnit, cUnit *p_targetUnit){
 	}
 	else{
 		if(vertical > 0)
-			directionOfAttack = eDIRECTION::SOUTH;
-		else
 			directionOfAttack = eDIRECTION::NORTH;
+		else
+			directionOfAttack = eDIRECTION::SOUTH;
 	}
 
 	m_commandQueue.push(std::make_unique<cCommandAttack>(p_attackingUnit, p_targetUnit, directionOfAttack));

@@ -7,11 +7,9 @@
 #include <map>
 #include <set>
 
-#define UNIT_SPRITE_ROWS 5
+#define UNIT_SPRITE_ROWS 6
 #define UNIT_SPRITE_COLUMNS 4
 #define UNIT_TILE_OFFSET -4
-
-class cCommander;
 
 struct sUnitAttributes{
 	int HP;							//Unit current health
@@ -24,6 +22,7 @@ struct sUnitAttributes{
 class cUnit{
 	protected:
 		friend class cCommander;
+		friend class cCommandAttack;
 		sUnitAttributes m_unitAttributes;				
 		vec2D m_vPos;					//Position in tiles
 		vec2D m_vAnimationOffset = {0,0};		//Offset for animation
@@ -35,7 +34,8 @@ class cUnit{
 			WALKING_NORTH,
 			WALKING_SOUTH,
 			WALKING_EAST,
-			WALKING_WEST
+			WALKING_WEST,
+			TOOK_DAMAGE
 		} m_unitState;
 
 		std::map<int, int> m_rangeMap;			//Map of tiles in range, and distance to them
