@@ -72,6 +72,7 @@ class cBattleScene : public cScene{
 		void nothingSelected(eBUTTON p_INPUT);				//Selecting unit on map
 		void unitSelected(eBUTTON p_INPUT);				//Oder unit to move around
 		void selectAction(eBUTTON p_INPUT);				//Select action after movement
+		void targetAction(eBUTTON p_INPUT);				//Select who to target with your action
 
 		int m_nSelectedUnit = -1;					//ID of selected unit
 		cUnit* getSelectedUnit();					//Return selected unit, or nullptr if (-1)

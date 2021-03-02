@@ -39,7 +39,7 @@ bool cCommandMove::isCompleted(){
 
 void cCommandAttack::execute(){
 	//Unit move backs before attack
-	if(m_nAttackFrame < 20 and m_nAttackFrame % 5){
+	if(m_nAttackFrame < 20 and m_nAttackFrame % 5 == 0){
 		switch(m_DIRECTION){
 			case eDIRECTION::NORTH:
 				m_attackingUnit->movPosition({0, m_vel});

@@ -15,4 +15,5 @@ class cCommander{
 		
 		//add commands
 		void moveUnit(cUnit* p_unit, eDIRECTION p_DIRECTION);
+		void attackUnit(cUnit* p_attackingUnit, cUnit* p_targetUnit);
 };

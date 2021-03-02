@@ -11,6 +11,8 @@
 #define UNIT_SPRITE_COLUMNS 4
 #define UNIT_TILE_OFFSET -4
 
+class cCommander;
+
 struct sUnitAttributes{
 	int HP;							//Unit current health
 	int maxHP;						//Unit max hp
@@ -21,6 +23,7 @@ struct sUnitAttributes{
 
 class cUnit{
 	protected:
+		friend class cCommander;
 		sUnitAttributes m_unitAttributes;				
 		vec2D m_vPos;					//Position in tiles
 		vec2D m_vAnimationOffset = {0,0};		//Offset for animation
@@ -36,6 +39,7 @@ class cUnit{
 		} m_unitState;
 
 		std::map<int, int> m_rangeMap;			//Map of tiles in range, and distance to them
+		std::set<int> m_actionSet;			//Set of tiles in action range
 		std::vector<vec2D> m_rangeVector;		//Vector of tiles in range
 		std::vector<vec2D> m_actionVector;		//Vector of action tiles, that are not in mov range
 
@@ -59,6 +63,7 @@ class cUnit{
 
 		bool isHere(vec2D p_vPos);			//Returns true when unit pos matches passed vector
 		bool isMoveInRange(int p_nTargetTile);		//Returns true when tile is within range of a unit
+		bool isActionInRange(int p_nTargetTile);	//Returns true when tile is within action range of a unit
 		int occupiesTile(vec2D p_vMapSize);		//Returns tile which is occupied by unit
 
 		//Exhaustion methods

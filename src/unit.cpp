@@ -84,6 +84,14 @@ bool cUnit::isMoveInRange(int p_nTargetTile){
 		return false;
 }
 
+//Check if action is withing range
+bool cUnit::isActionInRange(int p_nTargetTile){
+	if(m_actionSet.count(p_nTargetTile))
+		return true;
+	else
+		return false;
+}
+
 //Return which tile is occupied by this unit
 int cUnit::occupiesTile(vec2D p_vMapSize){
 	return m_vPos.x + (m_vPos.y * p_vMapSize.x);
@@ -251,7 +259,7 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, const std::se
 			if(i <= 0)
 				continue;
 
-			//All tiles to check, including they diagonals in clock rotation
+			//All tiles to check, including their diagonals in clock rotation
 			int NORTH_TILE[i];
 			int SOUTH_TILE[i]; 
 			int EAST_TILE[i];

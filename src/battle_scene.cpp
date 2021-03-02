@@ -64,10 +64,14 @@ void cBattleScene::updateOccupiedTiles(){
 
 //Update ranges
 void cBattleScene::updateRanges(){
+	int time = SDL_GetTicks();
+
 	for(auto &UNIT : m_allyVector)
 		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
 	for(auto &UNIT : m_enemyVector)
 		UNIT->calculateRange(m_map.refMap(), m_occupiedByAllySet, m_map.getMapSize());
+
+	std::cout << "[INFO] It took " << SDL_GetTicks() - time << "ms to calculate ranges" << std::endl;
 }
 
 //Update
@@ -106,6 +110,11 @@ void cBattleScene::update(eBUTTON p_INPUT){
 		//Player turn, select action
 		case eSCENE_MODE::PLAYER_TURN_ACTION:
 			selectAction(p_INPUT);
+			break;
+
+		//Player turn, select target
+		case eSCENE_MODE::PLAYER_TURN_TARGET:
+			targetAction(p_INPUT);
 			break;
 	}
 
@@ -374,11 +383,17 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 				m_actionMenu.hideActionMenu();
 				switch (m_actionMenu.getSelectedAction()) {
 					default:
+
 					case eACTION::WAIT:
 						//Set unit as inactive, deselect, and switch to player turn nothing selected
 						getSelectedUnit()->setExhausted();
 						m_nSelectedUnit = -1;
 						m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+						break;
+
+
+					case eACTION::ATTACK:
+						m_sceneMode = eSCENE_MODE::PLAYER_TURN_TARGET;
 						break;
 				}
 
@@ -397,6 +412,45 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 			default:
 				break;
 		}
+	}
+}
+
+//Select target for action
+void cBattleScene::targetAction(eBUTTON p_INPUT){
+	switch(p_INPUT){
+		//Move cursor
+		case eBUTTON::UP:
+			m_cursor.movUp();
+			break;
+		case eBUTTON::DOWN:
+			m_cursor.movDown();
+			break;
+		case eBUTTON::RIGHT:
+			m_cursor.movRight();
+			break;
+		case eBUTTON::LEFT:
+			m_cursor.moveLeft();
+			break;
+		
+		//Target unit 
+		case eBUTTON::SELECT:
+			for(auto const& UNIT : m_enemyVector){
+				if(UNIT->isHere(m_cursor.getPosition())){
+					m_commander.attackUnit(getSelectedUnit(), UNIT.get());
+					m_nSelectedUnit = -1;
+					m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+				}
+			}
+			break;
+		
+		//Return to action menu
+		case eBUTTON::CANCEL:
+			m_sceneMode = eSCENE_MODE::PLAYER_TURN_ACTION;
+			break;
+
+		case eBUTTON::NONE:
+		default:
+			break;
 	}
 }
 
