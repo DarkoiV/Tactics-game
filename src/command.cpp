@@ -1,5 +1,7 @@
 #include "command.hpp"
 
+//////MOVE/////////////////////////////////////////////////////////////////////////////////////
+
 //Move unit one tile in direction
 void cCommandMove::execute(){
 	//Move in right direction
@@ -30,5 +32,69 @@ void cCommandMove::execute(){
 
 //Return if move was completed
 bool cCommandMove::isCompleted(){
+	return m_completed;
+}
+
+//////ATTACK///////////////////////////////////////////////////////////////////////////////////
+
+void cCommandAttack::execute(){
+	//Unit move backs before attack
+	if(m_nAttackFrame < 20 and m_nAttackFrame % 5){
+		switch(m_DIRECTION){
+			case eDIRECTION::NORTH:
+				m_attackingUnit->movPosition({0, m_vel});
+				break;
+			case eDIRECTION::SOUTH:
+				m_attackingUnit->movPosition({0, -m_vel});
+				break;
+			case eDIRECTION::EAST:
+				m_attackingUnit->movPosition({-m_vel, 0});
+				break;
+			case eDIRECTION::WEST:
+				m_attackingUnit->movPosition({m_vel, 0});
+				break;
+		}
+	}
+	//Unit attacks
+	else if(m_nAttackFrame == 30){
+		switch(m_DIRECTION){
+			case eDIRECTION::NORTH:
+				m_attackingUnit->movPosition({0, -m_vel * 5 });
+				break;
+			case eDIRECTION::SOUTH:
+				m_attackingUnit->movPosition({0, m_vel * 5});
+				break;
+			case eDIRECTION::EAST:
+				m_attackingUnit->movPosition({m_vel * 5, 0});
+				break;
+			case eDIRECTION::WEST:
+				m_attackingUnit->movPosition({-m_vel * 5, 0});
+				break;
+		}
+	}
+	//Reset position
+	else if(m_nAttackFrame == 35){
+		switch (m_DIRECTION) {
+			case eDIRECTION::NORTH:
+				m_attackingUnit->movPosition({0, m_vel});
+				break;
+			case eDIRECTION::SOUTH:
+				m_attackingUnit->movPosition({0, -m_vel});
+				break;
+			case eDIRECTION::EAST:
+				m_attackingUnit->movPosition({-m_vel, 0});
+				break;
+			case eDIRECTION::WEST:
+				m_attackingUnit->movPosition({m_vel, 0});
+				break;
+		}
+	}
+
+	m_nAttackFrame++;
+	if(m_nAttackFrame == 60)
+		m_completed = true;
+}
+
+bool cCommandAttack::isCompleted(){
 	return m_completed;
 }

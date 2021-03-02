@@ -26,3 +26,20 @@ class cCommandMove : public cCommand{
 		void execute() override;			//Move m_vel ammount
 		bool isCompleted() override;			//Return true when full tile was traveled
 };
+
+class cCommandAttack : public cCommand{
+	protected:
+		cUnit* m_targetUnit;
+		cUnit* m_attackingUnit;
+		const int m_vel = 4;
+		eDIRECTION m_DIRECTION;
+		int m_nAttackFrame = 0;
+		bool m_completed = false;
+	public:
+		cCommandAttack(cUnit* p_attackingUnit, cUnit* p_targetUnit, eDIRECTION p_DIRECTION):
+			m_attackingUnit(p_attackingUnit),
+			m_targetUnit(p_targetUnit)
+			{};
+		void execute() override;			//Attack target unit
+		bool isCompleted() override;			//Return true when attack was completed
+};
