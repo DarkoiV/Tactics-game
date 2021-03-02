@@ -7,19 +7,23 @@ void cActionMenu::showActionMenu(const Uint8 p_possibleActionFlags){
 	if(p_possibleActionFlags & ACTION_ATTACK){
 		m_textVector.emplace_back(cText( {0, 0}, 1) );
 		m_textVector.back().update("Attack");
+		m_actionVector.emplace_back(eACTION::ATTACK);
 	}
 	if(p_possibleActionFlags & ACTION_MAGIC){
 		m_textVector.emplace_back(cText( {0, 0}, 1) );
 		m_textVector.back().update("Magic");
+		m_actionVector.emplace_back(eACTION::MAGIC);
 	}
 	if(p_possibleActionFlags & ACTION_HEAL){
 		m_textVector.emplace_back(cText( {0, 0}, 1) );
 		m_textVector.back().update("Heal");
+		m_actionVector.emplace_back(eACTION::HEAL);
 	}
 
 	//Wait is always possible!
 	m_textVector.emplace_back(cText( {0, 0}, 1) );
 	m_textVector.back().update("Wait");
+	m_actionVector.emplace_back(eACTION::WAIT);
 
 	//Get lenght of longest text, set height
 	vec2D neededCapacity = {0, 0};
@@ -50,12 +54,12 @@ void cActionMenu::hideActionMenu(){
 	m_bHidden = true;
 	m_nSelected = 0;
 	m_textVector.clear();
+	m_actionVector.clear();
 }
 
 //Get selected action
 eACTION cActionMenu::getSelectedAction(){
-	//For now return wait
-	return eACTION::WAIT;
+	return m_actionVector[m_nSelected];
 }
 
 //Move selected option up

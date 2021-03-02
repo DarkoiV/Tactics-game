@@ -10,6 +10,7 @@ class cActionMenu{
 	protected:
 		cBox m_box;
 		std::vector<cText> m_textVector;
+		std::vector<eACTION> m_actionVector;
 
 		bool m_bHidden = true;						//Is menu hidden?
 		int m_nSelected = 0;						//Which option is currently selected
