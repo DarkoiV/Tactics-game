@@ -59,6 +59,7 @@ void cActionMenu::hideActionMenu(){
 
 //Get selected action
 eACTION cActionMenu::getSelectedAction(){
+	std::cout << "[INFO] Selected " << m_nSelected << std::endl;
 	return m_actionVector[m_nSelected];
 }
 

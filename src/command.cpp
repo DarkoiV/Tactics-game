@@ -37,6 +37,7 @@ bool cCommandMove::isCompleted(){
 
 //////ATTACK///////////////////////////////////////////////////////////////////////////////////
 
+//Perform attack 
 void cCommandAttack::execute(){
 	//Unit move backs before attack
 	if(m_nAttackFrame < 20 and m_nAttackFrame % 5 == 0){
@@ -100,6 +101,7 @@ void cCommandAttack::execute(){
 	m_nAttackFrame++;
 }
 
+//Return if attack was completed
 bool cCommandAttack::isCompleted(){
 	return m_completed;
 }

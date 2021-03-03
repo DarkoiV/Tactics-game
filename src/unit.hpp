@@ -21,8 +21,10 @@ struct sUnitAttributes{
 
 class cUnit{
 	protected:
+		//Unit class give protected acess to commands
 		friend class cCommander;
 		friend class cCommandAttack;
+
 		sUnitAttributes m_unitAttributes;				
 		vec2D m_vPos;					//Position in tiles
 		vec2D m_vAnimationOffset = {0,0};		//Offset for animation

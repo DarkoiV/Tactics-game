@@ -97,7 +97,7 @@ void cBattleScene::update(eBUTTON p_INPUT){
 			updateEdit(p_INPUT);
 			break;
 
-		//Player turn, move unit
+		//Player turn, select unit
 		case eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED:
 			nothingSelected(p_INPUT);
 			break;
@@ -379,8 +379,6 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 				break;
 
 			case eBUTTON::SELECT:
-				//Hide menu and do things based on return from action menu
-				m_actionMenu.hideActionMenu();
 				switch (m_actionMenu.getSelectedAction()) {
 					default:
 
@@ -389,6 +387,10 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 						getSelectedUnit()->setExhausted();
 						m_nSelectedUnit = -1;
 						m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+
+						//After action recalculate positions and occupied tiles
+						updateOccupiedTiles();
+						updateRanges();
 						break;
 
 
@@ -397,9 +399,9 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 						break;
 				}
 
-				//After action recalculate positions and occupied tiles
-				updateOccupiedTiles();
-				updateRanges();
+				//Hide menu and do things based on return from action menu
+				m_actionMenu.hideActionMenu();
+
 				break;
 
 			//Reset position
@@ -439,6 +441,10 @@ void cBattleScene::targetAction(eBUTTON p_INPUT){
 					m_commander.attackUnit(getSelectedUnit(), UNIT.get());
 					m_nSelectedUnit = -1;
 					m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+
+					//After action recalculate positions and occupied tiles
+					updateOccupiedTiles();
+					updateRanges();
 				}
 			}
 			break;
@@ -473,7 +479,7 @@ void cBattleScene::draw(){
 	m_map.draw(m_vCameraOffset);
 
 	//Draw unit range only for selected unit and only in selected mode
-	if(m_nSelectedUnit != -1)
+	if(m_nSelectedUnit != -1 and not (m_sceneMode == eSCENE_MODE::PLAYER_TURN_TARGET))
 		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
