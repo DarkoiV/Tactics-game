@@ -63,6 +63,33 @@ void cMap::tileTypepaste(vec2D p_vTilePos, int p_nType){
 	m_tilesVector[p_vTilePos.x + (p_vTilePos.y * m_vSize.x)].typeID = p_nType;
 }
 
+//Create spawn point for enemies
+void cMap::createSpawnPoint(vec2D p_vPos){
+	//Check if spawning point exist at this position
+	for(auto& POSITION : m_enemySpawnPoints){
+		if(POSITION.x == p_vPos.x and POSITION.y == p_vPos.y){
+			std::cout << "[WARNING] Spawn point already exist here" << std::endl;
+			return;
+		}
+	}
+	//If not create it
+	m_enemySpawnPoints.push_back(p_vPos);
+}
+
+//Delete spawn point for enemies
+void cMap::deleteSpawnPoint(vec2D p_vPos){
+	//Check if spawning point exist at this position, is so delete it
+	for(size_t i = 0; i < m_enemySpawnPoints.size(); i++){
+		if(m_enemySpawnPoints[i].x == p_vPos.x and m_enemySpawnPoints[i].y == p_vPos.y){
+			std::cout << "[INFO] Spawn point deleted" << std::endl;
+			m_enemySpawnPoints.erase(m_enemySpawnPoints.begin() + i);
+			return;
+		}
+	}
+	//If not display warning
+	std::cout << "[WARNING] No spawn point exist here" << std::endl;
+}
+
 //Print tiles types
 void cMap::printTilesTypes(){
 	std::cout << "[INFO] Map tiles types IDs: " << std::endl;
