@@ -121,6 +121,27 @@ void cBattleScene::update(eBUTTON p_INPUT){
 	//Update camera
 	updateCamera();
 
+	//Update units, and check if dead
+	{
+		//Allies
+		int allyToErase = -1;
+		for(size_t i = 0; i < m_allyVector.size(); i++){
+			if(not m_allyVector[i]->update())
+				allyToErase = i;
+		}
+		if(allyToErase != -1)
+			m_allyVector.erase(m_allyVector.begin() + allyToErase);
+
+		//Enemies
+		int enemyToErase = -1;
+		for(size_t i = 0; i < m_enemyVector.size(); i++){
+			if(not m_enemyVector[i]->update())
+				enemyToErase = i;
+		}
+		if(enemyToErase != -1)
+			m_enemyVector.erase(m_enemyVector.begin() + enemyToErase);
+	}
+
 	//Update animation frame counter
 	m_nAnimationFrameCounter++;
 	if(m_nAnimationFrameCounter == 60)
@@ -225,7 +246,6 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 void cBattleScene::addAllyUnit(std::string p_sUnitName){
 	auto newUnit = std::make_shared<cUnit>(p_sUnitName);
 	m_allyVector.push_back(newUnit);
-	m_sortedUnitVector.push_back(newUnit);
 
 	//Set position under the cursor
 	newUnit->setPosition(m_cursor.getPosition());	
@@ -235,7 +255,6 @@ void cBattleScene::addAllyUnit(std::string p_sUnitName){
 void cBattleScene::addEnemyUnit(std::string p_sUnitName){
 	auto newUnit = std::make_shared<cUnit>(p_sUnitName);
 	m_enemyVector.push_back(newUnit);
-	m_sortedUnitVector.push_back(newUnit);
 
 	//Set position under the cursor
 	newUnit->setPosition(m_cursor.getPosition());	
@@ -253,7 +272,7 @@ void cBattleScene::startNewTurn(){
 	updateRanges();
 
 	//Reset units exhaustion status
-	for(auto &UNIT : m_sortedUnitVector)
+	for(auto &UNIT : m_allyVector)
 		UNIT->setNotExhausted();
 
 	//Switch to player turn
@@ -483,7 +502,9 @@ void cBattleScene::draw(){
 		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
-	for(auto &UNIT : m_sortedUnitVector)
+	for(auto &UNIT : m_enemyVector)
+		UNIT->draw(m_nAnimationFrameCounter, m_vCameraOffset);
+	for(auto &UNIT : m_allyVector)
 		UNIT->draw(m_nAnimationFrameCounter, m_vCameraOffset);
 	
 

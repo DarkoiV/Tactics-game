@@ -72,6 +72,7 @@ void cCommandAttack::execute(){
 				m_attackingUnit->movPosition({-m_vel * 5, 0});
 				break;
 		}
+		m_targetUnit->takeDamage( m_attackingUnit->dealDamage() );
 	}
 	//Reset position
 	else if(m_nAttackFrame == 35){
@@ -89,10 +90,8 @@ void cCommandAttack::execute(){
 				m_attackingUnit->movPosition({m_vel, 0});
 				break;
 		}
-		m_targetUnit->m_unitState = cUnit::eUNIT_STATE::TOOK_DAMAGE;
 	}
 	else if(m_nAttackFrame == 60){
-		m_targetUnit->m_unitState = cUnit::eUNIT_STATE::IDLE;
 		m_attackingUnit->setExhausted();
 	}
 

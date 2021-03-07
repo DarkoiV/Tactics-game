@@ -15,6 +15,8 @@ cUnit::cUnit(std::string p_sUnitType){
 		m_pSprite = assets.getSprite("infantry");
 		m_pRangeTile = assets.getSprite("rangeTile");
 		m_pActionRangeTile = assets.getSprite("attackRangeTile");
+		m_unitAttributes.HP = 20;
+		m_unitAttributes.damage = 5;
 		m_unitAttributes.mov = 5;
 		m_unitAttributes.minActionRange = 1;
 		m_unitAttributes.maxActionRange = 1;
@@ -24,6 +26,8 @@ cUnit::cUnit(std::string p_sUnitType){
 		m_pSprite = assets.getSprite("enemyInfantry");
 		m_pRangeTile = assets.getSprite("rangeTile");
 		m_pActionRangeTile = assets.getSprite("attackRangeTile");
+		m_unitAttributes.HP = 20;
+		m_unitAttributes.damage = 5;
 		m_unitAttributes.mov = 5;
 		m_unitAttributes.minActionRange = 1;
 		m_unitAttributes.maxActionRange = 1;
@@ -110,6 +114,27 @@ void cUnit::setNotExhausted(){
 //Return possible actions by this unit, as Uint8 flag
 Uint8 cUnit::getPossibleActions(){
 	return m_unitPossibleActionFlags;
+}
+
+//Return damage of that unit
+int cUnit::dealDamage(){
+	std::cout << "[INFO] Unit does " << m_unitAttributes.damage << " damage" << std::endl;
+	return m_unitAttributes.damage;
+}
+
+//Take damage, set animation
+void cUnit::takeDamage(int p_nAmount){
+	//Subtract dmg from health
+	m_unitAttributes.HP -= p_nAmount;
+
+	//If it goes under 0, set at 0
+	if(m_unitAttributes.HP < 0)
+		m_unitAttributes.HP = 0;
+	
+	std::cout << "[INFO] Unit has remaining " << m_unitAttributes.HP << " HP" << std::endl;
+
+	//Set as took damage
+	m_unitState = eUNIT_STATE::TOOK_DAMAGE;
 }
 
 //Returns stack of directions, which is a path to target tile
@@ -306,7 +331,25 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, const std::se
 }
 
 //Update unit
-void cUnit::update(){
+bool cUnit::update(){
+	bool alive = true;
+	//Check for death, or disable animation
+	if(m_unitState == eUNIT_STATE::TOOK_DAMAGE){
+		
+		m_nDamageAnimationFrame++;
+
+		if(m_nDamageAnimationFrame == 30 and m_unitAttributes.HP > 0){
+			m_unitState = eUNIT_STATE::IDLE;
+			m_nDamageAnimationFrame = 0;
+		}
+		else if(m_nDamageAnimationFrame == 30 and m_unitAttributes.HP <= 0){
+			std::cout << "[INFO] Unit died" << std::endl;
+			alive = false;
+			m_nDamageAnimationFrame = 0;
+		}
+	}
+
+	return alive;
 }
  
 //Draw to screen

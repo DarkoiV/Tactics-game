@@ -17,13 +17,13 @@ struct sUnitAttributes{
 	int mov;						//Unit max travelable distance
 	int minActionRange;					//Min distance from unit to attack
 	int maxActionRange;					//Max distance from unit to attack
+	int damage;						//How much damage can unit deal
 };
 
 class cUnit{
 	protected:
-		//Unit class give protected acess to commands
+		//cCommander has acess to protected members
 		friend class cCommander;
-		friend class cCommandAttack;
 
 		sUnitAttributes m_unitAttributes;				
 		vec2D m_vPos;					//Position in tiles
@@ -46,6 +46,8 @@ class cUnit{
 		std::vector<vec2D> m_actionVector;		//Vector of action tiles, that are not in mov range
 
 		bool m_bExhausted = false;			//Units get exhausted after move
+
+		int m_nDamageAnimationFrame = 0;		//Counter for damage animation
 
 		//Graphics
 		SDL_Texture* m_pSprite = nullptr;
@@ -75,6 +77,10 @@ class cUnit{
 
 		Uint8 getPossibleActions();			//Returns flags for possible actions of unit
 
+		//Damage
+		int dealDamage();				//Return how much damaga can unit return
+		void takeDamage(int p_nAmount);			//Pass damage dealt to unit
+
 		//Calculate movement range, and path
 		void calculateRange(const std::vector<sTile>& p_mapTiles, 
 				const std::set<int>& p_TilesOccupiedByOposingTeam, 
@@ -82,7 +88,7 @@ class cUnit{
 		std::stack<eDIRECTION> getPathToTile(int p_nTargetTile, vec2D p_vMapSize);
 
 		//Update/Draw
-		void update();
+		bool update();					//Returns false when unit was killed
 		void draw(int p_nAnimationFrame, vec2D p_vCameraOffset);
 		void drawRange(int p_nAnimationFrame, vec2D p_vCameraOffset);
 
