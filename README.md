@@ -7,7 +7,7 @@ SDL2
 SDL2-image  
 
 ## Controls
-For now game starts in edit mode,  
+For now game starts in play mode,  
 esc: switches between modes  
 arrows: move cursor  
 F1: opens console prompt  
