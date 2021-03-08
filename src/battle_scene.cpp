@@ -129,8 +129,11 @@ void cBattleScene::update(eBUTTON p_INPUT){
 			if(not m_allyVector[i]->update())
 				allyToErase = i;
 		}
-		if(allyToErase != -1)
+		if(allyToErase != -1){
 			m_allyVector.erase(m_allyVector.begin() + allyToErase);
+			updateOccupiedTiles();
+			updateRanges();
+		}
 
 		//Enemies
 		int enemyToErase = -1;
@@ -138,8 +141,11 @@ void cBattleScene::update(eBUTTON p_INPUT){
 			if(not m_enemyVector[i]->update())
 				enemyToErase = i;
 		}
-		if(enemyToErase != -1)
+		if(enemyToErase != -1){
 			m_enemyVector.erase(m_enemyVector.begin() + enemyToErase);
+			updateOccupiedTiles();
+			updateRanges();
+		}
 	}
 
 	//Update animation frame counter
