@@ -15,6 +15,7 @@ class cText{
 
 		bool m_bUsingColorText = false;	
 		int m_nLastPossibleColor = 2;			//Which color is last possible to access
+		int m_nScaleOfText = 1;				//Scale of text to display
 
 		SDL_Texture* m_pTextSprite;			//Pointer to text texture
 
@@ -22,6 +23,7 @@ class cText{
 		//Constructore/destructor
 		cText(const vec2D p_vOriginPoint);		//Default constructor
 		cText(const vec2D p_vOriginPoint, int p_nColor);
+		cText(const vec2D p_vOriginPoint, int p_nColor, int p_nScale);
 		~cText();
 
 		//Methods

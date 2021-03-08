@@ -1,5 +1,6 @@
 #include "action_menu.hpp"
 
+//Constructor
 void cActionMenu::showActionMenu(const Uint8 p_possibleActionFlags){
 	m_bHidden = false;
 

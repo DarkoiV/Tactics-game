@@ -40,18 +40,24 @@ cText::cText(const vec2D p_vOriginPoint, int p_nColor){
 	m_vCharacterSize.y = m_vCharacterSize.y / CHARS_PER_COLUMN;
 }
 
+//Constructor for colored text, but scaled
+cText::cText(const vec2D p_vOriginPoint, int p_nColor, int p_nScale) : cText(p_vOriginPoint, p_nColor){
+	//Set scale
+	m_nScaleOfText = p_nScale;
+}
+
 //Destructor
 cText::~cText(){
 }
 
 //Get text lenght in pixels
 int cText::getTextLenght(){
-	return m_sTextToRender.length() * m_vCharacterSize.x;
+	return m_sTextToRender.length() * m_vCharacterSize.x * m_nScaleOfText;
 }
 
 //Get text height in pixels
 int cText::getTextHeight(){
-	return m_vCharacterSize.y;
+	return m_vCharacterSize.y * m_nScaleOfText;
 }
 
 //Change color of displayed text
@@ -87,8 +93,8 @@ void cText::draw(){
 	SDL_Rect srcRect = {0, 0, m_vCharacterSize.x, m_vCharacterSize.y};
 	SDL_Rect dstRect = {m_vOriginPoint.x, 
 			m_vOriginPoint.y, 
-			m_vCharacterSize.x, 
-			m_vCharacterSize.y};
+			m_vCharacterSize.x * m_nScaleOfText, 
+			m_vCharacterSize.y * m_nScaleOfText};
 
 	//Loop through string and render chars
 	for(size_t i = 0; i < m_sTextToRender.size(); i++){
@@ -100,6 +106,6 @@ void cText::draw(){
 		SDL_RenderCopy(g_renderer, m_pTextSprite, &srcRect, &dstRect);
 
 		//Move dst to next char
-		dstRect.x +=  m_vCharacterSize.x;
+		dstRect.x +=  m_vCharacterSize.x * m_nScaleOfText;
 	}
 }
