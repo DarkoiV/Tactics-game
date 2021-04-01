@@ -420,6 +420,8 @@ void cBattleScene::selectAction(eBUTTON p_INPUT){
 
 
 					case eACTION::ATTACK:
+						//Attack is performed on enemy, cannot target self
+						getSelectedUnit()->calculateTargetTiles(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize(), false);
 						m_sceneMode = eSCENE_MODE::PLAYER_TURN_TARGET;
 						break;
 				}
@@ -461,6 +463,12 @@ void cBattleScene::targetAction(eBUTTON p_INPUT){
 		
 		//Target unit 
 		case eBUTTON::SELECT:
+			//Check if selected position is valid as target action, if not break
+			if(not getSelectedUnit()->isInTargetRange(m_map.getMapSize(), m_cursor.getPosition()))
+				goto jumpOutOfSelect;
+
+			//If is valid target action find unit on which action will be performed
+			//First check if target is enemy
 			for(auto const& UNIT : m_enemyVector){
 				if(UNIT->isHere(m_cursor.getPosition())){
 					m_commander.attackUnit(getSelectedUnit(), UNIT.get());
@@ -470,8 +478,29 @@ void cBattleScene::targetAction(eBUTTON p_INPUT){
 					//After action recalculate positions and occupied tiles
 					updateOccupiedTiles();
 					updateRanges();
+					
+					//After finding leave selection
+					goto jumpOutOfSelect;
 				}
 			}
+			//If not check if target is ally
+			for(auto const& UNIT : m_allyVector){
+				if(UNIT->isHere(m_cursor.getPosition())){
+					m_commander.attackUnit(getSelectedUnit(), UNIT.get());
+					m_nSelectedUnit = -1;
+					m_sceneMode = eSCENE_MODE::PLAYER_TURN_NOTHING_SELECTED;
+
+					//After action recalculate positions and occupied tiles
+					updateOccupiedTiles();
+					updateRanges();
+
+					//After finding leave selection
+					goto jumpOutOfSelect;
+				}
+			}
+
+			//Label for ending select method
+			jumpOutOfSelect:
 			break;
 		
 		//Return to action menu
@@ -506,6 +535,9 @@ void cBattleScene::draw(){
 	//Draw unit range only for selected unit and only in selected mode
 	if(m_nSelectedUnit != -1 and not (m_sceneMode == eSCENE_MODE::PLAYER_TURN_TARGET))
 		getSelectedUnit()->drawRange(m_nAnimationFrameCounter, m_vCameraOffset);
+	//Draw unit possible targets in target mode
+	if(m_sceneMode == eSCENE_MODE::PLAYER_TURN_TARGET)
+		getSelectedUnit()->drawTargetableTiles(m_nAnimationFrameCounter, m_vCameraOffset);
 
 	//Draw units, pass animation frame and camera offset
 	for(auto &UNIT : m_enemyVector)

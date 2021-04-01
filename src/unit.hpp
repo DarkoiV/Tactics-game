@@ -42,8 +42,10 @@ class cUnit{
 
 		std::map<int, int> m_rangeMap;			//Map of tiles in range, and distance to them
 		std::set<int> m_actionSet;			//Set of tiles in action range
+		std::set<int> m_targetSet;			//Set pf tiles that can be targeted by action
 		std::vector<vec2D> m_rangeVector;		//Vector of tiles in range
 		std::vector<vec2D> m_actionVector;		//Vector of action tiles, that are not in mov range
+		std::vector<vec2D> m_targetVector;		//Vector of tiles that can be targeted
 
 		bool m_bExhausted = false;			//Units get exhausted after move
 
@@ -70,6 +72,9 @@ class cUnit{
 		bool isActionInRange(int p_nTargetTile);	//Returns true when tile is within action range of a unit
 		int occupiesTile(vec2D p_vMapSize);		//Returns tile which is occupied by unit
 
+		 //Returns if position can be targeted by action
+		bool isInTargetRange(vec2D p_vMapSize, vec2D p_vTargetPos); 
+
 		//Exhaustion methods
 		void setExhausted();
 		void setNotExhausted();
@@ -83,13 +88,19 @@ class cUnit{
 
 		//Calculate movement range, and path
 		void calculateRange(const std::vector<sTile>& p_mapTiles, 
-				const std::set<int>& p_TilesOccupiedByOposingTeam, 
+				const std::set<int>& p_TilesOccupiedByOpposingTeam, 
 				vec2D p_vMapSize);
+		void calculateTargetTiles(const std::vector<sTile>& p_mapTiles,
+				const std::set<int>& p_TilesOccupiedByTargetTeam,
+				vec2D p_vMapSize,
+				bool p_bCanTargetSelf);
 		std::stack<eDIRECTION> getPathToTile(int p_nTargetTile, vec2D p_vMapSize);
 
 		//Update/Draw
 		bool update();					//Returns false when unit was killed
 		void draw(int p_nAnimationFrame, vec2D p_vCameraOffset);
 		void drawRange(int p_nAnimationFrame, vec2D p_vCameraOffset);
+		void drawTargetableTiles(int p_nAnimationFrame, vec2D p_vCameraOffset);
+
 
 };

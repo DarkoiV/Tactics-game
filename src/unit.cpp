@@ -101,6 +101,13 @@ int cUnit::occupiesTile(vec2D p_vMapSize){
 	return m_vPos.x + (m_vPos.y * p_vMapSize.x);
 }
 
+//Return if tile is possible target for action
+bool cUnit::isInTargetRange(vec2D p_vMapSize, vec2D p_vTargetPos){
+	int checkedTile = p_vMapSize.x * p_vTargetPos.y + p_vTargetPos.x;
+	std::cout << "[INFO] Checking if tile: " << p_vTargetPos << " can be targeted by action" << std::endl;
+	return m_targetSet.count(checkedTile);
+}
+
 //Set unit as exhausted
 void cUnit::setExhausted(){
 	m_bExhausted = true;
@@ -330,6 +337,63 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, const std::se
 
 }
 
+//Calculate action set targets
+void cUnit::calculateTargetTiles(const std::vector<sTile> &p_mapTiles, const std::set<int> &p_TilesOccupiedByTargetTeam, vec2D p_vMapSize, bool p_bCanTargetSelf){
+
+	//Set constants for algorithm
+	const int CURRENT_TILE = m_vPos.y * p_vMapSize.x + m_vPos.x;
+	const int oneLine = p_vMapSize.x;
+
+	//Find targetable tiles from this position
+	for(int i = m_unitAttributes.minActionRange; i <= m_unitAttributes.maxActionRange; i++){
+		//Skip i = 0 loop
+		if(i <= 0)
+			continue;
+
+		//All tiles to check, including their diagonals in clock rotation
+		int NORTH_TILE[i];
+		int SOUTH_TILE[i]; 
+		int EAST_TILE[i];
+		int WEST_TILE[i];
+		for(int j = 0; j < i; j++){
+			NORTH_TILE[j] = CURRENT_TILE - (i * oneLine) + (j * oneLine) - j;
+			SOUTH_TILE[j] = CURRENT_TILE + (i * oneLine) - (j * oneLine) + j;
+			EAST_TILE[j] = CURRENT_TILE + i - j - (j * oneLine);
+			WEST_TILE[j] = CURRENT_TILE - i + j + (j * oneLine);
+		}
+
+		//Check if tiles are within map border, and targetable unit is there
+		for(int j = 0; j < i; j++){
+			if( not (NORTH_TILE[j] < 0) 
+					and p_TilesOccupiedByTargetTeam.count(NORTH_TILE[j])){
+				m_targetSet.insert(NORTH_TILE[j]);
+			}
+			if( not (SOUTH_TILE[j] > (p_vMapSize.x * p_vMapSize.y) -1) 
+					and p_TilesOccupiedByTargetTeam.count(SOUTH_TILE[j])){
+				m_targetSet.insert(SOUTH_TILE[j]);
+			}
+			if( not ( (EAST_TILE[j] / p_vMapSize.x) + j != CURRENT_TILE / p_vMapSize.x) 
+					and p_TilesOccupiedByTargetTeam.count(EAST_TILE[j])){
+				m_targetSet.insert(EAST_TILE[j]);
+			}
+			if( not ( (WEST_TILE[j] / p_vMapSize.x) - j != CURRENT_TILE / p_vMapSize.x 
+					or WEST_TILE[j] < 0) 
+					and p_TilesOccupiedByTargetTeam.count(WEST_TILE[j])){
+				m_targetSet.insert(WEST_TILE[j]);
+			}
+		}
+	}
+
+	//Add set tiles to target vector
+	m_targetVector.clear();
+	for(auto const& TILE : m_targetSet){
+		vec2D tilePos;
+		tilePos.x = TILE % p_vMapSize.x;
+		tilePos.y = TILE / p_vMapSize.x;
+		m_targetVector.push_back(tilePos);
+	}
+}
+
 //Update unit
 bool cUnit::update(){
 	bool alive = true;
@@ -423,6 +487,27 @@ void cUnit::drawRange(int p_nAnimationFrame, vec2D p_vCameraOffset){
 	for(size_t i = 0; i < m_actionVector.size(); i++){
 		dstRect.x = m_actionVector[i].x * TILE_SIZE + p_vCameraOffset.x;
 		dstRect.y = m_actionVector[i].y * TILE_SIZE + p_vCameraOffset.y;
+		SDL_RenderCopy(g_renderer, m_pActionRangeTile, &srcRect, &dstRect);
+	}
+}
+
+//Draw targetable tiles to screen
+void cUnit::drawTargetableTiles(int p_nAnimationFrame, vec2D p_vCameraOffset){
+	SDL_Rect srcRect = {0, 0, TILE_SIZE, TILE_SIZE};
+	SDL_Rect dstRect = {0, 0, TILE_SIZE, TILE_SIZE};	
+
+	//Set animation frame
+	if(p_nAnimationFrame <= 25){
+		srcRect.x = 0;
+	}
+	else{
+		srcRect.x = TILE_SIZE + TILE_SIZE * ((p_nAnimationFrame - 25)/5);
+	}
+
+	//Draw action tiles to screen
+	for(size_t i = 0; i < m_targetVector.size(); i++){
+		dstRect.x = m_targetVector[i].x * TILE_SIZE + p_vCameraOffset.x;
+		dstRect.y = m_targetVector[i].y * TILE_SIZE + p_vCameraOffset.y;
 		SDL_RenderCopy(g_renderer, m_pActionRangeTile, &srcRect, &dstRect);
 	}
 }
