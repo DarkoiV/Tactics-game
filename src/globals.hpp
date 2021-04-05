@@ -12,6 +12,7 @@ inline SDL_Renderer* g_renderer;
 inline int g_windowWidth = 576;
 inline int g_windowHeight = 360;
 inline int g_nScaleFactor = 2;
+inline std::string g_sBasePath;
 
 //SDL variables and constans used for events
 inline bool g_bGameIsRunning = true;

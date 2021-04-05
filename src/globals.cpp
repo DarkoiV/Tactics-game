@@ -36,13 +36,17 @@ bool initGame(){
 	std::cout << "[OK] Global renderer created" << std::endl;
 	//Disable SDL text input, because for some reason it is on by default
 	SDL_StopTextInput();
+	//Load base path to global variable
+	g_sBasePath = SDL_GetBasePath();
+	std::cout << "[INFO] Base path: " << g_sBasePath << std::endl;
 	return true;
 }
 
 //Load sprite
 SDL_Texture* loadSprite(std::string p_sPath){
 	SDL_Surface* loadingSurface;
-	loadingSurface = IMG_Load(p_sPath.c_str());
+	std::string absolutePath = g_sBasePath + p_sPath;
+	loadingSurface = IMG_Load(absolutePath.c_str());
 	if(loadingSurface == NULL){
 		std::cout << "[ERROR] " << p_sPath << " not loaded: " << IMG_GetError() << std::endl;
 		return NULL;
