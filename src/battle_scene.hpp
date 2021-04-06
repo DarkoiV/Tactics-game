@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <set>
+#include <thread>
 #include "scene.hpp"
 #include "map.hpp"
 #include "cursor.hpp"

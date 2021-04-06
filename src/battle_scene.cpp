@@ -66,10 +66,38 @@ void cBattleScene::updateOccupiedTiles(){
 void cBattleScene::updateRanges(){
 	int time = SDL_GetTicks();
 
+	/* Single Thread
 	for(auto &UNIT : m_allyVector)
 		UNIT->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
 	for(auto &UNIT : m_enemyVector)
 		UNIT->calculateRange(m_map.refMap(), m_occupiedByAllySet, m_map.getMapSize());
+	*/
+
+
+	/*4 threads*/
+	const size_t nHalfWayAlly = m_allyVector.size()/2;
+	const size_t nHalfWayEnemy = m_enemyVector.size()/2;
+	std::thread allyThread1([&](){
+		for(size_t i = 0; i < nHalfWayAlly; i++)
+			m_allyVector[i]->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
+	});
+	std::thread allyThread2([&](){
+		for(size_t i = nHalfWayAlly; i < m_allyVector.size(); i++)
+			m_allyVector[i]->calculateRange(m_map.refMap(), m_occupiedByEnemySet, m_map.getMapSize());
+	});
+	std::thread enemyThread1([&](){
+		for(size_t i = 0; i < nHalfWayEnemy; i++)
+			m_enemyVector[i]->calculateRange(m_map.refMap(), m_occupiedByAllySet, m_map.getMapSize());
+	});
+	std::thread enemyThread2([&](){
+		for(size_t i = nHalfWayEnemy; i < m_enemyVector.size(); i++)
+			m_enemyVector[i]->calculateRange(m_map.refMap(), m_occupiedByAllySet, m_map.getMapSize());
+	});
+
+	allyThread1.join();
+	allyThread2.join();
+	enemyThread1.join();
+	enemyThread2.join();
 
 	std::cout << "[INFO] It took " << SDL_GetTicks() - time << "ms to calculate ranges" << std::endl;
 }
