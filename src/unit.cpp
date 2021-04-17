@@ -340,6 +340,9 @@ void cUnit::calculateRange(const std::vector<sTile> &p_tileVector, const std::se
 //Calculate action set targets
 void cUnit::calculateTargetTiles(const std::vector<sTile> &p_mapTiles, const std::set<int> &p_TilesOccupiedByTargetTeam, vec2D p_vMapSize, bool p_bCanTargetSelf){
 
+	//Reset previous target set
+	m_targetSet.clear();
+
 	//Set constants for algorithm
 	const int CURRENT_TILE = m_vPos.y * p_vMapSize.x + m_vPos.x;
 	const int oneLine = p_vMapSize.x;

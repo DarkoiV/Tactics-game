@@ -274,6 +274,10 @@ void cBattleScene::processConsoleCommand(std::string p_sCommand){
 		//Reset flag
 		g_bConsoleCommandIssued = false;
 	}
+
+	//Any command resets positioning
+	updateOccupiedTiles();
+	updateRanges();
 }
 
 //Add allied unit to map
