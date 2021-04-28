@@ -6,7 +6,7 @@ C++17 compiler
 SDL2  
 SDL2-image  
 
-## In construction
+# IN CONSTRUCTION
 
 ## Assets sources
 (If not mentioned, it was made by me)\
