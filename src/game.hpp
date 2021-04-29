@@ -1,8 +1,5 @@
 #pragma once
 
-#include "globals.hpp"
-#include <SDL2/SDL.h>
-
 class cGame{
 	private:
 		bool m_running = false;

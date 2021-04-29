@@ -3,15 +3,17 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-//Constants
+// Constants
 constexpr int FPS           = 60 ;
 constexpr int TILE_SIZE     = 24 ; //in pixels
-constexpr int WINDOW_WIDTH  = 576; 
-constexpr int WINDOW_HEIGHT = 360;
+constexpr int SCREEN_WIDTH  = 576; 
+constexpr int SCREEN_HEIGHT = 360;
 
-//Variables
-inline SDL_Window*   g_window  ;
-inline SDL_Renderer* g_renderer;
+// SDL 
+inline SDL_Window*   g_window   = nullptr;
+inline SDL_Renderer* g_renderer = nullptr;
 
+// Variables
 inline int g_scaleFactor      = 2 ;
 inline std::string g_basePath = "";
+inline std::string g_title    = "";  
