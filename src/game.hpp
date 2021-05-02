@@ -14,7 +14,8 @@ class cGame{
 		std::vector<cScene*> scenesVector;
 
 		// Private methods
-		void createFrame();
+		void    createFrame();
+		eBUTTON getInput()   ;
 
 	public:
 		// Init game

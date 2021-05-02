@@ -11,7 +11,7 @@ class cSceneBattle: public cScene{
 		~cSceneBattle();
 
 		// Scene methods override
-		void processInput() override;
-		void update()       override;
-		void draw()         override;
+		void process(eBUTTON p_input) override;
+		void update()                 override;
+		void draw()                   override;
 };

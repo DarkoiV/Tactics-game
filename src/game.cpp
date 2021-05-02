@@ -11,6 +11,9 @@ cGame::cGame(){
 	g_basePath = SDL_GetBasePath();
 	std::cout << "[INFO] Game running in directory: " << g_basePath << std::endl;
 
+	// Stop accepting text input, as it is on by default
+	SDL_StopTextInput();
+
 	// Load config
 
 	// Init SDL2
@@ -99,4 +102,87 @@ void cGame::createFrame(){
 
 	// Keep track of ticks at the end of previous frame
 	previousFrameTicks = SDL_GetTicks();
+}
+
+// Get player input
+eBUTTON cGame::getInput(){
+	// Process events
+	while(SDL_PollEvent(&g_events)){
+		// Check for quit request
+		if(g_events.type == SDL_QUIT){
+			m_running = false;
+		}
+		// Check for text input events
+		else if(SDL_IsTextInputActive()){
+
+		
+		}
+		// Check for button press events
+		else if(g_events.type == SDL_KEYDOWN and g_events.key.repeat == 0){
+			switch(g_events.key.keysym.sym){
+				case SDLK_RETURN:
+				case SDLK_z:
+				std::cout << "[INFO] Pressed SELECT" << std::endl;
+				return eBUTTON::SELECT;
+				break;
+
+				case SDLK_x:
+				std::cout << "[INFO] Pressed CANCEL" << std::endl;
+				return eBUTTON::CANCEL;
+				break;
+
+				case SDLK_c:
+				std::cout << "[INFO] Pressed SPECIAL1" << std::endl;
+				return eBUTTON::SPECIAL1;
+				break;
+
+				case SDLK_v:
+				std::cout << "[INFO] Pressed SPECIAL2" << std::endl;
+				return eBUTTON::SPECIAL2;
+				break;
+
+				case SDLK_ESCAPE:
+				std::cout << "[INFO] Pressed ESC" << std::endl;
+				return eBUTTON::ESCAPE;
+				break;
+			}
+		}
+	}
+
+	// Load keys state
+	const Uint8* keyState = SDL_GetKeyboardState(NULL);
+	static int nUpFrameWait, nDownFrameWait, nRightFrameWait, nLeftFrameWait;
+
+	// Directional buttons
+	if(nUpFrameWait > 0)
+		nUpFrameWait--;
+	else if(keyState[SDL_SCANCODE_UP]){
+			std::cout << "[INFO] Up Pressed" << std::endl;
+			nUpFrameWait = 6;
+			return eBUTTON::UP;
+	}
+	if(nDownFrameWait > 0)
+		nDownFrameWait--;
+	else if(keyState[SDL_SCANCODE_DOWN]){
+			std::cout << "[INFO] Down Pressed" << std::endl;
+			nDownFrameWait = 6;
+			return eBUTTON::DOWN;
+	}
+	if(nRightFrameWait > 0)
+		nRightFrameWait--;
+	else if(keyState[SDL_SCANCODE_RIGHT]){
+			std::cout << "[INFO] Right Pressed" << std::endl;
+			nRightFrameWait = 6;
+			return eBUTTON::RIGHT;
+	}
+	if(nLeftFrameWait > 0)
+		nLeftFrameWait--;
+	else if(keyState[SDL_SCANCODE_LEFT]){
+			std::cout << "[INFO] Left Pressed" << std::endl;
+			nLeftFrameWait = 6;
+			return eBUTTON::LEFT;
+	}
+	
+	// If nothing pressed
+	return eBUTTON::NONE;
 }

@@ -12,6 +12,7 @@ constexpr int SCREEN_HEIGHT = 360;
 // SDL 
 inline SDL_Window*   g_window   = nullptr;
 inline SDL_Renderer* g_renderer = nullptr;
+inline SDL_Event     g_events;
 
 // Variables
 inline int g_scaleFactor      = 2 ;

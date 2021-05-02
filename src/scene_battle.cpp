@@ -11,7 +11,7 @@ cSceneBattle::~cSceneBattle(){
 }
 
 // Process input
-void cSceneBattle::processInput(){
+void cSceneBattle::process(eBUTTON p_input){
 
 }
 
