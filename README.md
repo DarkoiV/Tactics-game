@@ -9,6 +9,6 @@ SDL2-image
 # IN CONSTRUCTION
 
 ## Assets sources
-(If not mentioned, it was made by me)\
-Console text sprite: https://opengameart.org/content/16x12-terminal-bitmap-font  
-Gnsh text sprite: https://opengameart.org/content/bitmap-font-0  
+(Not listed were made by me)\
+text_console sprite: https://opengameart.org/content/16x12-terminal-bitmap-font  
+text_color sprite: https://opengameart.org/content/bitmap-font-0  
