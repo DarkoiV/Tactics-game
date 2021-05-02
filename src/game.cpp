@@ -75,8 +75,28 @@ void cGame::operator()(){
 		// TMP
 		static int i;
 		i++;
-		if(i == 10000)
+		if(i == 180)
 			m_running = false;
-		// TMP
+	
+		createFrame();
 	}
+}
+
+// Create single frame of game
+void cGame::createFrame(){
+	// Create frame tick counter
+	static Uint32 previousFrameTicks;
+
+	// Render frame
+	SDL_RenderPresent(g_renderer);
+	SDL_RenderClear(g_renderer);
+
+	// Wait for enough time to cap FPS
+	int waitTime = (1000/FPS) - (SDL_GetTicks() - previousFrameTicks);
+	if(waitTime > 0){
+		SDL_Delay(waitTime);
+	}
+
+	// Keep track of ticks at the end of previous frame
+	previousFrameTicks = SDL_GetTicks();
 }
