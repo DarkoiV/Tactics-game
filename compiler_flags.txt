@@ -1,9 +1,0 @@
--lSDL2
--lSDL2_image
--Wall
--Wextra
--Wshadow
--Wnon-virtual-dtor
--pedantic
--g
--std=c++17

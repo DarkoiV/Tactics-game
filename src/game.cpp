@@ -99,6 +99,9 @@ void cGame::createFrame(){
 	if(waitTime > 0){
 		SDL_Delay(waitTime);
 	}
+	else{
+		std::cout << "[INFO] Frame took " << -waitTime << "ms too long" << std::endl;
+	}
 
 	// Keep track of ticks at the end of previous frame
 	previousFrameTicks = SDL_GetTicks();
