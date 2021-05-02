@@ -1,7 +1,9 @@
 #include "game.hpp"
 
 #include "globals.hpp"
+#include "asset_manager.hpp"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 // Constructor inits game
 cGame::cGame(){
@@ -13,7 +15,7 @@ cGame::cGame(){
 
 	// Init SDL2
 	if(SDL_Init(SDL_INIT_VIDEO) != 0){
-		std::cout << "[ERR] SDL Init failed, " << SDL_GetError() << std::endl;
+		std::cout << "[ERROR] SDL Init failed, " << SDL_GetError() << std::endl;
 		return;
 	}
 	std::cout << "[OK] SDL Initialized" << std::endl;
@@ -26,7 +28,7 @@ cGame::cGame(){
 			SCREEN_HEIGHT * g_scaleFactor, 
 			0);
 	if(g_window == nullptr){
-		std::cout << "[ERR] SDL Window not created, " << SDL_GetError() << std::endl;
+		std::cout << "[ERROR] SDL Window not created, " << SDL_GetError() << std::endl;
 		return;
 	}
 	std::cout << "[OK] SDL Window created" << std::endl;
@@ -34,11 +36,18 @@ cGame::cGame(){
 	// Create renderer
 	g_renderer = SDL_CreateRenderer(g_window, -1, SDL_RENDERER_ACCELERATED);
 	if(g_renderer == nullptr){
-		std::cout << "[ERR] SDL Renderer not created, " << SDL_GetError() << std::endl;
+		std::cout << "[ERROR] SDL Renderer not created, " << SDL_GetError() << std::endl;
 		return;
 	}
 	SDL_RenderSetLogicalSize(g_renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 	std::cout << "[OK] SDL Renderer created" << std::endl;
+
+	// Init SDL2 Image
+	if(IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG){
+		std::cout << "[ERROR] IMG Init: " << IMG_GetError() << std::endl;
+		return;
+	}
+	std::cout << "[OK] IMG Initialized" << std::endl;
 
 	// If all went ok, set game as running
 	m_running = true;
@@ -51,13 +60,23 @@ cGame::~cGame(){
 	std::cout << "[INFO] Quitting SDL" << std::endl;
 	SDL_DestroyRenderer(g_renderer);
 	SDL_DestroyWindow(g_window);
+	IMG_Quit();
 	SDL_Quit();
 }
 
 // Operator() runs game
 void cGame::operator()(){
+	// Init asset manager
+	cAssetManager& assets = cAssetManager::getInstance();
+
 	// Game loop
 	while(m_running){
 
+		// TMP
+		static int i;
+		i++;
+		if(i == 10000)
+			m_running = false;
+		// TMP
 	}
 }
