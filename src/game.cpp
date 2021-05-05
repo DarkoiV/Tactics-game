@@ -69,18 +69,18 @@ cGame::~cGame(){
 
 // Operator() runs game
 void cGame::operator()(){
-	// Init asset manager
-	cAssetManager& assets = cAssetManager::getInstance();
+	// TMP 
+	m_currentScene = new cSceneBattle;
 
 	// Game loop
 	while(m_running){
 
-		// TMP
-		static int i;
-		i++;
-		if(i == 180)
-			m_running = false;
+		// Run scene
+		m_currentScene->process(getInput());
+		m_currentScene->update();
+		m_currentScene->draw();
 	
+		// Create frame
 		createFrame();
 	}
 }

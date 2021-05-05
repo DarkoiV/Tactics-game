@@ -77,7 +77,7 @@ void cAssetManager::loadSprite(std::string p_spriteName){
 SDL_Texture* cAssetManager::getSprite(std::string p_requesterName, std::string p_spriteName){
 	std::cout << "[INFO] " << p_requesterName << " wants pointer to asset: " << p_spriteName << std::endl;
 	if(m_spriteMap.count(p_spriteName) != 0){
-		std::cout << "[OK] Acess to asset granted " << std::endl;
+		std::cout << "[OK] Access to asset granted " << std::endl;
 		return m_spriteMap[p_spriteName];
 	}
 	else {

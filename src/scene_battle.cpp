@@ -2,6 +2,8 @@
 
 // Constructor 
 cSceneBattle::cSceneBattle(){
+	// Load board map
+	m_board.load("TEST");
 
 }
 
@@ -23,4 +25,6 @@ void cSceneBattle::update(){
 // Draw scene
 void cSceneBattle::draw(){
 
+	// Draw board
+	m_board.draw(m_cameraOffset);
 }

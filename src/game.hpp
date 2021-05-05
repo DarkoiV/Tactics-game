@@ -2,16 +2,14 @@
 
 #include "scene.hpp"
 #include "enums.hpp"
+#include "scene_battle.hpp"
 #include <vector>
 
 class cGame{
 	private:
 		// Game state
-		bool   m_running      = false         ;
-		eSCENE m_currentScene = eSCENE::BATTLE;
-
-		// Container of scenes pointers
-		std::vector<cScene*> scenesVector;
+		bool    m_running      = false   ;
+		cScene* m_currentScene = nullptr;
 
 		// Private methods
 		void    createFrame();
