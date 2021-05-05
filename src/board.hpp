@@ -15,8 +15,9 @@ class cBoard{
 		std::set<int> m_occupiedByUnit;
 		std::set<int> m_occupiedByEnemy;
 
-		// Sprite pointer
+		// Sprite pointer and constants
 		SDL_Texture* m_sprite;
+		static constexpr int SPRITE_COLUMNS = 6;
 
 	public:
 		// Constructor
