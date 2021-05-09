@@ -35,7 +35,7 @@ void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
 		case eBUTTON::SELECT:
 			break;
 
-		// No input
+		// No input or unrecognized
 		default:
 		case eBUTTON::NONE:
 			break;

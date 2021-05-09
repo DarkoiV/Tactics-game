@@ -1,7 +1,6 @@
 #pragma once
 
 #include "turn.hpp"
-#include "cursor.hpp"
 
 class cTurnPlayer: public cTurn{
 	private:

@@ -4,6 +4,7 @@
 #include "turn.hpp"
 #include "turn_player.hpp"
 #include "board.hpp"
+#include "cursor.hpp"
 #include "struct_vec2D.hpp"
 #include <vector>
 
