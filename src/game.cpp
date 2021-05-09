@@ -11,9 +11,6 @@ cGame::cGame(){
 	g_basePath = SDL_GetBasePath();
 	std::cout << "[INFO] Game running in directory: " << g_basePath << std::endl;
 
-	// Stop accepting text input, as it is on by default
-	SDL_StopTextInput();
-
 	// Load config
 
 	// Init SDL2
@@ -51,6 +48,9 @@ cGame::cGame(){
 		return;
 	}
 	std::cout << "[OK] IMG Initialized" << std::endl;
+
+	// Stop accepting text input, as it is on by default
+	SDL_StopTextInput();
 
 	// If all went ok, set game as running
 	m_running = true;
