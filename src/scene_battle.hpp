@@ -10,7 +10,8 @@
 class cSceneBattle: public cScene{
 	private:
 		// Scene components
-		cBoard m_board;
+		cBoard  m_board;
+		cCursor m_cursor;
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};
@@ -32,4 +33,8 @@ class cSceneBattle: public cScene{
 		void process(eBUTTON p_input) override;
 		void update()                 override;
 		void draw()                   override;
+
+		// Get access components
+		auto board()  -> cBoard&;
+		auto cursor() -> cCursor&;
 };

@@ -12,12 +12,11 @@ class cTurn{
 		virtual ~cTurn(){};
 
 		// Methods
-		virtual void start()       = 0;
-		virtual bool isCompleted() = 0;
+		virtual void start(cSceneBattle &scene)       = 0;
+		virtual bool isCompleted(cSceneBattle &scene) = 0;
 
 		// Turn Loop
-		virtual void process(eBUTTON p_input)    = 0;
-		virtual void update()                    = 0;
-		virtual void draw(vec2D p_cameraOffsety
-			, int p_animationFrame)          = 0;
+		virtual void process(cSceneBattle &scene
+			, eBUTTON p_input)               = 0;
+		virtual void update(cSceneBattle &scene) = 0;
 };

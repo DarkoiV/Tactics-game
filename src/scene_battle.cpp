@@ -6,13 +6,12 @@ cSceneBattle::cSceneBattle(){
 	// Load board map
 	m_board.load("TEST");
 
-	// Init turns
-	m_playerTurn.init(m_board.getSize());
+	// Init cursor
+	m_cursor.init(m_board.getSize());
 
 	// Start player turn
 	m_turnVector.push_back(&m_playerTurn);
-	currentTurn()->start();
-
+	currentTurn()->start(*this);
 }
 
 // Destructor
@@ -37,20 +36,20 @@ void cSceneBattle::nextTurn(){
 void cSceneBattle::process(eBUTTON p_input){
 
 	// Process turn related input
-	currentTurn()->process(p_input);
+	currentTurn()->process(*this, p_input);
 }
 
 // Update scene
 void cSceneBattle::update(){
 
 	// Update turn
-	currentTurn()->update();
+	currentTurn()->update(*this);
 
 	// Check if is completed
-	if(currentTurn()->isCompleted()){
+	if(currentTurn()->isCompleted(*this)){
 		// If so, switch to next turn
 		nextTurn();
-		currentTurn()->start();
+		currentTurn()->start(*this);
 	}
 
 }
@@ -63,9 +62,17 @@ void cSceneBattle::draw(){
 	animationFrame++;
 	animationFrame = animationFrame % 60;
 
-	// Draw board
+	// Draw components
 	m_board.draw(m_cameraOffset);
+	m_cursor.draw(m_cameraOffset, animationFrame);
+}
 
-	// Draw turn components
-	currentTurn()->draw(m_cameraOffset, animationFrame);
+// GET COMPONENT METHODS ///////////////////////////////////////////////////
+
+auto cSceneBattle::board() -> cBoard&{
+	return m_board;
+}
+
+auto cSceneBattle::cursor() -> cCursor&{
+	return m_cursor;
 }

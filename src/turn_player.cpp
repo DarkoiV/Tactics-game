@@ -1,39 +1,35 @@
 #include "turn_player.hpp"
-
-// Init turn variables
-void cTurnPlayer::init(vec2D p_boardSize){
-	m_cursor.init(p_boardSize);
-}
+#include "scene_battle.hpp"
 
 // Start turn
-void cTurnPlayer::start(){
+void cTurnPlayer::start(cSceneBattle &scene){
 }
 
 // Check if completed
-bool cTurnPlayer::isCompleted(){
+bool cTurnPlayer::isCompleted(cSceneBattle &scene){
 
 	// TMP
 	return false;
 }
 
 // Process input
-void cTurnPlayer::process(eBUTTON p_input){
+void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
 
 	switch (p_input) {
 		case eBUTTON::UP:
-			m_cursor.moveUp();
+			scene.cursor().moveUp();
 			break;
 
 		case eBUTTON::DOWN:
-			m_cursor.moveDown();
+			scene.cursor().moveDown();
 			break;
 
 		case eBUTTON::LEFT:
-			m_cursor.moveLeft();
+			scene.cursor().moveLeft();
 			break;
 			
 		case eBUTTON::RIGHT:
-			m_cursor.moveRight();
+			scene.cursor().moveRight();
 			break;
 
 		case eBUTTON::SELECT:
@@ -47,11 +43,6 @@ void cTurnPlayer::process(eBUTTON p_input){
 }
 
 // Update 
-void cTurnPlayer::update(){
+void cTurnPlayer::update(cSceneBattle &scene){
 
-}
-
-// Draw turn entities
-void cTurnPlayer::draw(vec2D p_cameraOffset, int p_animationFrame){
-	m_cursor.draw(p_cameraOffset, p_animationFrame);
 }
