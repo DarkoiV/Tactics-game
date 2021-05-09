@@ -1,6 +1,7 @@
 #pragma once
 
 #include "enums.hpp"
+#include "struct_vec2D.hpp"
 
 // Turn component interface
 class cTurn{
@@ -15,5 +16,5 @@ class cTurn{
 		// Turn Loop
 		virtual void process(eBUTTON p_input);
 		virtual void update();
-		virtual void draw();
+		virtual void draw(vec2D p_cameraOffsety);
 };

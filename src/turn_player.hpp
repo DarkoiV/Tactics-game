@@ -12,7 +12,7 @@ class cTurnPlayer: public cTurn{
 		bool isCompleted() override;
 
 		// Turn Loop
-		void process(eBUTTON p_input) override;
-		void update()                 override;
-		void draw()                   override;
+		void process(eBUTTON p_input)   override;
+		void update()                   override;
+		void draw(vec2D p_cameraOffset) override;
 };

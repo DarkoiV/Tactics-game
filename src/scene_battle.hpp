@@ -1,8 +1,11 @@
 #pragma once
 
 #include "scene.hpp"
+#include "turn.hpp"
+#include "turn_player.hpp"
 #include "board.hpp"
 #include "struct_vec2D.hpp"
+#include <vector>
 
 class cSceneBattle: public cScene{
 	private:
@@ -11,6 +14,14 @@ class cSceneBattle: public cScene{
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};
+
+		// Turn methods
+		auto currentTurn() -> cTurn*;
+		void nextTurn();
+
+		// Turn objects and container
+		cTurnPlayer         m_playerTurn;
+		std::vector<cTurn*> m_turnVector;
 
 	public:
 		// Constructor/destructor
