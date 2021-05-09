@@ -6,6 +6,9 @@ cSceneBattle::cSceneBattle(){
 	// Load board map
 	m_board.load("TEST");
 
+	// Init turns
+	m_playerTurn.init(m_board.getSize());
+
 	// Start player turn
 	m_turnVector.push_back(&m_playerTurn);
 	currentTurn()->start();
@@ -59,5 +62,5 @@ void cSceneBattle::draw(){
 	m_board.draw(m_cameraOffset);
 
 	// Draw turn components
-	currentTurn()->draw(m_cameraOffset);
+	currentTurn()->draw(m_cameraOffset, 0);
 }

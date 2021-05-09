@@ -61,3 +61,8 @@ void cBoard::draw(vec2D p_cameraOffset){
 	}
 
 }
+
+// Get board size
+auto cBoard::getSize() -> vec2D{
+	return m_size;
+}

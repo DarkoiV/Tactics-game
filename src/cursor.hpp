@@ -25,4 +25,7 @@ class cCursor{
 
 		// Get position
 		auto position() -> vec2D;
+
+		// Draw cursor
+		void draw(vec2D p_cameraOffset, int p_animationFrame);
 };

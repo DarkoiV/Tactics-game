@@ -27,4 +27,6 @@ class cBoard{
 		bool load(std::string p_boardName);
 		void draw(vec2D p_cameraOffset);
 
+		// Getters
+		auto getSize() -> vec2D;
 };

@@ -1,5 +1,6 @@
 #include "cursor.hpp"
 #include "asset_manager.hpp"
+#include "globals.hpp"
 
 // Initialize cursor on board
 void cCursor::init(vec2D p_boardSize){
@@ -46,4 +47,22 @@ void cCursor::moveRight(){
 // Get cursor position
 auto cCursor::position() -> vec2D{
 	return m_position;
+}
+
+// Draw cursor
+void cCursor::draw(vec2D p_cameraOffset, int p_animationFrame){
+
+	SDL_Rect srcRect{ 0
+			, 0
+			, 30
+			, 30
+			};
+
+	SDL_Rect dstRect{ (m_position.x * TILE_SIZE) + p_cameraOffset.x - 3
+		        , (m_position.y * TILE_SIZE) + p_cameraOffset.y - 3
+			, 30
+			, 30
+			};
+
+	SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
 }

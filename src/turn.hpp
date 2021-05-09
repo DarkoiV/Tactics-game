@@ -3,6 +3,8 @@
 #include "enums.hpp"
 #include "struct_vec2D.hpp"
 
+class cSceneBattle;
+
 // Turn component interface
 class cTurn{
 	public:
@@ -16,5 +18,6 @@ class cTurn{
 		// Turn Loop
 		virtual void process(eBUTTON p_input)    = 0;
 		virtual void update()                    = 0;
-		virtual void draw(vec2D p_cameraOffsety) = 0;
+		virtual void draw(vec2D p_cameraOffsety
+			, int p_animationFrame)          = 0;
 };
