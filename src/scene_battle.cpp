@@ -58,9 +58,14 @@ void cSceneBattle::update(){
 // Draw scene
 void cSceneBattle::draw(){
 
+	// Animation frame
+	static int animationFrame;
+	animationFrame++;
+	animationFrame = animationFrame % 60;
+
 	// Draw board
 	m_board.draw(m_cameraOffset);
 
 	// Draw turn components
-	currentTurn()->draw(m_cameraOffset, 0);
+	currentTurn()->draw(m_cameraOffset, animationFrame);
 }

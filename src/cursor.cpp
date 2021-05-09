@@ -52,8 +52,8 @@ auto cCursor::position() -> vec2D{
 // Draw cursor
 void cCursor::draw(vec2D p_cameraOffset, int p_animationFrame){
 
-	SDL_Rect srcRect{ 0
-			, 0
+	SDL_Rect srcRect{ 30 * (p_animationFrame / 40) // 0-39 First frame 40-59 second
+			, 0 
 			, 30
 			, 30
 			};
