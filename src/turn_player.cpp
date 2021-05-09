@@ -3,6 +3,20 @@
 
 // Start turn
 void cTurnPlayer::start(cSceneBattle &scene){
+
+	switch (m_mode) {
+		case SELECT_UNIT:
+			break;
+		
+		case MOVE_UNIT:
+			break;
+			
+		case SELECT_ACTION:
+			break;
+
+		case SELECT_TARGET:
+			break;
+	}
 }
 
 // Check if completed
