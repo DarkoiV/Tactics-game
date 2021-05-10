@@ -11,7 +11,7 @@ class cBoard{
 		vec2D m_size;
 
 		// Containers storing board state
-		std::vector<int> m_tiles;
+		std::vector<uint8_t> m_tiles;
 		std::set<int> m_occupiedByUnit;
 		std::set<int> m_occupiedByEnemy;
 
