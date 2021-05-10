@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 // Scene types in game
 enum class eSCENE {
 	MAIN_MENU,
@@ -23,12 +25,12 @@ enum class eBUTTON {
 };
 
 // Item types
-enum class eITEM {
-	SPEAR,		// Bonus anti armor
-	SWORD,		// Default
-	AXE,		// Higher crit, lower accuracy
-	STAFF,		// Buffs
-	BOOK,		// Magic distance attack
-	ORB,		// Magic high crit near attack
-	POTION		// Self use
+enum class eITEM : uint8_t {
+	SPEAR  = 0b00000001,		// Bonus anti armor
+	SWORD  = 0b00000010,		// Default
+	AXE    = 0b00000100,		// Higher crit, lower accuracy
+	STAFF  = 0b00001000,		// Buffs
+	BOOK   = 0b00010000,		// Magic distance attack
+	ORB    = 0b00100000,		// Magic high crit near attack
+	POTION = 0b01000000		// Self use
 };
