@@ -2,7 +2,6 @@
 
 // Constructor 
 cSceneBattle::cSceneBattle(){
-
 	// Load board map
 	m_board.load("TEST");
 
@@ -34,14 +33,12 @@ void cSceneBattle::nextTurn(){
 
 // Process input
 void cSceneBattle::process(eBUTTON p_input){
-
 	// Process turn related input
 	currentTurn()->process(*this, p_input);
 }
 
 // Update scene
 void cSceneBattle::update(){
-
 	// Update turn
 	currentTurn()->update(*this);
 
@@ -56,7 +53,6 @@ void cSceneBattle::update(){
 
 // Draw scene
 void cSceneBattle::draw(){
-
 	// Animation frame
 	static int animationFrame;
 	animationFrame++;

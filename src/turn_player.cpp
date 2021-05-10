@@ -3,32 +3,16 @@
 
 // Start turn
 void cTurnPlayer::start(cSceneBattle &scene){
-
-	switch (m_mode) {
-		case SELECT_UNIT:
-			break;
-		
-		case MOVE_UNIT:
-			break;
-			
-		case SELECT_ACTION:
-			break;
-
-		case SELECT_TARGET:
-			break;
-	}
 }
 
 // Check if completed
 bool cTurnPlayer::isCompleted(cSceneBattle &scene){
-
 	// TMP
 	return false;
 }
 
 // Process input
 void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
-
 	switch (p_input) {
 		case eBUTTON::UP:
 			scene.cursor().moveUp();
