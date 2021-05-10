@@ -13,7 +13,7 @@ void cUnit::setPosition(vec2D p_pos){
 	m_pos = p_pos;
 }
 
-// Offset position for given vector
+// Offset position by given vector
 void cUnit::offsetPosition(vec2D p_offset){
 	m_offset.x += p_offset.x;
 	m_offset.y += p_offset.y;
