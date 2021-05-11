@@ -5,6 +5,7 @@ Simple tactics game made with SDL2 and SDL2-Image.
 C++17 compiler  
 SDL2  
 SDL2_image  
+Lua 5.4 (5.4.3+)
 
 # IN CONSTRUCTION
 
