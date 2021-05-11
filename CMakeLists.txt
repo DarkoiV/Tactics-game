@@ -18,7 +18,7 @@ find_package(SDL2_image REQUIRED)
 include_directories("${SDL2_INCLUDE_DIRS}" "${SDL2_IMAGE_INCLUDE_DIRS}")
 
 # Add source libs
-add_subdirectory("lib/lua-5.4.3")
+add_subdirectory("lib/Lua5.4")
 
 # build
 file(GLOB SOURCES "src/*.cpp")
