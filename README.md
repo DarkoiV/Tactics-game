@@ -4,7 +4,7 @@ Simple tactics game made with SDL2 and SDL2-Image.
 ## Requirements
 C++17 compiler  
 SDL2  
-SDL2_image  
+SDL_image 2.0  
 Lua 5.4 (5.4.3+)
 
 # IN CONSTRUCTION
