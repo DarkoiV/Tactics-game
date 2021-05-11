@@ -1,6 +1,6 @@
 This is Lua 5.4 folder.
-You should paste here 5.4.3+ source files of Lua.
-(only contains files needed for embedding)
+You should paste here Lua source files for version 5.4.3+ 
+(But not 5.5+, as acording to lua naming convetion those might break API)
 
-For installation instructions, license details, authors, and more visist:
+For source files, license details, authors, and more visist:
 https://www.lua.org/
