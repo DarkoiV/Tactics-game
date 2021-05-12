@@ -1,5 +1,6 @@
 #pragma once
 
+#include "unit_range.hpp"
 #include "struct_vec2D.hpp"
 #include "struct_stats.hpp"
 #include <SDL2/SDL.h>
@@ -13,6 +14,10 @@ class cUnit{
 
 		// Stats
 		sStats m_stats;
+
+		// Components
+		cUnitRange m_range;
+		friend cUnitRange;
 
 		// Sprite
 		SDL_Texture* m_sprite;
