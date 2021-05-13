@@ -18,6 +18,29 @@ cSceneBattle::~cSceneBattle(){
 
 }
 
+// Update camera position
+inline void cSceneBattle::updateCamera(){
+	// X axis
+	const int cursorPosX = m_cursor.position().x * TILE_SIZE;
+	m_cameraOffset.x 
+		-= TILE_SIZE
+		*  (m_cameraOffset.x + cursorPosX > SCREEN_WIDTH - TILE_SIZE);
+
+	m_cameraOffset.x 
+		+= TILE_SIZE
+		*  ( (-m_cameraOffset.x) > cursorPosX);
+
+	// Y axis
+	const int cursorPosY = m_cursor.position().y * TILE_SIZE;
+	m_cameraOffset.y
+		-= TILE_SIZE
+		*  (m_cameraOffset.y + cursorPosY > SCREEN_HEIGHT - TILE_SIZE);
+
+	m_cameraOffset.y 
+		+= TILE_SIZE
+		*  ( (-m_cameraOffset.y) > cursorPosY);
+}
+
 // TURN METHODS ////////////////////////////////////////////////////////////
 
 // Get current turn
@@ -49,6 +72,7 @@ void cSceneBattle::update(){
 		currentTurn()->start(*this);
 	}
 
+	updateCamera();
 }
 
 // Draw scene

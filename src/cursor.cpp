@@ -22,7 +22,7 @@ void cCursor::moveUp(){
 
 // Move cursor down
 void cCursor::moveDown(){
-	if(m_position.y < m_boardSize.y)
+	if(m_position.y < (m_boardSize.y - 1))
 		m_position.y++;
 	else
 		std::cout << "[INFO] Cursor at board limit" << std::endl;
@@ -38,7 +38,7 @@ void cCursor::moveLeft(){
 
 // Move cursor right
 void cCursor::moveRight(){
-	if(m_position.x < m_boardSize.x)
+	if(m_position.x < (m_boardSize.x - 1))
 		m_position.x++;
 	else
 		std::cout << "[INFO] Cursor at board limit" << std::endl;

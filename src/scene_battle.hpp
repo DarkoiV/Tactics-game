@@ -16,6 +16,7 @@ class cSceneBattle: public cScene{
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};
+		inline void updateCamera();
 
 		// Turn methods
 		auto currentTurn() -> cTurn*;
