@@ -22,7 +22,11 @@ class cUnitRange{
 		cUnitRange();
 
 		// Move range
-		void calculateRange(cUnit &unit, cSceneBattle &scene);		// Calculate possible moves of unit
+		void calculateRange(						// Calculate possible moves of unit
+			cUnit &unit,
+			cSceneBattle &scene,
+			const std::vector<bool> &passableTiles
+			);
 		bool canMove(cSceneBattle &scene, vec2D p_targetPos);		// Returns true if targetPos is valid move
 
 		// Draw

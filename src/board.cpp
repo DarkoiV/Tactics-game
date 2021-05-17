@@ -65,3 +65,36 @@ void cBoard::draw(vec2D p_cameraOffset){
 auto cBoard::getSize() -> vec2D{
 	return m_size;
 }
+
+// Get vector of tiles passable by player team
+auto cBoard::getPassableForUnit() -> std::vector<bool>{
+	// Init vector of board size
+	std::vector<bool> resultsVector;
+	resultsVector.reserve(m_size.x * m_size.y);
+
+	// Check if can move here
+	for(size_t i = 0; i < m_tiles.size();  i++){
+		// TMP for now push true
+		resultsVector.emplace_back(true);
+	}
+
+	// Return result
+	return resultsVector;
+}
+
+
+// Get vector of tiles passable by enemy team
+auto cBoard::getPassableForEnemy() -> std::vector<bool>{
+	// Init vector of board size
+	std::vector<bool> resultsVector;
+	resultsVector.reserve(m_size.x * m_size.y);
+
+	// Check if can move here
+	for(size_t i = 0; i < m_tiles.size();  i++){
+		// TMP for now push true
+		resultsVector.emplace_back(true);
+	}
+
+	// Return result
+	return resultsVector;
+}

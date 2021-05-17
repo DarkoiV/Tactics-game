@@ -4,8 +4,13 @@
 
 // Test constructor
 cUnit::cUnit(){
+	// Set sprite
 	auto &assetAcces = cAssetManager::getInstance();
 	m_sprite = assetAcces.getSprite("Test unit", "unit_infantry");
+
+	// Default stats
+	m_stats.HP  = 10;
+	m_stats.MOV = 5 ;
 }
 
 // Set position on board

@@ -29,4 +29,8 @@ class cBoard{
 
 		// Getters
 		auto getSize() -> vec2D;
+
+		// Get vector representing tiles passable for each team
+		auto getPassableForUnit()  -> std::vector<bool>;
+		auto getPassableForEnemy() -> std::vector<bool>;
 };

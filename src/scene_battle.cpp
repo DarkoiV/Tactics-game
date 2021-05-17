@@ -65,9 +65,8 @@ void cSceneBattle::update(){
 	// Update turn
 	currentTurn()->update(*this);
 
-	// Check if is completed
+	// Check if is completed, if so, switch to next turn
 	if(currentTurn()->isCompleted(*this)){
-		// If so, switch to next turn
 		nextTurn();
 		currentTurn()->start(*this);
 	}
