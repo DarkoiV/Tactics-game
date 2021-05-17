@@ -11,6 +11,10 @@ cSceneBattle::cSceneBattle(){
 	// Start player turn
 	m_turnVector.push_back(&m_playerTurn);
 	currentTurn()->start(*this);
+
+	// TMP create unit
+	m_unit.setPosition({7, 7});
+	m_unit.range().calculateRange(m_unit, *this, m_board.getPassableForUnit());
 }
 
 // Destructor
@@ -84,6 +88,10 @@ void cSceneBattle::draw(){
 	// Draw components
 	m_board.draw(m_cameraOffset);
 	m_cursor.draw(m_cameraOffset, animationFrame);
+
+	//TMP unit
+	m_unit.range().drawMoveRange(m_cameraOffset, animationFrame);
+	m_unit.draw(m_cameraOffset, animationFrame);
 }
 
 // GET COMPONENT METHODS ///////////////////////////////////////////////////

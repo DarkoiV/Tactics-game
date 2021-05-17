@@ -46,3 +46,8 @@ void cUnit::draw(vec2D p_cameraOffset, int p_animationFrame){
 
 	SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
 }
+
+// Get range
+auto cUnit::range() -> cUnitRange&{
+	return m_range;
+}

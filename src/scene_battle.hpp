@@ -5,6 +5,7 @@
 #include "turn_player.hpp"
 #include "board.hpp"
 #include "cursor.hpp"
+#include "unit.hpp"
 #include "struct_vec2D.hpp"
 #include <vector>
 
@@ -13,6 +14,9 @@ class cSceneBattle: public cScene{
 		// Scene components
 		cBoard  m_board;
 		cCursor m_cursor;
+
+		// TMP unit
+		cUnit   m_unit;
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};

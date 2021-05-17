@@ -68,7 +68,8 @@ void cUnitRange::calculateRange(cUnit &unit, cSceneBattle &scene, const std::vec
 	}
 
 	for(auto const& [tile, distance] : m_validMoveDistance){
-		m_validMove.push_back(tile);
+		vec2D tile2D = {tile % boardLine, tile / boardLine};
+		m_validMove.push_back(tile2D);
 	}
 }
 
@@ -84,7 +85,17 @@ bool cUnitRange::canMove(cSceneBattle &scene, vec2D p_targetPos){
 		return false;
 }
 
-void cUnitRange::drawMoveRange(cSceneBattle &scene){
-	SDL_Rect srcRect;
-	SDL_Rect dstRect;
+void cUnitRange::drawMoveRange(vec2D p_cameraOffset, int p_animationFrame){
+	SDL_Rect srcRect{0, 0, TILE_SIZE, TILE_SIZE};
+	SDL_Rect dstRect{0, 0, TILE_SIZE, TILE_SIZE};
+
+	// Animation frame, 0 - 25 - first frame, 25 - 30 second frame etc...
+	srcRect.x = (TILE_SIZE + TILE_SIZE * ((p_animationFrame - 25)/5)) * (p_animationFrame >= 25);
+
+	//Draw range tiles to screen 
+	for(size_t i = 0; i < m_validMove.size(); i++){
+		dstRect.x = m_validMove[i].x * TILE_SIZE + p_cameraOffset.x;
+		dstRect.y = m_validMove[i].y * TILE_SIZE + p_cameraOffset.y;
+		SDL_RenderCopy(g_renderer, m_moveRangeSprite, &srcRect, &dstRect);
+	}
 }

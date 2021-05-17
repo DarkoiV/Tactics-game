@@ -11,8 +11,8 @@ class cSceneBattle;
 class cUnitRange{
 	private:
 		// Containers storing range data
-		std::vector<int> m_validMove;			// Valid move targets (Tiles in board tile vector)
-		std::map<int, int> m_validMoveDistance;		// Distance to valid move
+		std::vector<vec2D> m_validMove;			// Valid move targets (vector for drawing) 
+		std::map<int, int> m_validMoveDistance;		// Distance to valid move (distance to tile)
 
 		// Sprite
 		SDL_Texture* m_moveRangeSprite;	
@@ -30,5 +30,5 @@ class cUnitRange{
 		bool canMove(cSceneBattle &scene, vec2D p_targetPos);		// Returns true if targetPos is valid move
 
 		// Draw
-		void drawMoveRange(cSceneBattle &scene);
+		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);
 };
