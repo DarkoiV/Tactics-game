@@ -35,14 +35,6 @@ cAssetManager::cAssetManager(){
 	SDL_SetTextureAlphaMod(m_spriteMap["box_background"], 145);
 }
 
-// Destructor, frees all sprites
-cAssetManager::~cAssetManager(){
-	std::cout << "[INFO] Deleting sprites from memory " << std::endl;
-	for(auto& [key, sprite] : m_spriteMap){
-		SDL_DestroyTexture(sprite);
-	}
-}
-
 // Load sprite to map
 void cAssetManager::loadSprite(std::string p_spriteName){
 	// Create absolute path to sprite
@@ -71,6 +63,14 @@ void cAssetManager::loadSprite(std::string p_spriteName){
 	// If all went ok
 	std::cout << "[OK] Sprite: " << p_spriteName << " loaded correctly" << std::endl;
 	SDL_FreeSurface(tmpSurface);
+}
+
+// Free all sprites
+void cAssetManager::freeResources(){
+	std::cout << "[INFO] Deleting sprites from memory " << std::endl;
+	for(auto& [key, sprite] : m_spriteMap){
+		SDL_DestroyTexture(sprite);
+	}
 }
 
 // Get sprite by name
