@@ -12,6 +12,18 @@ class cTurnPlayer: public cTurn{
 			SELECT_TARGET
 		} m_mode;
 
+		// SELECT UNIT MODE
+		void processSelectUnit(cSceneBattle &scene, eBUTTON p_input);
+
+		// MOVE UNIT MODE
+		void processMoveUnit(cSceneBattle &scene, eBUTTON p_input);
+
+		// SELECT ACTION MODE
+		void processSelectAction(cSceneBattle &scene, eBUTTON p_input);
+
+		// SELECT TARGET MODE
+		void processSelectTarget(cSceneBattle &scene, eBUTTON p_input);
+
 	public:
 		void start(cSceneBattle &scene)       override;
 		bool isCompleted(cSceneBattle &scene) override;

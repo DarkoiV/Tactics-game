@@ -13,6 +13,9 @@ class cTeam{
 
 		// Curently selected unit
 		cUnit* m_selectedUnit = nullptr;
+
+		bool m_showMoveRange = false;
+
 	public:
 		// Add new unit to team by name
 		void addNewUnit(std::string p_name);
@@ -20,6 +23,12 @@ class cTeam{
 		// Select unit, returns true if unit selected
 		bool selectUnit(vec2D p_cursorPos);
 		void deselectUnit();
+
+		// Calculate range of units
+		void calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles);
+
+		// Toogle move range
+		void toogleMoveRange(bool p_shown);
 
 		// Draw
 		void drawUnits(vec2D p_cameraOffset, int p_animationFrame);

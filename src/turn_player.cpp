@@ -1,18 +1,10 @@
 #include "turn_player.hpp"
 #include "scene_battle.hpp"
 
-// Start turn
-void cTurnPlayer::start(cSceneBattle &scene){
-}
+// SELECT UNIT MODE //////////////////////////////////////////////////////
 
-// Check if completed
-bool cTurnPlayer::isCompleted(cSceneBattle &scene){
-	// TMP
-	return false;
-}
+void cTurnPlayer::processSelectUnit(cSceneBattle &scene, eBUTTON p_input){
 
-// Process input
-void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
 	switch (p_input) {
 		case eBUTTON::UP:
 			scene.cursor().moveUp();
@@ -30,12 +22,71 @@ void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
 			scene.cursor().moveRight();
 			break;
 
+		// On selection, 
+		// Select unit in team, 
+		// Toogle move range drawing, 
+		// Change to MOVE UNIT MODE
 		case eBUTTON::SELECT:
+			scene.pTeam().selectUnit(scene.cursor().position());
+			scene.pTeam().toogleMoveRange(true);
+			m_mode = MOVE_UNIT;
 			break;
 
 		// No input or unrecognized
 		default:
 		case eBUTTON::NONE:
+			break;
+	}
+}
+
+// MOVE UNIT MODE ////////////////////////////////////////////////////////
+
+void cTurnPlayer::processMoveUnit(cSceneBattle &scene, eBUTTON p_input){
+}
+
+// SELECT ACTION MODE ////////////////////////////////////////////////////
+
+void cTurnPlayer::processSelectAction(cSceneBattle &scene, eBUTTON p_input){
+}
+
+// SELECT TARGET MODE ////////////////////////////////////////////////////
+
+void cTurnPlayer::processSelectTarget(cSceneBattle &scene, eBUTTON p_input){
+}
+
+// PUBLIC METHODS ////////////////////////////////////////////////////////
+
+// Start turn
+void cTurnPlayer::start(cSceneBattle &scene){
+	m_mode = SELECT_UNIT;
+
+	// Calculate ranges
+	scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
+}
+
+// Check if completed
+bool cTurnPlayer::isCompleted(cSceneBattle &scene){
+	// TMP
+	return false;
+}
+
+// Process input
+void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
+	switch (m_mode) {
+		case SELECT_UNIT:
+			processSelectUnit(scene, p_input);
+			break;
+
+		case MOVE_UNIT:
+			processMoveUnit(scene, p_input);
+			break;
+
+		case SELECT_ACTION:
+			processSelectAction(scene, p_input);
+			break;
+
+		case SELECT_TARGET:
+			processSelectTarget(scene, p_input);
 			break;
 	}
 }

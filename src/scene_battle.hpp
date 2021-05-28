@@ -43,4 +43,5 @@ class cSceneBattle: public cScene{
 		// Access to components
 		auto board()  -> cBoard&;
 		auto cursor() -> cCursor&;
+		auto pTeam()  -> cTeam&;
 };

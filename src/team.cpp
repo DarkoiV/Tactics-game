@@ -29,6 +29,21 @@ void cTeam::deselectUnit(){
 	m_selectedUnit = nullptr;
 }
 
+// Calculate range of units
+void cTeam::calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles){
+	std::cout << "[INFO] Calculating units ranges" << std::endl;
+	u_int32_t startTime = SDL_GetTicks(); 
+	for(auto UNIT : m_units){
+		UNIT->range().calculateRange(*UNIT, scene, passableTiles);
+	}
+	std::cout << "[INFO] Calculating ranges took: "<< SDL_GetTicks() - startTime << "ms" << std::endl;
+}
+
+// Toogle move range drawing
+void cTeam::toogleMoveRange(bool p_shown){
+	m_showMoveRange = p_shown;
+}
+
 // Draw units
 void cTeam::drawUnits(vec2D p_cameraOffset, int p_animationFrame){
 	for(const auto &UNIT : m_units){
@@ -38,6 +53,7 @@ void cTeam::drawUnits(vec2D p_cameraOffset, int p_animationFrame){
 
 // Draw selected unit move range
 void cTeam::drawMoveRange(vec2D p_cameraOffset, int p_animationFrame){
-	if(m_selectedUnit != nullptr)
+	if(m_selectedUnit != nullptr and m_showMoveRange)
 		m_selectedUnit->range().drawMoveRange(p_cameraOffset, p_animationFrame);
+	
 }

@@ -8,12 +8,12 @@ cSceneBattle::cSceneBattle(){
 	// Init cursor
 	m_cursor.init(m_board.getSize());
 
+	// TMP create unit
+	m_playerTeam.addNewUnit("TMP");
+
 	// Start player turn
 	m_turnVector.push_back(&m_playerTurn);
 	currentTurn()->start(*this);
-
-	// TMP create unit
-	m_playerTeam.addNewUnit("TMP");
 }
 
 // Destructor
@@ -99,4 +99,8 @@ auto cSceneBattle::board() -> cBoard&{
 
 auto cSceneBattle::cursor() -> cCursor&{
 	return m_cursor;
+}
+
+auto cSceneBattle::pTeam() -> cTeam&{
+	return m_playerTeam;
 }
