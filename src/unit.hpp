@@ -33,6 +33,9 @@ class cUnit{
 		// Drawing
 		void draw(vec2D p_cameraOffset, int p_animationFrame);
 
-		// Get components
+		// Get position
+		auto getPosition() -> vec2D;
+
+		// Access components
 		auto range() -> cUnitRange&;
 };

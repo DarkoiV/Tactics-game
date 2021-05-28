@@ -13,8 +13,7 @@ cSceneBattle::cSceneBattle(){
 	currentTurn()->start(*this);
 
 	// TMP create unit
-	m_unit.setPosition({7, 7});
-	m_unit.range().calculateRange(m_unit, *this, m_board.getPassableForUnit());
+	m_playerTeam.addNewUnit("TMP");
 }
 
 // Destructor
@@ -69,7 +68,7 @@ void cSceneBattle::update(){
 	// Update turn
 	currentTurn()->update(*this);
 
-	// Check if is completed, if so, switch to next turn
+	// Check if turn is completed, if so, switch to next turn
 	if(currentTurn()->isCompleted(*this)){
 		nextTurn();
 		currentTurn()->start(*this);
@@ -85,16 +84,14 @@ void cSceneBattle::draw(){
 	animationFrame++;
 	animationFrame = animationFrame % 60;
 
-	// Draw components
+	// Draw everything in order
 	m_board.draw(m_cameraOffset);
+	m_playerTeam.drawMoveRange(m_cameraOffset, animationFrame);
+	m_playerTeam.drawUnits(m_cameraOffset, animationFrame);
 	m_cursor.draw(m_cameraOffset, animationFrame);
-
-	//TMP unit
-	m_unit.range().drawMoveRange(m_cameraOffset, animationFrame);
-	m_unit.draw(m_cameraOffset, animationFrame);
 }
 
-// GET COMPONENT METHODS ///////////////////////////////////////////////////
+// ACCESS COMPONENT METHODS /////////////////////////////////////////////////
 
 auto cSceneBattle::board() -> cBoard&{
 	return m_board;

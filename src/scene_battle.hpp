@@ -5,8 +5,8 @@
 #include "turn_player.hpp"
 #include "board.hpp"
 #include "cursor.hpp"
-#include "unit.hpp"
 #include "struct_vec2D.hpp"
+#include "team.hpp"
 #include <vector>
 
 class cSceneBattle: public cScene{
@@ -15,8 +15,8 @@ class cSceneBattle: public cScene{
 		cBoard  m_board;
 		cCursor m_cursor;
 
-		// TMP unit
-		cUnit   m_unit;
+		// Teams
+		cTeam m_playerTeam;
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};
@@ -26,7 +26,7 @@ class cSceneBattle: public cScene{
 		auto currentTurn() -> cTurn*;
 		void nextTurn();
 
-		// Turn objects and container
+		// Turn components
 		cTurnPlayer         m_playerTurn;
 		std::vector<cTurn*> m_turnVector;
 
@@ -40,7 +40,7 @@ class cSceneBattle: public cScene{
 		void update()                 override;
 		void draw()                   override;
 
-		// Get access components
+		// Access to components
 		auto board()  -> cBoard&;
 		auto cursor() -> cCursor&;
 };
