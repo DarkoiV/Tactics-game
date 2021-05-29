@@ -43,6 +43,43 @@ void cTurnPlayer::processSelectUnit(cSceneBattle &scene, eBUTTON p_input){
 // MOVE UNIT MODE ////////////////////////////////////////////////////////
 
 void cTurnPlayer::processMoveUnit(cSceneBattle &scene, eBUTTON p_input){
+
+	switch (p_input) {
+		case eBUTTON::UP:
+			scene.cursor().moveUp();
+			break;
+
+		case eBUTTON::DOWN:
+			scene.cursor().moveDown();
+			break;
+
+		case eBUTTON::LEFT:
+			scene.cursor().moveLeft();
+			break;
+			
+		case eBUTTON::RIGHT:
+			scene.cursor().moveRight();
+			break;
+
+		case eBUTTON::SELECT:
+			// TMP change position of selected unit, and calc range
+			scene.pTeam().selectedUnit().setPosition(scene.cursor().position());
+			scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
+			break;
+
+		// Cancel button
+		// Deselect unit
+		// Go back to SELECT UNIT MODE
+		case eBUTTON::CANCEL:
+			scene.pTeam().deselectUnit();
+			scene.pTeam().toggleMoveRange(false);
+			m_mode = SELECT_UNIT;
+
+		// No input or unrecognized
+		default:
+		case eBUTTON::NONE:
+			break;
+	}
 }
 
 // SELECT ACTION MODE ////////////////////////////////////////////////////

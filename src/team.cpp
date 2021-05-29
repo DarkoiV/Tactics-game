@@ -29,6 +29,10 @@ void cTeam::deselectUnit(){
 	m_selectedUnit = nullptr;
 }
 
+auto cTeam::selectedUnit() -> cUnit&{
+	return *m_selectedUnit;
+}
+
 // Calculate range of units
 void cTeam::calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles){
 	std::cout << "[INFO] Calculating units ranges" << std::endl;
