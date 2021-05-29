@@ -28,7 +28,7 @@ class cTeam{
 		void calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles);
 
 		// Toogle move range
-		void toogleMoveRange(bool p_shown);
+		void toggleMoveRange(bool p_shown);
 
 		// Draw
 		void drawUnits(vec2D p_cameraOffset, int p_animationFrame);

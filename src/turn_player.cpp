@@ -28,7 +28,7 @@ void cTurnPlayer::processSelectUnit(cSceneBattle &scene, eBUTTON p_input){
 		// And change to MOVE UNIT MODE
 		case eBUTTON::SELECT:
 			if( scene.pTeam().selectUnit(scene.cursor().position()) ){
-				scene.pTeam().toogleMoveRange(true);
+				scene.pTeam().toggleMoveRange(true);
 				m_mode = MOVE_UNIT;
 			}
 			break;

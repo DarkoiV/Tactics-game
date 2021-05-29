@@ -39,8 +39,8 @@ void cTeam::calculateRange(cSceneBattle &scene, const std::vector<bool> passable
 	std::cout << "[INFO] Calculating ranges took: "<< SDL_GetTicks() - startTime << "ms" << std::endl;
 }
 
-// Toogle move range drawing
-void cTeam::toogleMoveRange(bool p_shown){
+// Toggle move range drawing
+void cTeam::toggleMoveRange(bool p_shown){
 	m_showMoveRange = p_shown;
 }
 
