@@ -23,13 +23,14 @@ void cTurnPlayer::processSelectUnit(cSceneBattle &scene, eBUTTON p_input){
 			break;
 
 		// On selection, 
-		// Select unit in team, 
-		// Toogle move range drawing, 
-		// Change to MOVE UNIT MODE
+		// Try to select unit in team, 
+		// If succesed toogle move range drawing, 
+		// And change to MOVE UNIT MODE
 		case eBUTTON::SELECT:
-			scene.pTeam().selectUnit(scene.cursor().position());
-			scene.pTeam().toogleMoveRange(true);
-			m_mode = MOVE_UNIT;
+			if( scene.pTeam().selectUnit(scene.cursor().position()) ){
+				scene.pTeam().toogleMoveRange(true);
+				m_mode = MOVE_UNIT;
+			}
 			break;
 
 		// No input or unrecognized
