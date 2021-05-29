@@ -12,7 +12,7 @@ cUnitRange::cUnitRange(){
 
 void cUnitRange::calculateRange(cUnit &unit, cSceneBattle &scene, const std::vector<bool> &passableTiles){
 	// Set constants used for rangefinsing
-	const int boardLine = scene.board().getSize().y;
+	const int boardLine = scene.board().getSize().x;
 	const int positionTile = unit.m_pos.x + (unit.m_pos.y * boardLine);
 	const int lastTile = scene.board().getSize().x * boardLine - 1;
 	const int moveRange = unit.m_stats.MOV;
@@ -58,6 +58,7 @@ void cUnitRange::calculateRange(cUnit &unit, cSceneBattle &scene, const std::vec
 		}
 
 		if( WEST / boardLine == tilesToCheck.front() / boardLine
+		and WEST >= 0
 		and passableTiles[WEST]){
 			m_validMoveDistance[WEST] = CURRENT_DISTANCE + 1;
 			tilesToCheck.push(WEST);
