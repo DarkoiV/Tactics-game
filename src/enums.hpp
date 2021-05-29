@@ -24,6 +24,14 @@ enum class eBUTTON {
 	NONE
 };
 
+// Directions
+enum class eDIRECTION{
+	NORTH,
+	EAST,
+	SOUTH,
+	WEST
+};
+
 // Item types
 enum class eITEM : uint8_t {
 	SPEAR  = 0b00000001,		// Bonus anti armor
