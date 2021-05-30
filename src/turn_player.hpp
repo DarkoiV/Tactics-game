@@ -29,7 +29,6 @@ class cTurnPlayer: public cTurn{
 		bool isCompleted(cSceneBattle &scene) override;
 
 		// Turn Loop
-		void process(cSceneBattle &scene, 
+		void update(cSceneBattle &scene, 
 			eBUTTON p_input)         override;
-		void update(cSceneBattle &scene) override;
 };

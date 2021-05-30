@@ -76,8 +76,7 @@ void cGame::operator()(){
 	while(m_running){
 
 		// Run scene
-		m_currentScene->process(getInput());
-		m_currentScene->update();
+		m_currentScene->update(getInput());
 		m_currentScene->draw();
 	
 		// Create frame

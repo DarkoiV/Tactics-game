@@ -9,7 +9,6 @@ class cScene{
 		virtual ~cScene(){};
 
 		// Methods
-		virtual void process(eBUTTON p_input) = 0;
-		virtual void update()                 = 0;
-		virtual void draw()                   = 0;
+		virtual void update(eBUTTON p_INPUT) = 0;
+		virtual void draw()                  = 0;
 };

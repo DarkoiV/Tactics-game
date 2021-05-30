@@ -36,9 +36,8 @@ class cSceneBattle: public cScene{
 		~cSceneBattle();
 
 		// Scene methods override
-		void process(eBUTTON p_input) override;
-		void update()                 override;
-		void draw()                   override;
+		void update(eBUTTON p_INPUT) override;
+		void draw()                  override;
 
 		// Access to components
 		auto board()  -> cBoard&;

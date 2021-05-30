@@ -57,16 +57,10 @@ void cSceneBattle::nextTurn(){
 
 // GAME LOOP METHODS ///////////////////////////////////////////////////////
 
-// Process input
-void cSceneBattle::process(eBUTTON p_input){
+// Update scene
+void cSceneBattle::update(eBUTTON p_input){
 	// Process turn related input
 	currentTurn()->process(*this, p_input);
-}
-
-// Update scene
-void cSceneBattle::update(){
-	// Update turn
-	currentTurn()->update(*this);
 
 	// Check if turn is completed, if so, switch to next turn
 	if(currentTurn()->isCompleted(*this)){

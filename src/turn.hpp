@@ -16,7 +16,6 @@ class cTurn{
 		virtual bool isCompleted(cSceneBattle &scene) = 0;
 
 		// Turn Loop
-		virtual void process(cSceneBattle &scene
+		virtual void update(cSceneBattle &scene
 			, eBUTTON p_input)               = 0;
-		virtual void update(cSceneBattle &scene) = 0;
 };

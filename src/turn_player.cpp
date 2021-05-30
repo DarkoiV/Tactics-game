@@ -109,8 +109,8 @@ bool cTurnPlayer::isCompleted(cSceneBattle &scene){
 	return false;
 }
 
-// Process input
-void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
+// Process input, update turn
+void cTurnPlayer::update(cSceneBattle &scene, eBUTTON p_input){
 	switch (m_mode) {
 		case SELECT_UNIT:
 			processSelectUnit(scene, p_input);
@@ -128,9 +128,4 @@ void cTurnPlayer::process(cSceneBattle &scene, eBUTTON p_input){
 			processSelectTarget(scene, p_input);
 			break;
 	}
-}
-
-// Update 
-void cTurnPlayer::update(cSceneBattle &scene){
-
 }
