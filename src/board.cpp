@@ -8,7 +8,7 @@ cBoard::cBoard(){
 	m_sprite = assetAccess.getSprite("Board", "plains_tileset");
 }
 
-// Load board from file
+// Load board by name
 bool cBoard::load(std::string p_boardName){
 	std::cout << "[INFO] Loading map " << std::endl;
 
@@ -96,7 +96,7 @@ bool cBoard::load(std::string p_boardName){
 	std::cout << "-----------------------------------------------"<< std::endl;
 
 	// Returns true when loading succeeded 
-	std::cout << "[INFO] Map loaded successfully" << std::endl;
+	std::cout << "[OK] Map loaded successfully" << std::endl;
 	return true;
 }
 
