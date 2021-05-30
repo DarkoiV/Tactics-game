@@ -1,6 +1,7 @@
 #pragma once
 
 #include "enums.hpp"
+#include <string>
 
 // Scene interface
 class cScene{
@@ -8,7 +9,10 @@ class cScene{
 		// Destructor
 		virtual ~cScene(){};
 
-		// Methods
+		// Parse console command
+		virtual void command(const std::string& p_command) = 0;
+
+		// Loop methods
 		virtual void update(eBUTTON p_INPUT) = 0;
 		virtual void draw()                  = 0;
 };

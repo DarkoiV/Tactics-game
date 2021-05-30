@@ -35,7 +35,10 @@ class cSceneBattle: public cScene{
 		cSceneBattle();
 		~cSceneBattle();
 
-		// Scene methods override
+		// Parse console command
+		void command(const std::string& p_command) override;
+
+		// Scene loop methods override
 		void update(eBUTTON p_INPUT) override;
 		void draw()                  override;
 

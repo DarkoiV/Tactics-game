@@ -116,8 +116,20 @@ eBUTTON cGame::getInput(){
 		}
 		// Check for text input events
 		else if(SDL_IsTextInputActive()){
-
-		
+			// On enter send command to scene, and end text input
+			if(g_events.type == SDL_KEYDOWN and g_events.key.keysym.sym == SDLK_RETURN){
+				m_currentScene->command(m_command);
+				m_command = "";
+				SDL_StopTextInput();
+			}
+			// On backspace erase last char, if not empty
+			if(g_events.type == SDL_KEYDOWN and g_events.key.keysym.sym == SDLK_BACKSPACE and m_command.size() > 0){
+				m_command.pop_back();
+			}
+			// Append char to command
+			if(g_events.type == SDL_TEXTINPUT){
+				m_command += g_events.text.text;
+			}
 		}
 		// Check for button press events
 		else if(g_events.type == SDL_KEYDOWN and g_events.key.repeat == 0){
@@ -146,6 +158,12 @@ eBUTTON cGame::getInput(){
 				case SDLK_ESCAPE:
 				std::cout << "[INFO] Pressed ESC" << std::endl;
 				return eBUTTON::ESCAPE;
+				break;
+
+				case SDLK_F1:
+				std::cout << "[INFO] Pressed F1, enabling console input" << std::endl;
+				SDL_StartTextInput();
+				return eBUTTON::NONE;
 				break;
 			}
 		}

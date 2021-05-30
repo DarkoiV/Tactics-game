@@ -8,8 +8,11 @@
 class cGame{
 	private:
 		// Game state
-		bool    m_running      = false   ;
+		bool    m_running      = false  ;
 		cScene* m_currentScene = nullptr;
+
+		// Console command
+		std::string m_command = "";
 
 		// Private methods
 		void    createFrame();

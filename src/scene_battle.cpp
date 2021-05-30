@@ -55,12 +55,17 @@ auto cSceneBattle::currentTurn() -> cTurn*{
 void cSceneBattle::nextTurn(){
 }
 
-// GAME LOOP METHODS ///////////////////////////////////////////////////////
+// SCENE METHODS ///////////////////////////////////////////////////////////
+
+// Parse console command 
+void cSceneBattle::command(const std::string &p_command){
+	std::cout << "[INFO] Issued command: "<< p_command << std::endl;
+}
 
 // Update scene
 void cSceneBattle::update(eBUTTON p_input){
 	// Process turn related input
-	currentTurn()->process(*this, p_input);
+	currentTurn()->update(*this, p_input);
 
 	// Check if turn is completed, if so, switch to next turn
 	if(currentTurn()->isCompleted(*this)){
