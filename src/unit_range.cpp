@@ -76,7 +76,7 @@ void cUnitRange::calculateRange(cUnit &unit, cSceneBattle &scene, const std::vec
 
 bool cUnitRange::canMove(cSceneBattle &scene, vec2D p_targetPos){
 	// Calculate target tile in 1D space
-	const int boardLine  = scene.board().getSize().y;
+	const int boardLine  = scene.board().getSize().x;
 	const int targetTile = p_targetPos.x + (p_targetPos.y * boardLine);
 
 	// Check if valid move

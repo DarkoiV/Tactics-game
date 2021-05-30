@@ -62,9 +62,10 @@ void cTurnPlayer::processMoveUnit(cSceneBattle &scene, eBUTTON p_input){
 			break;
 
 		case eBUTTON::SELECT:
-			// TMP change position of selected unit, and calc range
-			scene.pTeam().selectedUnit().setPosition(scene.cursor().position());
-			scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
+			if( scene.pTeam().selectedUnit().range().canMove(scene, scene.cursor().position()) ){
+				scene.pTeam().selectedUnit().setPosition(scene.cursor().position());
+				scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
+			}
 			break;
 
 		// Cancel button
