@@ -74,10 +74,11 @@ void cUnitRange::calculateRange(cUnit &unit, cSceneBattle &scene, const std::vec
 	}
 }
 
-bool cUnitRange::inRange(cSceneBattle &scene, vec2D p_targetPos){
+bool cUnitRange::inRange(cSceneBattle &scene){
 	// Calculate target tile in 1D space
 	const int boardLine  = scene.board().getSize().x;
-	const int targetTile = p_targetPos.x + (p_targetPos.y * boardLine);
+	const int targetTile = scene.cursor().position().x 
+			+ (scene.cursor().position().y * boardLine);
 
 	// Check if valid move
 	if(m_validMoveDistance.count(targetTile) == 1)
