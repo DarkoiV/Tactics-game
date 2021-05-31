@@ -16,7 +16,7 @@ class cUnit{
 		sStats m_stats;
 
 		// Components
-		cUnitRange m_range;
+		cUnitRange m_range = cUnitRange(*this);
 		friend cUnitRange;
 
 		// Sprite
