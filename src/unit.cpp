@@ -3,7 +3,7 @@
 #include "asset_manager.hpp"
 
 // Test constructor
-cUnit::cUnit(){
+cUnit::cUnit() : m_range(*this){
 	// Set sprite
 	auto &assetAcces = cAssetManager::getInstance();
 	m_sprite = assetAcces.getSprite("Test unit", "unit_infantry");

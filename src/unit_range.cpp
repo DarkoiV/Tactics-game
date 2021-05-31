@@ -4,13 +4,13 @@
 #include "asset_manager.hpp"
 #include <queue>
 
-cUnitRange::cUnitRange(){
+cUnitRange::cUnitRange(cUnit &u) : unit(u){
 	// Get sprite pointer
 	auto &assetAccess = cAssetManager::getInstance();
 	m_moveRangeSprite = assetAccess.getSprite("Unit range component", "move_range");
 }
 
-void cUnitRange::calculateRange(cUnit &unit, cSceneBattle &scene, const std::vector<bool> &passableTiles){
+void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableTiles){
 	// Set constants used for rangefinsing
 	const int boardLine = scene.board().getSize().x;
 	const int positionTile = unit.m_pos.x + (unit.m_pos.y * boardLine);

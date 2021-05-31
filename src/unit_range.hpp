@@ -10,6 +10,9 @@ class cSceneBattle;
 
 class cUnitRange{
 	private:
+		// Parent unit
+		cUnit &unit;
+
 		// Containers storing range data
 		std::vector<vec2D> m_validMove;			// Valid move targets (vector for drawing) 
 		std::map<int, int> m_validMoveDistance;		// Distance to valid move (distance to tile)
@@ -19,15 +22,11 @@ class cUnitRange{
 
 	public:
 		// Constructor loads sprites
-		cUnitRange();
+		cUnitRange(cUnit &u);
 
 		// Move range
-		void calculateRange(						// Calculate possible moves of unit
-			cUnit &unit,
-			cSceneBattle &scene,
-			const std::vector<bool> &passableTiles
-			);
-		bool inRange(cSceneBattle &scene);				// Returns true if cursor is over valid move
+		void calculateRange(cSceneBattle &scene, std::vector<bool> passableTiles);	// Calculates range
+		bool inRange(cSceneBattle &scene);						// Returns true if cursor is over valid move
 
 		// Draw
 		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);

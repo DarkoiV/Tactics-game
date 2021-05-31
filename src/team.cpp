@@ -38,7 +38,7 @@ void cTeam::calculateRange(cSceneBattle &scene, const std::vector<bool> passable
 	std::cout << "[INFO] Calculating units ranges" << std::endl;
 	u_int32_t startTime = SDL_GetTicks(); 
 	for(auto UNIT : m_units){
-		UNIT->range().calculateRange(*UNIT, scene, passableTiles);
+		UNIT->range().calculateRange(scene, passableTiles);
 	}
 	std::cout << "[INFO] Calculating ranges took: "<< SDL_GetTicks() - startTime << "ms" << std::endl;
 }
