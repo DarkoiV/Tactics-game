@@ -22,7 +22,6 @@ void cTurnPlayer::processSelectUnit(cSceneBattle &scene, eBUTTON p_input){
 			scene.cursor().moveRight();
 			break;
 
-		// On selection, 
 		// Try to select unit in team, 
 		// If succesed toogle move range drawing, 
 		// And change to MOVE UNIT MODE
@@ -31,6 +30,12 @@ void cTurnPlayer::processSelectUnit(cSceneBattle &scene, eBUTTON p_input){
 				scene.pTeam().toggleMoveRange(true);
 				m_mode = MOVE_UNIT;
 			}
+			break;
+
+		// TODO:
+		// Open menu
+		case eBUTTON::ESCAPE:
+		case eBUTTON::CANCEL:
 			break;
 
 		// No input or unrecognized
@@ -61,14 +66,15 @@ void cTurnPlayer::processMoveUnit(cSceneBattle &scene, eBUTTON p_input){
 			scene.cursor().moveRight();
 			break;
 
+		// Check if move is withing range
+		// If so procced to move
 		case eBUTTON::SELECT:
-			if( scene.pTeam().selectedUnit().range().canMove(scene, scene.cursor().position()) ){
+			if( scene.pTeam().selectedUnit().range().inRange(scene, scene.cursor().position()) ){
 				scene.pTeam().selectedUnit().setPosition(scene.cursor().position());
 				scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
 			}
 			break;
 
-		// Cancel button
 		// Deselect unit
 		// Go back to SELECT UNIT MODE
 		case eBUTTON::CANCEL:

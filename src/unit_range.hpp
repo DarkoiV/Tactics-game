@@ -27,7 +27,7 @@ class cUnitRange{
 			cSceneBattle &scene,
 			const std::vector<bool> &passableTiles
 			);
-		bool canMove(cSceneBattle &scene, vec2D p_targetPos);		// Returns true if targetPos is valid move
+		bool inRange(cSceneBattle &scene, vec2D p_targetPos);		// Returns true if targetPos is in valid move range
 
 		// Draw
 		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);
