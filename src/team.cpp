@@ -29,7 +29,11 @@ void cTeam::deselectUnit(){
 	m_selectedUnit = nullptr;
 }
 
-auto cTeam::selectedUnit() -> cUnit&{
+// Get selected unit
+auto cTeam::selected() -> cUnit&{
+	if(m_selectedUnit == nullptr){
+		std::cout << "[ERROR] Call to selected unit, when no unit selected" << std::endl;
+	}
 	return *m_selectedUnit;
 }
 

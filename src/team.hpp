@@ -25,7 +25,7 @@ class cTeam{
 		void deselectUnit();
 
 		// Get selected unit
-		auto selectedUnit() -> cUnit&;
+		auto selected() -> cUnit&;
 
 		// Calculate range of units
 		void calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles);
