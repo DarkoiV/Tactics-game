@@ -4,12 +4,14 @@
 #include "asset_manager.hpp"
 #include <queue>
 
+// Constructor loads sprite and connects to parent unit
 cUnitRange::cUnitRange(cUnit &u) : unit(u){
 	// Get sprite pointer
 	auto &assetAccess = cAssetManager::getInstance();
 	m_moveRangeSprite = assetAccess.getSprite("Unit range component", "move_range");
 }
 
+// Calculate range on board
 void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableTiles){
 	// Set constants used for rangefinsing
 	const int boardLine = scene.board().getSize().x;
@@ -40,26 +42,30 @@ void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableT
 		const int WEST  = tilesToCheck.front() - 1;
 
 		if( NORTH > 0 
-		and passableTiles[NORTH]){
+		and passableTiles[NORTH]
+		and not m_validMoveDistance.count(NORTH)){
 			m_validMoveDistance[NORTH] = CURRENT_DISTANCE + 1;
 			tilesToCheck.push(NORTH);
 		}
 
 		if( EAST / boardLine == tilesToCheck.front() / boardLine
-		and passableTiles[EAST]){
+		and passableTiles[EAST]
+		and not m_validMoveDistance.count(EAST)){
 			m_validMoveDistance[EAST] = CURRENT_DISTANCE + 1;
 			tilesToCheck.push(EAST);
 		}
 
 		if( SOUTH <= lastTile
-		and passableTiles[SOUTH]){
+		and passableTiles[SOUTH]
+		and not m_validMoveDistance.count(SOUTH)){
 			m_validMoveDistance[SOUTH] = CURRENT_DISTANCE + 1;
 			tilesToCheck.push(SOUTH);
 		}
 
 		if( WEST / boardLine == tilesToCheck.front() / boardLine
 		and WEST >= 0
-		and passableTiles[WEST]){
+		and passableTiles[WEST]
+		and not m_validMoveDistance[WEST]){
 			m_validMoveDistance[WEST] = CURRENT_DISTANCE + 1;
 			tilesToCheck.push(WEST);
 		}
@@ -74,6 +80,7 @@ void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableT
 	}
 }
 
+// Return true if cursor is over passable tile
 bool cUnitRange::inRange(cSceneBattle &scene){
 	// Calculate target tile in 1D space
 	const int boardLine  = scene.board().getSize().x;
@@ -87,6 +94,7 @@ bool cUnitRange::inRange(cSceneBattle &scene){
 		return false;
 }
 
+// Draw move range
 void cUnitRange::drawMoveRange(vec2D p_cameraOffset, int p_animationFrame){
 	SDL_Rect srcRect{0, 0, TILE_SIZE, TILE_SIZE};
 	SDL_Rect dstRect{0, 0, TILE_SIZE, TILE_SIZE};

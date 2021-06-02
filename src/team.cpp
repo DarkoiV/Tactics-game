@@ -6,7 +6,7 @@ void cTeam::addNewUnit(std::string p_name){
 	// Create TMP unit
 	if(p_name == "TMP"){
 		m_units.push_back(std::make_shared<cUnit>());
-		m_units[0]->setPosition({10,10});
+		m_units.back()->setPosition({10,10});
 	}
 }
 
