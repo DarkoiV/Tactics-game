@@ -21,14 +21,14 @@ class cTeam{
 		void addNewUnit(std::string p_name);
 
 		// Select unit, returns true if unit selected
-		bool selectUnit(vec2D p_cursorPos);
+		bool selectUnit(vec2D p_targetPos);
 		void deselectUnit();
 
 		// Get selected unit
 		auto selected() -> cUnit&;
 
 		// Calculate range of units
-		void calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles);
+		void calculateRange(cBoard &board, const std::vector<bool> passableTiles);
 
 		// Toogle move range
 		void toggleMoveRange(bool p_shown);

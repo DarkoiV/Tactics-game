@@ -10,10 +10,10 @@ void cTeam::addNewUnit(std::string p_name){
 	}
 }
 
-// Try to select unit under cursor, return true if unit present on selected position
-bool cTeam::selectUnit(vec2D p_cursorPos){
+// Try to select unit on target position, return true if unit present on selected position
+bool cTeam::selectUnit(vec2D p_targetPos){
 	for(const auto &UNIT : m_units){
-		if(UNIT->getPosition() == p_cursorPos){
+		if(UNIT->getPosition() == p_targetPos){
 			m_selectedUnit = UNIT.get();
 			std::cout << "[INFO] Unit selected" << std::endl;
 			return true;
@@ -38,11 +38,11 @@ auto cTeam::selected() -> cUnit&{
 }
 
 // Calculate range of units
-void cTeam::calculateRange(cSceneBattle &scene, const std::vector<bool> passableTiles){
+void cTeam::calculateRange(cBoard &board, std::vector<bool> passableTiles){
 	std::cout << "[INFO] Calculating units ranges" << std::endl;
 	u_int32_t startTime = SDL_GetTicks(); 
 	for(auto UNIT : m_units){
-		UNIT->range().calculateRange(scene, passableTiles);
+		UNIT->range().calculateRange(board, passableTiles);
 	}
 	std::cout << "[INFO] Calculating ranges took: "<< SDL_GetTicks() - startTime << "ms" << std::endl;
 }

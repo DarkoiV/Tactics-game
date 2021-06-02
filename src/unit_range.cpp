@@ -1,6 +1,6 @@
 #include "unit_range.hpp"
 #include "unit.hpp"
-#include "scene_battle.hpp"
+#include "board.hpp"
 #include "asset_manager.hpp"
 #include <queue>
 
@@ -12,11 +12,11 @@ cUnitRange::cUnitRange(cUnit &u) : unit(u){
 }
 
 // Calculate range on board
-void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableTiles){
+void cUnitRange::calculateRange(cBoard &board, std::vector<bool> passableTiles){
 	// Set constants used for rangefinsing
-	const int boardLine = scene.board().getSize().x;
+	const int boardLine = board.getSize().x;
 	const int positionTile = unit.m_pos.x + (unit.m_pos.y * boardLine);
-	const int lastTile = scene.board().getSize().x * boardLine - 1;
+	const int lastTile = board.getSize().x * boardLine - 1;
 	const int moveRange = unit.m_stats.MOV;
 
 	// Reset move range containers
@@ -81,9 +81,9 @@ void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableT
 }
 
 // Return true if targetPos is passable tile
-bool cUnitRange::inRange(cSceneBattle &scene, vec2D p_targetPos){
+bool cUnitRange::inRange(cBoard &board, vec2D p_targetPos){
 	// Calculate target tile in 1D space
-	const int boardLine  = scene.board().getSize().x;
+	const int boardLine  = board.getSize().x;
 	const int targetTile = p_targetPos.x + p_targetPos.y * boardLine;
 
 	// Check if valid move

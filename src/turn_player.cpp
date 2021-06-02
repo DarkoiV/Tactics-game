@@ -71,9 +71,9 @@ void cTurnPlayer::processMoveUnit(cSceneBattle &scene, eBUTTON p_input){
 		// Check if move is withing range
 		// If so procced to move
 		case eBUTTON::SELECT:
-			if( selectedUnit.range().inRange( scene, scene.cursor().position()) ){
+			if( selectedUnit.range().inRange( scene.board(), scene.cursor().position()) ){
 				selectedUnit.setPosition(scene.cursor().position());
-				scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
+				scene.pTeam().calculateRange(scene.board(), scene.board().getPassableForUnit());
 			}
 			break;
 
@@ -108,7 +108,7 @@ void cTurnPlayer::start(cSceneBattle &scene){
 	m_mode = SELECT_UNIT;
 
 	// Calculate ranges
-	scene.pTeam().calculateRange(scene, scene.board().getPassableForUnit());
+	scene.pTeam().calculateRange(scene.board(), scene.board().getPassableForUnit());
 }
 
 // Check if completed

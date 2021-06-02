@@ -6,7 +6,7 @@
 #include <map>
 
 class cUnit;
-class cSceneBattle;
+class cBoard;
 
 class cUnitRange{
 	private:
@@ -25,8 +25,8 @@ class cUnitRange{
 		cUnitRange(cUnit &u);
 
 		// Move range
-		void calculateRange(cSceneBattle &scene, std::vector<bool> passableTiles);	// Calculates range
-		bool inRange(cSceneBattle &scene, vec2D p_targetPos);				// Returns true if targetPos is valid move
+		void calculateRange(cBoard &board, std::vector<bool> passableTiles);	// Calculates range
+		bool inRange(cBoard &board, vec2D p_targetPos);					// Returns true if targetPos is valid move
 
 		// Draw
 		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);
