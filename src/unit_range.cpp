@@ -80,12 +80,11 @@ void cUnitRange::calculateRange(cSceneBattle &scene, std::vector<bool> passableT
 	}
 }
 
-// Return true if cursor is over passable tile
-bool cUnitRange::inRange(cSceneBattle &scene){
+// Return true if targetPos is passable tile
+bool cUnitRange::inRange(cSceneBattle &scene, vec2D p_targetPos){
 	// Calculate target tile in 1D space
 	const int boardLine  = scene.board().getSize().x;
-	const int targetTile = scene.cursor().position().x 
-			+ (scene.cursor().position().y * boardLine);
+	const int targetTile = p_targetPos.x + p_targetPos.y * boardLine;
 
 	// Check if valid move
 	if(m_validMoveDistance.count(targetTile) == 1)

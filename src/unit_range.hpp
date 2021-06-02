@@ -26,7 +26,7 @@ class cUnitRange{
 
 		// Move range
 		void calculateRange(cSceneBattle &scene, std::vector<bool> passableTiles);	// Calculates range
-		bool inRange(cSceneBattle &scene);						// Returns true if cursor is over valid move
+		bool inRange(cSceneBattle &scene, vec2D p_targetPos);				// Returns true if targetPos is valid move
 
 		// Draw
 		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);
