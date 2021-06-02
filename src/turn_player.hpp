@@ -2,8 +2,17 @@
 
 #include "turn.hpp"
 
+class cBoard;
+class cCursor;
+class cTeam;
+
 class cTurnPlayer: public cTurn{
 	private:
+		// Parent scene dependencies
+		cBoard  &board;
+		cCursor &cursor;
+		cTeam   &playerTeam;
+
 		// Turn Mode
 		enum {
 			SELECT_UNIT,
@@ -13,22 +22,26 @@ class cTurnPlayer: public cTurn{
 		} m_mode;
 
 		// SELECT UNIT MODE
-		void processSelectUnit(cSceneBattle &scene, eBUTTON p_input);
+		void processSelectUnit(eBUTTON p_input);
 
 		// MOVE UNIT MODE
-		void processMoveUnit(cSceneBattle &scene, eBUTTON p_input);
+		void processMoveUnit(eBUTTON p_input);
 
 		// SELECT ACTION MODE
-		void processSelectAction(cSceneBattle &scene, eBUTTON p_input);
+		void processSelectAction(eBUTTON p_input);
 
 		// SELECT TARGET MODE
-		void processSelectTarget(cSceneBattle &scene, eBUTTON p_input);
+		void processSelectTarget(eBUTTON p_input);
 
 	public:
-		void start(cSceneBattle &scene)       override;
-		bool isCompleted(cSceneBattle &scene) override;
+		cTurnPlayer(cBoard &b, cCursor &c, cTeam &pt):
+			board(b),
+			cursor(c),
+			playerTeam(pt){};
+
+		void start()       override;
+		bool isCompleted() override;
 
 		// Turn Loop
-		void update(cSceneBattle &scene, 
-			eBUTTON p_input)         override;
+		void update(eBUTTON p_input) override;
 };

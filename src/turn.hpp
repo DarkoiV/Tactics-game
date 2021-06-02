@@ -3,8 +3,6 @@
 #include "enums.hpp"
 #include "struct_vec2D.hpp"
 
-class cSceneBattle;
-
 // Turn component interface
 class cTurn{
 	public:
@@ -12,10 +10,9 @@ class cTurn{
 		virtual ~cTurn(){};
 
 		// Methods
-		virtual void start(cSceneBattle &scene)       = 0;
-		virtual bool isCompleted(cSceneBattle &scene) = 0;
+		virtual void start()       = 0;
+		virtual bool isCompleted() = 0;
 
 		// Turn Loop
-		virtual void update(cSceneBattle &scene
-			, eBUTTON p_input)               = 0;
+		virtual void update(eBUTTON p_input) = 0;
 };

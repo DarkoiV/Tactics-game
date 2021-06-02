@@ -37,7 +37,7 @@ cSceneBattle::cSceneBattle(){
 
 	// Start player turn
 	m_turnVector.push_back(&m_playerTurn);
-	currentTurn()->start(*this);
+	currentTurn()->start();
 }
 
 // Destructor
@@ -89,12 +89,12 @@ void cSceneBattle::command(const std::string &p_command){
 // Update scene
 void cSceneBattle::update(eBUTTON p_input){
 	// Process turn related input
-	currentTurn()->update(*this, p_input);
+	currentTurn()->update(p_input);
 
 	// Check if turn is completed, if so, switch to next turn
-	if(currentTurn()->isCompleted(*this)){
+	if(currentTurn()->isCompleted()){
 		nextTurn();
-		currentTurn()->start(*this);
+		currentTurn()->start();
 	}
 
 	updateCamera();
@@ -112,18 +112,4 @@ void cSceneBattle::draw(){
 	m_playerTeam.drawMoveRange(m_cameraOffset, animationFrame);
 	m_playerTeam.drawUnits(m_cameraOffset, animationFrame);
 	m_cursor.draw(m_cameraOffset, animationFrame);
-}
-
-// ACCESS COMPONENT METHODS /////////////////////////////////////////////////
-
-auto cSceneBattle::board() -> cBoard&{
-	return m_board;
-}
-
-auto cSceneBattle::cursor() -> cCursor&{
-	return m_cursor;
-}
-
-auto cSceneBattle::pTeam() -> cTeam&{
-	return m_playerTeam;
 }

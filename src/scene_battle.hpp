@@ -27,7 +27,7 @@ class cSceneBattle: public cScene{
 		void nextTurn();
 
 		// Turn components
-		cTurnPlayer         m_playerTurn;
+		cTurnPlayer m_playerTurn = cTurnPlayer(m_board, m_cursor, m_playerTeam);
 		std::vector<cTurn*> m_turnVector;
 
 	public:
