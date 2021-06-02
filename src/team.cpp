@@ -10,7 +10,7 @@ void cTeam::addNewUnit(std::string p_name){
 	}
 }
 
-// Try to select unit on target position, return true if unit present on selected position
+// Try to select unit on target position, return true if any selectable unit is present on selected position
 bool cTeam::selectUnit(vec2D p_targetPos){
 	for(const auto &UNIT : m_units){
 		if(UNIT->getPosition() == p_targetPos){
