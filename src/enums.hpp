@@ -32,6 +32,12 @@ enum class eDIRECTION{
 	WEST
 };
 
+// Colors of text
+enum class eTEXT_COLOR{
+	RED,
+	YELLOW
+};
+
 // Item types
 enum class eITEM : uint8_t {
 	SPEAR  = 0b00000001,		// Bonus anti armor
