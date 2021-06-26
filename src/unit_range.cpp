@@ -156,7 +156,7 @@ auto cUnitRange::getPath(cBoard &board, vec2D p_targetPos) -> std::stack<eDIRECT
 			distance = m_validMoveDistance[WEST];
 			
 			// Push movement from new found tile to current
-			continue;
+			pathStack.push(eDIRECTION::EAST);
 		}
 
 		// If could not find path
