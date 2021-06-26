@@ -29,8 +29,34 @@ void cCommandMove::execute(){
 
 // Check if full tile was traveled
 bool cCommandMove::isCompleted(){
-	if(m_traveled == TILE_SIZE)
+	if(m_traveled == TILE_SIZE){
+		// Load previous position
+		vec2D newPos = m_unit->getPosition();
+
+		// Change position
+		switch (m_DIRECTION) {
+			case eDIRECTION::NORTH:
+				newPos.y--;
+				break;
+
+			case eDIRECTION::EAST:
+				newPos.x++;
+				break;
+
+			case eDIRECTION::SOUTH:
+				newPos.y++;
+				break;
+
+			case eDIRECTION::WEST:
+				newPos.x--;
+				break;
+		} 
+		m_unit->setPosition(newPos);
+
+		// Reset offset
+		m_unit->resetOffset();
 		return true;
+	}
 	else
 		return false;
 }

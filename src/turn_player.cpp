@@ -2,6 +2,7 @@
 #include "board.hpp"
 #include "cursor.hpp"
 #include "team.hpp"
+#include "unit_command_move.hpp"
 
 // SELECT UNIT MODE //////////////////////////////////////////////////////
 
@@ -71,11 +72,25 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 			break;
 
 		// Check if move is withing range
-		// If so procced to move
+		// If so send proper commands to unit
 		case eBUTTON::SELECT:
 			if( selectedUnit.range().inRange( board, cursor.position()) ){
-				selectedUnit.setPosition(cursor.position());
-				playerTeam.calculateRange(board, board.getPassableForUnit());
+				// Get path stack
+				std::stack<eDIRECTION> directionsOfMov;
+				directionsOfMov = playerTeam.selected().range().getPath(board, cursor.position());
+
+				// Create move commands queue from path stack
+				while( not directionsOfMov.empty() ){
+					m_commandQueue.emplace(
+							std::make_unique<cCommandMove>( &playerTeam.selected(), directionsOfMov.top() )
+							);
+					directionsOfMov.pop();
+				}
+
+				// TMP switch to SELECT UNIT MODE
+				playerTeam.deselectUnit();
+				playerTeam.toggleMoveRange(false);
+				m_mode = SELECT_UNIT;
 			}
 			break;
 
@@ -122,22 +137,32 @@ bool cTurnPlayer::isCompleted(){
 
 // Process input, update turn
 void cTurnPlayer::update(eBUTTON p_input){
-	// Jump to current moder
-	switch (m_mode) {
-		case SELECT_UNIT:
-			processSelectUnit(p_input);
-			break;
+	// Check command queue
+	if(not m_commandQueue.empty()){
+		m_commandQueue.front()->execute();
 
-		case MOVE_UNIT:
-			processMoveUnit(p_input);
-			break;
+		if(m_commandQueue.front()->isCompleted()){
+			m_commandQueue.pop();
+		}
+	}
+	//If all commands completed, jump to current mode
+	else{
+		switch (m_mode) {
+			case SELECT_UNIT:
+				processSelectUnit(p_input);
+				break;
 
-		case SELECT_ACTION:
-			processSelectAction(p_input);
-			break;
+			case MOVE_UNIT:
+				processMoveUnit(p_input);
+				break;
 
-		case SELECT_TARGET:
-			processSelectTarget(p_input);
-			break;
+			case SELECT_ACTION:
+				processSelectAction(p_input);
+				break;
+
+			case SELECT_TARGET:
+				processSelectTarget(p_input);
+				break;
+		}
 	}
 }
