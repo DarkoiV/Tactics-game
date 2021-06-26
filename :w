@@ -97,69 +97,19 @@ bool cUnitRange::inRange(cBoard &board, vec2D p_targetPos){
 auto cUnitRange::getPath(cBoard &board, vec2D p_targetPos) -> std::stack<eDIRECTION>{
 	std::stack<eDIRECTION> pathStack;
 
-	// Set constants
 	const int boardLine = board.getSize().x;
-	const int targetTile = (p_targetPos.y * boardLine) + p_targetPos.x;
 
-	// Setup distance, and current tile
+	// Target tile, setup distance
+	int targetTile = (p_targetPos.y * boardLine) + p_targetPos.x;
 	int distance = 0;
-	int currentTile = targetTile;
 	if(m_validMoveDistance.count(targetTile))
 		distance = m_validMoveDistance[targetTile];
 	else
 		std::cout << "[ERROR] Tile is not a valid movement target" << std::endl;
-
-	// Create path
+	
 	while(distance != 0){
-		// Check if surrounding tiles have smaller distance
-		const int NORTH = currentTile - boardLine;
-		const int EAST  = currentTile + 1;
-		const int SOUTH = currentTile + boardLine;
-		const int WEST  = currentTile - 1;
+		// Check surrounding tiles
 
-		// NORTH
-		if (m_validMoveDistance.count(NORTH) 
-		and m_validMoveDistance[NORTH] < distance){
-			currentTile = NORTH;
-			distance = m_validMoveDistance[NORTH];
-			
-			// Push movement from new found tile to current
-			pathStack.push(eDIRECTION::SOUTH);
-			continue;
-		}
-
-		// EAST
-		if (m_validMoveDistance.count(EAST) 
-		and m_validMoveDistance[EAST] < distance){
-			currentTile = EAST;
-			distance = m_validMoveDistance[EAST];
-			
-			// Push movement from new found tile to current
-			pathStack.push(eDIRECTION::WEST);	
-			continue;
-		}
-
-		// SOUTH
-		if (m_validMoveDistance.count(SOUTH) 
-		and m_validMoveDistance[SOUTH] < distance){
-			currentTile = SOUTH;
-			distance = m_validMoveDistance[SOUTH];
-			
-			// Push movement from new found tile to current
-			pathStack.push(eDIRECTION::NORTH);	
-			continue;
-		}
-
-		// WEST	
-		if (m_validMoveDistance.count(WEST) 
-		and m_validMoveDistance[WEST] < distance){
-			currentTile = WEST;
-			distance = m_validMoveDistance[WEST];
-			
-			// Push movement from new found tile to current
-			pathStack.push(eDIRECTION::EAST);	
-			continue;
-		}
 
 	}
 

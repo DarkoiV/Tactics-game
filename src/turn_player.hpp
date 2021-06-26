@@ -1,6 +1,9 @@
 #pragma once
 
 #include "turn.hpp"
+#include "command.hpp"
+#include <memory>
+#include <queue>
 
 class cBoard;
 class cCursor;
@@ -12,6 +15,9 @@ class cTurnPlayer: public cTurn{
 		cBoard  &board;
 		cCursor &cursor;
 		cTeam   &playerTeam;
+
+		// Command queue
+		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
 
 		// Turn Mode
 		enum {
