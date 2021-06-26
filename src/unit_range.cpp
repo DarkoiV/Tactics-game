@@ -23,7 +23,7 @@ void cUnitRange::calculateRange(cBoard &board, std::vector<bool> passableTiles){
 	m_validMove.clear();
 	m_validMoveDistance.clear();
 
-	//BFS algorithm, create queue, push current position
+	// BFS algorithm, create queue, push current position
 	std::queue<int> tilesToCheck;
 	tilesToCheck.push(positionTile);
 	m_validMoveDistance[positionTile] = 0;
@@ -65,7 +65,7 @@ void cUnitRange::calculateRange(cBoard &board, std::vector<bool> passableTiles){
 		if( WEST / boardLine == tilesToCheck.front() / boardLine
 		and WEST >= 0
 		and passableTiles[WEST]
-		and not m_validMoveDistance[WEST]){
+		and not m_validMoveDistance.count(WEST)){
 			m_validMoveDistance[WEST] = CURRENT_DISTANCE + 1;
 			tilesToCheck.push(WEST);
 		}
@@ -109,8 +109,10 @@ auto cUnitRange::getPath(cBoard &board, vec2D p_targetPos) -> std::stack<eDIRECT
 	else
 		std::cout << "[ERROR] Tile is not a valid movement target" << std::endl;
 
+	std::cout << "[INFO] Distance in path: " << distance << std::endl;
+
 	// Create path
-	while(distance != 0){
+	while(distance > 0){
 		// Check if surrounding tiles have smaller distance
 		const int NORTH = currentTile - boardLine;
 		const int EAST  = currentTile + 1;
@@ -125,40 +127,44 @@ auto cUnitRange::getPath(cBoard &board, vec2D p_targetPos) -> std::stack<eDIRECT
 			
 			// Push movement from new found tile to current
 			pathStack.push(eDIRECTION::SOUTH);
-			continue;
 		}
 
 		// EAST
-		if (m_validMoveDistance.count(EAST) 
+		else if (m_validMoveDistance.count(EAST) 
 		and m_validMoveDistance[EAST] < distance){
 			currentTile = EAST;
 			distance = m_validMoveDistance[EAST];
 			
 			// Push movement from new found tile to current
 			pathStack.push(eDIRECTION::WEST);	
-			continue;
 		}
 
 		// SOUTH
-		if (m_validMoveDistance.count(SOUTH) 
+		else if (m_validMoveDistance.count(SOUTH) 
 		and m_validMoveDistance[SOUTH] < distance){
 			currentTile = SOUTH;
 			distance = m_validMoveDistance[SOUTH];
 			
 			// Push movement from new found tile to current
 			pathStack.push(eDIRECTION::NORTH);	
-			continue;
 		}
 
 		// WEST	
-		if (m_validMoveDistance.count(WEST) 
+		else if (m_validMoveDistance.count(WEST) 
 		and m_validMoveDistance[WEST] < distance){
 			currentTile = WEST;
 			distance = m_validMoveDistance[WEST];
 			
 			// Push movement from new found tile to current
-			pathStack.push(eDIRECTION::EAST);	
 			continue;
+		}
+
+		// If could not find path
+		else {
+			std::cout << "[ERROR] Could not find proper path, returning empty stack!" << std::endl;
+			while(not pathStack.empty())
+			     pathStack.pop();
+			break;
 		}
 
 	}
