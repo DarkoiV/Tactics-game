@@ -107,6 +107,7 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input){
 
 // Start turn
 void cTurnPlayer::start(){
+	// Turn start in select unit mode! 
 	m_mode = SELECT_UNIT;
 
 	// Calculate ranges
@@ -115,12 +116,13 @@ void cTurnPlayer::start(){
 
 // Check if completed
 bool cTurnPlayer::isCompleted(){
-	// TMP
+	// TMP always return false
 	return false;
 }
 
 // Process input, update turn
 void cTurnPlayer::update(eBUTTON p_input){
+	// Jump to current moder
 	switch (m_mode) {
 		case SELECT_UNIT:
 			processSelectUnit(p_input);

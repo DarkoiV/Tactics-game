@@ -11,29 +11,6 @@ cSceneBattle::cSceneBattle(){
 	// TMP create unit
 	m_playerTeam.addNewUnit("TMP");
 	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
-	m_playerTeam.addNewUnit("TMP");
 
 	// Start player turn
 	m_turnVector.push_back(&m_playerTurn);
