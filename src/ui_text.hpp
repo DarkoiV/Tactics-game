@@ -19,20 +19,20 @@ class cText{
 		bool m_consoleText = false;			// Whether text is of console or color type
 		int m_scaleOfText = 1;				// Scale of text to display
 
-		SDL_Texture* m_pTextSprite;			// Pointer to selected text texture
+		SDL_Texture* m_textSprite;			// Pointer to selected text texture
 
 	public:
 		// Constructors 
-		cText(const vec2D p_originPoint);					// Default constructor
-		cText(const vec2D p_originPoint, int p_color);				// Constructor for color text
-		cText(const vec2D p_originPoint, int p_color, int p_scale);		// Constructor for scaled color text
+		cText(vec2D p_originPoint);						// Constructor for console text
+		cText(vec2D p_originPoint, eTEXT_COLOR p_color);			// Constructor for color text
+		cText(vec2D p_originPoint, eTEXT_COLOR p_color, int p_scale);		// Constructor for scaled color text
 
 		// Methods
 		int getPixelWidth();				// Returns lenght of rendered text in pixels
 		int getPixelHeight();				// Returns height of rendered text in pixels
 
 		void changeTextColor(eTEXT_COLOR p_color);		// Changes color of text
-		void setNewOriginPoint(vec2D p_newOriginPoint);		// Set new origin point of text render
+		void setOriginPoint(vec2D p_originPoint);		// Set new origin point of text render
 
 		void update(const std::string p_newText);		// Changes text which will be displaied
 		void draw();
