@@ -13,6 +13,8 @@ cText::cText(vec2D p_originPoint){
 
 	// Set character size
 	SDL_QueryTexture(m_textSprite, NULL, NULL,  &m_characterSize.x, &m_characterSize.y);
+	m_characterSize.x = m_characterSize.x / CHARS_PER_ROW;
+	m_characterSize.y = m_characterSize.y / CHARS_PER_COLUMN;
 }
 
 // Create color text
@@ -102,8 +104,8 @@ void cText::draw(){
 
 	// Draw each char
 	for(size_t i = 0; i < m_textToRender.size(); i++){
-		srcRect.x = (m_textToRender[i] - 32) / CHARS_PER_COLUMN;
-		srcRect.y = (m_textToRender[i] - 32) / CHARS_PER_ROW;
+		srcRect.x = ((m_textToRender[i] - 32) % CHARS_PER_ROW) * m_characterSize.x;
+		srcRect.y = ((m_textToRender[i] - 32) / CHARS_PER_ROW) * m_characterSize.y;
 
 		dstRect.x = m_originPoint.x + (i * m_characterSize.x * m_scaleOfText);
 
