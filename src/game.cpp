@@ -118,6 +118,11 @@ bool cGame::loadSettings(){
 		std::cout << "[INFO] Scale loaded from config = " << g_scaleFactor << std::endl;
 	}
 
+	// Delete config from memory, reset stack
+	lua_pushnil(L);
+	lua_setglobal(L, "config");
+	lua_settop(L, 0);
+
 	// If success return true
 	return true;
 }
