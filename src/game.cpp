@@ -55,6 +55,9 @@ cGame::cGame(){
 	// If all went ok, set game as running
 	m_running = true;
 
+	// Create console text renderer
+	m_consoleText = new cText({10, 10});
+
 	std::cout << "[OK] Game started corectly" << std::endl;
 }
 
@@ -78,6 +81,9 @@ void cGame::operator()(){
 		// Run scene
 		m_currentScene->update(getInput());
 		m_currentScene->draw();
+
+		// Draw console
+		drawConsole();
 	
 		// Create frame
 		createFrame();
@@ -104,6 +110,14 @@ void cGame::createFrame(){
 
 	// Keep track of ticks at the end of previous frame
 	previousFrameTicks = SDL_GetTicks();
+}
+
+// Draw console to screen
+void cGame::drawConsole(){
+	if(SDL_IsTextInputActive()){
+		m_consoleText->update("> " + m_command);
+		m_consoleText->draw();
+	}
 }
 
 // Get player input

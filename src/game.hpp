@@ -3,6 +3,7 @@
 #include "scene.hpp"
 #include "enums.hpp"
 #include "scene_battle.hpp"
+#include "ui_text.hpp"
 #include <vector>
 
 class cGame{
@@ -13,9 +14,11 @@ class cGame{
 
 		// Console command
 		std::string m_command = "";
+		cText* m_consoleText = nullptr; 	// Has to be init after SDL!
 
 		// Private methods
 		void    createFrame();
+		void    drawConsole();
 		eBUTTON getInput()   ;
 
 	public:
