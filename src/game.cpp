@@ -11,7 +11,12 @@ cGame::cGame(){
 	g_basePath = SDL_GetBasePath();
 	std::cout << "[INFO] Game running in directory: " << g_basePath << std::endl;
 
+	// Open lua state
+	std::cout << "[INFO] Creating Lua state" << std::endl;
+	L = luaL_newstate();
+
 	// Load config
+	if(not loadSettings()) return;
 
 	// Init SDL2
 	if(SDL_Init(SDL_INIT_VIDEO) != 0){
@@ -58,11 +63,8 @@ cGame::cGame(){
 	// Create console text renderer
 	m_consoleText = new cText({10, 10});
 
-	// Open lua state
-	std::cout << "[INFO] Creating Lua state" << std::endl;
-	L = luaL_newstate();
-
 	std::cout << "[OK] Game started corectly" << std::endl;
+	std::cout << std::endl;
 }
 
 // Destructor quits game
@@ -95,6 +97,29 @@ void cGame::operator()(){
 		// Create frame
 		createFrame();
 	}
+}
+
+// Load settings from Lua file
+bool cGame::loadSettings(){
+	std::string configFile = g_basePath + "data/config.lua";
+	luaL_dofile(L, configFile.c_str());
+
+	// Check if config table exists
+	lua_getglobal(L, "config");
+	if(not lua_istable(L, -1) ){
+		std::cout << "[ERROR] In file data/config.lua: there is no config table" << std::endl;
+		return false;
+	}
+
+	// Get scale 
+	lua_getfield(L, -1, "scale");
+	if(lua_isinteger(L, -1)){
+		g_scaleFactor = lua_tointeger(L, -1);
+		std::cout << "[INFO] Scale loaded from config = " << g_scaleFactor << std::endl;
+	}
+
+	// If success return true
+	return true;
 }
 
 // Create single frame of game

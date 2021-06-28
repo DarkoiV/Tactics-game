@@ -17,9 +17,10 @@ class cGame{
 		cText* m_consoleText = nullptr; 	// Has to be init after SDL!
 
 		// Private methods
+		bool    loadSettings();
 		void    createFrame();
 		void    drawConsole();
-		eBUTTON getInput()   ;
+		eBUTTON getInput();
 
 	public:
 		// Init game

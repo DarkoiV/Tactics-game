@@ -1,0 +1,3 @@
+config = {
+	scale = 2
+}
