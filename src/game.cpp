@@ -58,11 +58,18 @@ cGame::cGame(){
 	// Create console text renderer
 	m_consoleText = new cText({10, 10});
 
+	// Open lua state
+	std::cout << "[INFO] Creating Lua state" << std::endl;
+	L = luaL_newstate();
+
 	std::cout << "[OK] Game started corectly" << std::endl;
 }
 
 // Destructor quits game
 cGame::~cGame(){
+	std::cout << "[INFO] Closing Lua state" << std::endl;
+	lua_close(L);
+
 	std::cout << "[INFO] Quitting SDL" << std::endl;
 	SDL_DestroyRenderer(g_renderer);
 	SDL_DestroyWindow(g_window);

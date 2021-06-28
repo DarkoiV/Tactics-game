@@ -11,7 +11,7 @@ class cGame{
 		// Game state
 		bool    m_running      = false  ;
 		cScene* m_currentScene = nullptr;
-
+		
 		// Console command
 		std::string m_command = "";
 		cText* m_consoleText = nullptr; 	// Has to be init after SDL!
