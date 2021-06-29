@@ -1,6 +1,5 @@
 #pragma once
 
-#include "lua.hpp"
 #include <SDL2/SDL.h>
 #include <iostream>
 
@@ -19,6 +18,3 @@ inline SDL_Event     g_events;
 inline int g_scaleFactor      = 2 ;
 inline std::string g_basePath = "";
 inline std::string g_title    = ""; 
-
-// Lua state
-inline lua_State* L;

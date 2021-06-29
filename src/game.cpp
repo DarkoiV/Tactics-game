@@ -2,6 +2,7 @@
 
 #include "globals.hpp"
 #include "asset_manager.hpp"
+#include "lua.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -10,10 +11,6 @@ cGame::cGame(){
 	// Load base path
 	g_basePath = SDL_GetBasePath();
 	std::cout << "[INFO] Game running in directory: " << g_basePath << std::endl;
-
-	// Open lua state
-	std::cout << "[INFO] Creating Lua state" << std::endl;
-	L = luaL_newstate();
 
 	// Load config
 	if(not loadSettings()) return;
@@ -69,9 +66,6 @@ cGame::cGame(){
 
 // Destructor quits game
 cGame::~cGame(){
-	std::cout << "[INFO] Closing Lua state" << std::endl;
-	lua_close(L);
-
 	std::cout << "[INFO] Quitting SDL" << std::endl;
 	SDL_DestroyRenderer(g_renderer);
 	SDL_DestroyWindow(g_window);
@@ -101,8 +95,14 @@ void cGame::operator()(){
 
 // Load settings from Lua file
 bool cGame::loadSettings(){
+	//Create lua state
+	lua_State* L = luaL_newstate();
+
+	// Open config file
 	std::string configFile = g_basePath + "data/config.lua";
 	luaL_dofile(L, configFile.c_str());
+
+	std::cout << "[INFO] Loading config from: " << configFile << std::endl;
 
 	// Check if config table exists
 	lua_getglobal(L, "config");
@@ -118,12 +118,10 @@ bool cGame::loadSettings(){
 		std::cout << "[INFO] Scale loaded from config = " << g_scaleFactor << std::endl;
 	}
 
-	// Delete config from memory, reset stack
-	lua_pushnil(L);
-	lua_setglobal(L, "config");
-	lua_settop(L, 0);
+	// Close Lua state
+	lua_close(L);
 
-	// If success return true
+	// On success return true
 	return true;
 }
 
