@@ -16,7 +16,6 @@ class cText{
 		vec2D m_characterSize;				// Size of individual char in pixels
 		vec2D m_originPoint;				// Top left point where text starts
 
-		bool m_consoleText = false;			// Whether text is of console or color type
 		int m_scaleOfText = 1;				// Scale of text to display
 
 		SDL_Texture* m_textSprite;			// Pointer to selected text texture
