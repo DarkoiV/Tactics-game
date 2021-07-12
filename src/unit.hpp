@@ -1,6 +1,7 @@
 #pragma once
 
 #include "unit_range.hpp"
+#include "unit_inventory.hpp"
 #include "struct_vec2D.hpp"
 #include "struct_stats.hpp"
 #include <SDL2/SDL.h>
@@ -15,9 +16,14 @@ class cUnit{
 		// Stats
 		sStats m_stats;
 
-		// Components
+		// Components ////////////////
 		cUnitRange m_range = cUnitRange(*this);
 		friend cUnitRange;
+		
+		cUnitInventory m_inventory = cUnitInventory(*this);
+		friend cUnitInventory;
+
+		//////////////////////////////
 
 		// Sprite
 		SDL_Texture* m_sprite;
