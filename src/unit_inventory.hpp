@@ -19,4 +19,5 @@ class cUnitInventory{
 
 		// Methods
 		bool addItem(sItem p_newItem);		// Returns false when inventory is full
+		void deleteItem(int p_itemNo);		// Deletes item on position p_itemNo
 };
