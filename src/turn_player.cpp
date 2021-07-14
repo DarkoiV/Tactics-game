@@ -8,6 +8,10 @@
 
 void cTurnPlayer::processSelectUnit(eBUTTON p_input){
 
+	// TMP refresh range each frame
+	playerTeam.calculateRange(board, board.getPassableForUnit());
+	///////
+	
 	switch (p_input) {
 		case eBUTTON::UP:
 			cursor.moveUp();
@@ -90,7 +94,6 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 				// TMP switch to SELECT UNIT MODE
 				playerTeam.deselectUnit();
 				playerTeam.toggleMoveRange(false);
-				playerTeam.calculateRange(board, board.getPassableForUnit());
 				m_mode = SELECT_UNIT;
 			}
 			break;
