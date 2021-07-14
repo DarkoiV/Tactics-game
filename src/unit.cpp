@@ -2,11 +2,14 @@
 #include "globals.hpp"
 #include "asset_manager.hpp"
 
-// Test constructor
-cUnit::cUnit(){
+// Constructor by name
+cUnit::cUnit(std::string p_name){
+	// Set name
+	m_name = p_name;
+
 	// Set sprite
 	auto &assetAcces = cAssetManager::getInstance();
-	m_sprite = assetAcces.getSprite("Test unit", "unit_infantry");
+	m_sprite = assetAcces.getSprite(p_name, "unit_infantry");
 
 	// Default stats
 	m_stats.HP  = 10;

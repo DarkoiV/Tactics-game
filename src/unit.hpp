@@ -8,6 +8,9 @@
 
 class cUnit{
 	private:
+		// Identification
+		std::string m_name;
+
 		// Position on map in tiles, offset in pixels
 		vec2D m_pos{-1, -1};
 		vec2D m_offset{0, 0};
@@ -29,7 +32,7 @@ class cUnit{
 		SDL_Texture* m_sprite;
 	public:
 		// Constructor
-		cUnit();
+		cUnit(std::string p_name);
 
 		// Methods for position
 		void setPosition(vec2D p_pos);
