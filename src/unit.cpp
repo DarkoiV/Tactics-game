@@ -3,7 +3,7 @@
 #include "asset_manager.hpp"
 
 // Constructor by name
-cUnit::cUnit(std::string p_name){
+cUnit::cUnit(const std::string &p_name){
 	// Set name
 	m_name = p_name;
 

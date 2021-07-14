@@ -32,7 +32,7 @@ class cUnit{
 		SDL_Texture* m_sprite;
 	public:
 		// Constructor
-		cUnit(std::string p_name);
+		cUnit(const std::string& p_name);
 
 		// Methods for position
 		void setPosition(vec2D p_pos);
