@@ -90,6 +90,7 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 				// TMP switch to SELECT UNIT MODE
 				playerTeam.deselectUnit();
 				playerTeam.toggleMoveRange(false);
+				playerTeam.calculateRange(board, board.getPassableForUnit());
 				m_mode = SELECT_UNIT;
 			}
 			break;
