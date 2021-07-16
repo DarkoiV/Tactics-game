@@ -47,6 +47,20 @@ void cTeam::calculateRange(cBoard &board, std::vector<bool> passableTiles){
 	std::cout << "[INFO] Calculating ranges took: "<< SDL_GetTicks() - startTime << "ms" << std::endl;
 }
 
+// Get occupied tiles by team
+auto cTeam::getOccupiedTiles() -> std::vector<vec2D>{
+	// Create return vector
+	std::vector<vec2D> occupiedTiles(m_units.size());
+
+	// Populate vector with positions occupied by team
+	for(size_t i = 0; i < occupiedTiles.size(); i++){
+		occupiedTiles[i] = m_units[i]->getPosition();
+	}
+
+	// Return
+	return occupiedTiles;
+}
+
 // Toggle move range drawing
 void cTeam::toggleMoveRange(bool p_shown){
 	m_showMoveRange = p_shown;

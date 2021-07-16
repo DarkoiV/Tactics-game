@@ -5,6 +5,8 @@
 #include <vector>
 #include <set>
 
+class cTeam;
+
 class cBoard{
 	private:
 		// Variables
@@ -13,9 +15,6 @@ class cBoard{
 		// Containers storing board state
 		std::vector<uint8_t> m_tiles;
 		std::vector<bool>    m_passableTiles;
-
-		std::set<int> m_occupiedByUnit;
-		std::set<int> m_occupiedByEnemy;
 
 		// Sprite pointer and constants
 		SDL_Texture* m_sprite;
@@ -33,7 +32,6 @@ class cBoard{
 		// Getters
 		auto getSize() -> vec2D;
 
-		// Get vector representing tiles passable for each team
-		auto getPassableForUnit()  -> std::vector<bool>;
-		auto getPassableForEnemy() -> std::vector<bool>;
+		// Get vector representing tiles passable for team
+		auto getPassable(cTeam& opposingTeam)  -> std::vector<bool>;
 };

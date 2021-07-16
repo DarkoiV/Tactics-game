@@ -8,8 +8,8 @@
 
 void cTurnPlayer::processSelectUnit(eBUTTON p_input){
 
-	// TMP refresh range each frame
-	playerTeam.calculateRange(board, board.getPassableForUnit());
+	// TMP refresh range each frame, use player Team for testing
+	playerTeam.calculateRange(board, board.getPassable(playerTeam));
 	///////
 	
 	switch (p_input) {
@@ -130,7 +130,7 @@ void cTurnPlayer::start(){
 	m_mode = SELECT_UNIT;
 
 	// Calculate ranges
-	playerTeam.calculateRange(board, board.getPassableForUnit());
+	playerTeam.calculateRange(board, board.getPassable(playerTeam));
 }
 
 // Check if completed

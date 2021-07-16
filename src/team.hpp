@@ -30,6 +30,9 @@ class cTeam{
 		// Calculate range of units
 		void calculateRange(cBoard &board, const std::vector<bool> passableTiles);
 
+		// Get occupied tiles by team
+		auto getOccupiedTiles() -> std::vector<vec2D>;
+
 		// Toogle move range
 		void toggleMoveRange(bool p_shown);
 

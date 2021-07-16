@@ -1,5 +1,6 @@
 #include "board.hpp"
 #include "asset_manager.hpp"
+#include "team.hpp"
 
 // Constructor
 cBoard::cBoard(){
@@ -128,23 +129,17 @@ auto cBoard::getSize() -> vec2D{
 }
 
 // Get vector of tiles passable by player team
-auto cBoard::getPassableForUnit() -> std::vector<bool>{
-	// Copy passable tiles
-	std::vector<bool> resultsVector(m_passableTiles);
+auto cBoard::getPassable(cTeam& opposingTeam) -> std::vector<bool>{
+	// Copy passable map tiles
+	std::vector<bool> passableTiles(m_passableTiles);
 
-	// TODO: Check here if tiles are occupied by opposing team
+	// Make tiles occupied by enemy team as not passable
+	auto enemyPos = opposingTeam.getOccupiedTiles();
+	for(size_t i = 0; i < enemyPos.size(); i++){
+		int occupiedTile = enemyPos[i].x + (enemyPos[i].y * m_size.x);
+		passableTiles[occupiedTile] = false;
+	}
 
-	// Return result
-	return resultsVector;
-}
-
-// Get vector of tiles passable by enemy team
-auto cBoard::getPassableForEnemy() -> std::vector<bool>{
-	// Copy passable tiles
-	std::vector<bool> resultsVector(m_passableTiles);
-
-	// TODO: Check here if tiles are occupied by opposing team
-
-	// Return result
-	return resultsVector;
+	// Return passable tiles
+	return passableTiles;
 }
