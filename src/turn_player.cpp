@@ -75,8 +75,8 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 		case eBUTTON::SELECT:
 			if( selectedUnit.range().inRange( board, cursor.position()) ){
 				// Get path stack
-				std::stack<eDIRECTION> directionsOfMov;
-				directionsOfMov = playerTeam.selected().range().getPath(board, cursor.position());
+				auto directionsOfMov 
+					= playerTeam.selected().range().getPath(board, cursor.position());
 
 				// Create move commands queue from path stack
 				while( not directionsOfMov.empty() ){
