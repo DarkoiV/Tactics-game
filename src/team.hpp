@@ -25,8 +25,8 @@ class cTeam{
 		cTeam(eTEAM_COLOR p_teamColor)
 			:m_teamColor(p_teamColor){};
 
-		// Add new unit to team by name
-		void addNewUnit(std::string p_name);
+		// Spawn new unit by name
+		void spawnUnit(std::string p_name, vec2D p_pos);
 
 		// Select unit, returns true if unit selected
 		bool selectUnit(vec2D p_targetPos);

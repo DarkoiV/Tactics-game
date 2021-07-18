@@ -27,12 +27,12 @@ cSceneBattle::cSceneBattle(){
 		));
 
 	// TMP create units
-	m_blueTeam.addNewUnit("TMP");
-	m_blueTeam.addNewUnit("TMP");
+	m_blueTeam.spawnUnit("TMP", {8, 10});
+	m_blueTeam.spawnUnit("TMP", {9, 10});
 
 	// m_redTeam.addNewUnit("TMP");
-	m_redTeam.addNewUnit("TMP");
-	m_redTeam.addNewUnit("TMP");
+	m_redTeam.spawnUnit("TMP", {5, 10});
+	m_redTeam.spawnUnit("TMP", {4, 10});
 
 	// Start current turn
 	currentTurn()->start();
