@@ -1,4 +1,5 @@
 #include "team.hpp"
+#include "board.hpp"
 
 // Add new unit to team by name
 void cTeam::addNewUnit(std::string p_name){
@@ -38,9 +39,12 @@ auto cTeam::selected() -> cUnit&{
 }
 
 // Calculate range of units
-void cTeam::calculateRange(cBoard &board, std::vector<bool> passableTiles){
+void cTeam::calculateRange(cBoard &board, cTeam &opposingTeam){
 	std::cout << "[INFO] Calculating units ranges" << std::endl;
 	u_int32_t startTime = SDL_GetTicks(); 
+
+	auto passableTiles = board.getPassable(opposingTeam);
+
 	for(auto UNIT : m_units){
 		UNIT->range().calculateRange(board, passableTiles);
 	}

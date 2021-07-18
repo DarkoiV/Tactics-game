@@ -36,7 +36,7 @@ class cTeam{
 		auto selected() -> cUnit&;
 
 		// Calculate range of units
-		void calculateRange(cBoard &board, const std::vector<bool> passableTiles);
+		void calculateRange(cBoard &board, cTeam &opposingTeam);
 
 		// Get occupied tiles by team
 		auto getOccupiedTiles() -> std::vector<vec2D>;
