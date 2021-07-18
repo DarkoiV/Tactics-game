@@ -66,6 +66,10 @@ cGame::cGame(){
 
 // Destructor quits game
 cGame::~cGame(){
+	// Delete scenes
+	delete m_currentScene;
+
+	// Quit SDL
 	std::cout << "[INFO] Quitting SDL" << std::endl;
 	SDL_DestroyRenderer(g_renderer);
 	SDL_DestroyWindow(g_window);
