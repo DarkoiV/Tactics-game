@@ -3,13 +3,24 @@
 #include "asset_manager.hpp"
 
 // Constructor by name
-cUnit::cUnit(const std::string &p_name){
+cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 	// Set name
 	m_name = p_name;
 
+	// Name of asset
+	std::string assetToLoad = "unit_infantry_";
+	switch (p_color){
+		case eTEAM_COLOR::BLUE:
+			assetToLoad += "blue";
+			break;
+		case eTEAM_COLOR::RED:
+			assetToLoad += "red";
+			break;
+	}
+
 	// Set sprite
 	auto &assetAcces = cAssetManager::getInstance();
-	m_sprite = assetAcces.getSprite(p_name, "unit_infantry");
+	m_sprite = assetAcces.getSprite(p_name, assetToLoad);
 
 	// Default stats
 	m_stats.HP  = 10;

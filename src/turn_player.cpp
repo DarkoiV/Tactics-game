@@ -85,9 +85,10 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 
 				// Create move commands queue from path stack
 				while( not directionsOfMov.empty() ){
-					m_commandQueue.emplace(
-							std::make_unique<cCommandMove>( &playerTeam.selected(), directionsOfMov.top() )
-							);
+					m_commandQueue.emplace(std::make_unique<cCommandMove>( 
+						&playerTeam.selected(), 
+						directionsOfMov.top() 
+						));
 					directionsOfMov.pop();
 				}
 

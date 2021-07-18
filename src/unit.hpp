@@ -4,8 +4,16 @@
 #include "unit_inventory.hpp"
 #include "struct_vec2D.hpp"
 #include "struct_stats.hpp"
+
 #include <SDL2/SDL.h>
 
+// Color of units
+enum class eTEAM_COLOR{
+	BLUE,
+	RED
+};
+
+// Unit class
 class cUnit{
 	private:
 		// Identification
@@ -32,7 +40,7 @@ class cUnit{
 		SDL_Texture* m_sprite;
 	public:
 		// Constructor
-		cUnit(const std::string& p_name);
+		cUnit(const std::string& p_name, eTEAM_COLOR p_color);
 
 		// Methods for position
 		void setPosition(vec2D p_pos);

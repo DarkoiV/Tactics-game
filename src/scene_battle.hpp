@@ -7,7 +7,9 @@
 #include "cursor.hpp"
 #include "struct_vec2D.hpp"
 #include "team.hpp"
+
 #include <vector>
+#include <memory>
 
 class cSceneBattle: public cScene{
 	private:
@@ -16,18 +18,19 @@ class cSceneBattle: public cScene{
 		cCursor m_cursor;
 
 		// Teams
-		cTeam m_playerTeam;
+		cTeam m_blueTeam = cTeam(eTEAM_COLOR::BLUE);
+		cTeam m_redTeam  = cTeam(eTEAM_COLOR::RED);
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};
 		inline void updateCamera();
 
 		// Turn methods
+		int  m_turnIndex    = 0;
 		auto currentTurn() -> cTurn*;
 		void nextTurn();
 
 		// Turn components
-		cTurnPlayer m_playerTurn = cTurnPlayer(m_board, m_cursor, m_playerTeam);
 		std::vector<cTurn*> m_turnVector;
 
 	public:
@@ -41,9 +44,4 @@ class cSceneBattle: public cScene{
 		// Scene loop methods override
 		void update(eBUTTON p_INPUT) override;
 		void draw()                  override;
-
-		// Access to components
-		auto board()  -> cBoard&;
-		auto cursor() -> cCursor&;
-		auto pTeam()  -> cTeam&;
 };

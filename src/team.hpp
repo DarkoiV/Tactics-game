@@ -2,10 +2,12 @@
 
 #include "struct_vec2D.hpp"
 #include "unit.hpp"
+
 #include <vector>
 #include <memory>
 #include <string>
 
+// Team class
 class cTeam{
 	private:
 		// Units selected for battle in this team
@@ -13,10 +15,16 @@ class cTeam{
 
 		// Curently selected unit
 		cUnit* m_selectedUnit = nullptr;
-
 		bool m_showMoveRange = false;
 
+		// Color of team
+		eTEAM_COLOR m_teamColor;
+
 	public:
+		// Constructor decides which color are units
+		cTeam(eTEAM_COLOR p_teamColor)
+			:m_teamColor(p_teamColor){};
+
 		// Add new unit to team by name
 		void addNewUnit(std::string p_name);
 
