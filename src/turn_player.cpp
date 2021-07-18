@@ -137,16 +137,31 @@ bool cTurnPlayer::isCompleted(){
 
 // Process input, update turn
 void cTurnPlayer::update(eBUTTON p_input){
-	// Check command queue
-	if(not m_commandQueue.empty()){
+	// Check if any unit is under cursor
+	if(playerTeam.isAnyHere(cursor.position())) {
+		// Change cursor display(for ally), show quick stats
+		cursor[eCURSOR_MODE::ALLY];
+	} 
+	else if(enemyTeam.isAnyHere(cursor.position())){
+		// Change cursor display(for enemy), show quick stats
+		cursor[eCURSOR_MODE::ENEMY];
+	}
+	else {
+		// Change cursor display(normal)
+		cursor[eCURSOR_MODE::NORMAL];
+	}
+
+
+	// Check command queue, 
+	// If all commands completed, jump to current mode
+	if(not m_commandQueue.empty()) {
 		m_commandQueue.front()->execute();
 
 		if(m_commandQueue.front()->isCompleted()){
 			m_commandQueue.pop();
 		}
 	}
-	//If all commands completed, jump to current mode
-	else{
+	else {
 		switch (m_mode) {
 			case SELECT_UNIT:
 				processSelectUnit(p_input);

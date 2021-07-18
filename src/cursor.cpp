@@ -44,6 +44,11 @@ void cCursor::moveRight(){
 		std::cout << "[INFO] Cursor at board limit" << std::endl;
 }
 
+// Change mode of display
+void cCursor::operator[](eCURSOR_MODE p_mode) {
+	m_mode = p_mode;
+}
+
 // Get cursor position
 auto cCursor::position() -> vec2D{
 	return m_position;
@@ -53,7 +58,7 @@ auto cCursor::position() -> vec2D{
 void cCursor::draw(vec2D p_cameraOffset, int p_animationFrame){
 	// Initialize drawing rectangles
 	SDL_Rect srcRect{ 30 * (p_animationFrame / 40) // 0-39 First frame 40-59 second
-			, 0 
+			, 30 * (int)m_mode  
 			, 30
 			, 30
 			};

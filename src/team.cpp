@@ -65,6 +65,18 @@ auto cTeam::getOccupiedTiles() -> std::vector<vec2D>{
 	return occupiedTiles;
 }
 
+// Check if there is any unit on target pos
+bool cTeam::isAnyHere(vec2D p_targetPos){
+	// Check if any is here
+	for(size_t i = 0; i < m_units.size(); i++){
+		if(p_targetPos == m_units[i]->getPosition())
+			return true;
+	}
+
+	// If none is found return false
+	return false;
+}
+
 // Toggle move range drawing
 void cTeam::toggleMoveRange(bool p_shown){
 	m_showMoveRange = p_shown;
