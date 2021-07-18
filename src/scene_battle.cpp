@@ -94,7 +94,7 @@ void cSceneBattle::nextTurn(){
 void cSceneBattle::command(const std::string &p_command){
 	std::cout << "[INFO] Issued command: "<< p_command << std::endl;
 
-	// Sprit string into arguments
+	// Split string into arguments
 	std::vector<std::string> arguments;
 	{
 		std::string current_argument;
