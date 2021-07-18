@@ -87,6 +87,11 @@ void cText::setOriginPoint(vec2D p_originPoint){
 	m_originPoint = p_originPoint;
 }
 
+// Access internal string
+auto cText::operator()() -> std::string& {
+	return m_textToRender;
+}
+
 // Change text to render
 void cText::update(const std::string p_newText){
 	m_textToRender = p_newText;

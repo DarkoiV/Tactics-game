@@ -33,8 +33,8 @@ class cText{
 		void changeTextColor(eTEXT_COLOR p_color);		// Changes color of text
 		void setOriginPoint(vec2D p_originPoint);		// Set new origin point of text render
 
+		auto operator()() -> std::string&;			// Access internal string
+
 		void update(const std::string p_newText);		// Changes text which will be displaied
 		void draw();
-
-
 };
