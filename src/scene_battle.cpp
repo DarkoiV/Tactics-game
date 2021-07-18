@@ -1,5 +1,7 @@
 #include "scene_battle.hpp"
 
+#include <sstream>
+
 // Constructor VERSUS MODE
 cSceneBattle::cSceneBattle(){
 	// Load board map
@@ -9,20 +11,31 @@ cSceneBattle::cSceneBattle(){
 	m_cursor.init(m_board.getSize());
 	
 	// Create player turns
+	// BLUE PLAYER
 	m_turnVector.emplace_back( new cTurnPlayer (
 		m_board,
 		m_cursor,
+		m_blueTeam,
+		m_redTeam
+		));
+	// RED PLAYER
+	m_turnVector.emplace_back( new cTurnPlayer (
+		m_board,
+		m_cursor,
+		m_redTeam,
 		m_blueTeam
 		));
-
-	// Start current turn
-	currentTurn()->start();
 
 	// TMP create units
 	m_blueTeam.addNewUnit("TMP");
 	m_blueTeam.addNewUnit("TMP");
 
+	// m_redTeam.addNewUnit("TMP");
 	m_redTeam.addNewUnit("TMP");
+	m_redTeam.addNewUnit("TMP");
+
+	// Start current turn
+	currentTurn()->start();
 }
 
 // Destructor
@@ -66,9 +79,13 @@ auto cSceneBattle::currentTurn() -> cTurn*{
 
 // Switch to next turn
 void cSceneBattle::nextTurn(){
+	std::cout << "[INFO] Starting new turn" << std::endl;
+
 	m_turnIndex++;
 	if((size_t)m_turnIndex >= m_turnVector.size())
 		m_turnIndex = 0;
+
+	currentTurn()->start();
 }
 
 // SCENE METHODS ///////////////////////////////////////////////////////////
@@ -76,6 +93,24 @@ void cSceneBattle::nextTurn(){
 // Parse console command 
 void cSceneBattle::command(const std::string &p_command){
 	std::cout << "[INFO] Issued command: "<< p_command << std::endl;
+
+	// Sprit string into arguments
+	std::vector<std::string> arguments;
+	{
+		std::string current_argument;
+		std::stringstream commandStream(p_command);
+		while(getline(commandStream, current_argument, ' '))
+				arguments.push_back(current_argument);
+	}
+
+	if(arguments.size() < 1){
+		std::cout << "[INFO] Empty command" << std::endl;
+		return;
+	}
+	if(arguments[0] == "next_turn"){
+		std::cout << "[INFO] Switching to next turn via command" << std::endl;
+		nextTurn();
+	}
 }
 
 // Update scene
@@ -84,10 +119,8 @@ void cSceneBattle::update(eBUTTON p_input){
 	currentTurn()->update(p_input);
 
 	// Check if turn is completed, if so, switch to next turn
-	if(currentTurn()->isCompleted()){
+	if(currentTurn()->isCompleted())
 		nextTurn();
-		currentTurn()->start();
-	}
 
 	updateCamera();
 }
@@ -99,14 +132,17 @@ void cSceneBattle::draw(){
 	animationFrame++;
 	animationFrame = animationFrame % 60;
 
-	// Draw everything in order
+	// Draw board
 	m_board.draw(m_cameraOffset);
 
+	// Draw move ranges
 	m_blueTeam.drawMoveRange(m_cameraOffset, animationFrame);
-	m_blueTeam.drawUnits(m_cameraOffset, animationFrame);
-
 	m_redTeam.drawMoveRange(m_cameraOffset, animationFrame);
+
+	// Draw units
+	m_blueTeam.drawUnits(m_cameraOffset, animationFrame);
 	m_redTeam.drawUnits(m_cameraOffset, animationFrame);
 
+	// Draw cursor
 	m_cursor.draw(m_cameraOffset, animationFrame);
 }

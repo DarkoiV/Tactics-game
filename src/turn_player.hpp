@@ -15,6 +15,7 @@ class cTurnPlayer: public cTurn{
 		cBoard  &board;
 		cCursor &cursor;
 		cTeam   &playerTeam;
+		cTeam   &enemyTeam;
 
 		// Command queue
 		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
@@ -40,10 +41,11 @@ class cTurnPlayer: public cTurn{
 		void processSelectTarget(eBUTTON p_input);
 
 	public:
-		cTurnPlayer(cBoard &b, cCursor &c, cTeam &pt):
+		cTurnPlayer(cBoard &b, cCursor &c, cTeam &pt, cTeam &et):
 			board(b),
 			cursor(c),
-			playerTeam(pt){};
+			playerTeam(pt),
+			enemyTeam(et){};
 
 		void start()       override;
 		bool isCompleted() override;

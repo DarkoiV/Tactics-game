@@ -128,7 +128,7 @@ auto cBoard::getSize() -> vec2D{
 	return m_size;
 }
 
-// Get vector of tiles passable by player team
+// Get vector of tiles passable for team
 auto cBoard::getPassable(cTeam& opposingTeam) -> std::vector<bool>{
 	// Copy passable map tiles
 	std::vector<bool> passableTiles(m_passableTiles);
