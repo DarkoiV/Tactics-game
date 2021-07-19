@@ -7,6 +7,7 @@
 #include "cursor.hpp"
 #include "struct_vec2D.hpp"
 #include "team.hpp"
+#include "ui_quick_stats.hpp"
 
 #include <vector>
 #include <memory>
@@ -16,6 +17,7 @@ class cSceneBattle: public cScene{
 		// Scene components
 		cBoard  m_board;
 		cCursor m_cursor;
+		cQuickStats m_qStats;
 
 		// Teams
 		cTeam m_blueTeam = cTeam(eTEAM_COLOR::BLUE);

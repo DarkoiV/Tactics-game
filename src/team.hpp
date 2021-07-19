@@ -42,7 +42,7 @@ class cTeam{
 		auto getOccupiedTiles() -> std::vector<vec2D>;
 
 		// Return if there is any unit at target position
-		bool isAnyHere(vec2D p_targetPos);
+		bool isAnyHere(vec2D p_targetPos, cUnit** unitHere);
 
 		// Toogle move range
 		void toggleMoveRange(bool p_shown);

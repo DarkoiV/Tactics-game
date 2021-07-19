@@ -8,14 +8,16 @@
 class cBoard;
 class cCursor;
 class cTeam;
+class cQuickStats;
 
 class cTurnPlayer: public cTurn{
 	private:
 		// Parent scene dependencies
-		cBoard  &board;
-		cCursor &cursor;
-		cTeam   &playerTeam;
-		cTeam   &enemyTeam;
+		cBoard  	&board;
+		cCursor 	&cursor;
+		cQuickStats 	&qStats;
+		cTeam   	&playerTeam;
+		cTeam   	&enemyTeam;
 
 		// Command queue
 		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
@@ -41,9 +43,10 @@ class cTurnPlayer: public cTurn{
 		void processSelectTarget(eBUTTON p_input);
 
 	public:
-		cTurnPlayer(cBoard &b, cCursor &c, cTeam &pt, cTeam &et):
+		cTurnPlayer(cBoard &b, cCursor &c, cQuickStats &qs, cTeam &pt, cTeam &et):
 			board(b),
 			cursor(c),
+			qStats(qs),
 			playerTeam(pt),
 			enemyTeam(et){};
 

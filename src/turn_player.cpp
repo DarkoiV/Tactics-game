@@ -3,6 +3,7 @@
 #include "cursor.hpp"
 #include "team.hpp"
 #include "unit_command_move.hpp"
+#include "ui_quick_stats.hpp"
 
 // SELECT UNIT MODE //////////////////////////////////////////////////////
 
@@ -136,19 +137,23 @@ bool cTurnPlayer::isCompleted(){
 }
 
 // Process input, update turn
-void cTurnPlayer::update(eBUTTON p_input){
+void cTurnPlayer::update(eBUTTON p_input) {
 	// Check if any unit is under cursor
-	if(playerTeam.isAnyHere(cursor.position())) {
+	cUnit* unitUnderCursor = nullptr;
+	if(playerTeam.isAnyHere(cursor.position(), &unitUnderCursor)) {
 		// Change cursor display(for ally), show quick stats
 		cursor[eCURSOR_MODE::ALLY];
+		qStats[unitUnderCursor];
 	} 
-	else if(enemyTeam.isAnyHere(cursor.position())){
+	else if(enemyTeam.isAnyHere(cursor.position(), &unitUnderCursor)){
 		// Change cursor display(for enemy), show quick stats
 		cursor[eCURSOR_MODE::ENEMY];
+		qStats[unitUnderCursor];
 	}
 	else {
-		// Change cursor display(normal)
+		// Change cursor display(normal), disable quickstats
 		cursor[eCURSOR_MODE::NORMAL];
+		qStats[nullptr];
 	}
 
 

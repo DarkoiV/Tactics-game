@@ -66,11 +66,13 @@ auto cTeam::getOccupiedTiles() -> std::vector<vec2D>{
 }
 
 // Check if there is any unit on target pos
-bool cTeam::isAnyHere(vec2D p_targetPos){
+bool cTeam::isAnyHere(vec2D p_targetPos, cUnit** unitHere){
 	// Check if any is here
 	for(size_t i = 0; i < m_units.size(); i++){
-		if(p_targetPos == m_units[i]->getPosition())
+		if(p_targetPos == m_units[i]->getPosition()){
+			*unitHere = m_units[i].get();
 			return true;
+		}
 	}
 
 	// If none is found return false
