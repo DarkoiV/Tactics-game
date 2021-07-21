@@ -1,14 +1,12 @@
 #pragma once
 
 #include "turn.hpp"
-#include "command.hpp"
-#include <memory>
-#include <queue>
 
 class cBoard;
 class cCursor;
 class cTeam;
 class cQuickStats;
+class cCommander;
 
 class cTurnPlayer: public cTurn{
 	private:
@@ -16,11 +14,10 @@ class cTurnPlayer: public cTurn{
 		cBoard  	&board;
 		cCursor 	&cursor;
 		cQuickStats 	&qStats;
+		cCommander	&commander;
 		cTeam   	&playerTeam;
 		cTeam   	&enemyTeam;
 
-		// Command queue
-		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
 
 		// Turn Mode
 		enum {
@@ -43,10 +40,11 @@ class cTurnPlayer: public cTurn{
 		void processSelectTarget(eBUTTON p_input);
 
 	public:
-		cTurnPlayer(cBoard &b, cCursor &c, cQuickStats &qs, cTeam &pt, cTeam &et):
+		cTurnPlayer(cBoard &b, cCursor &c, cQuickStats &qs, cCommander &com, cTeam &pt, cTeam &et):
 			board(b),
 			cursor(c),
 			qStats(qs),
+			commander(com),
 			playerTeam(pt),
 			enemyTeam(et){};
 

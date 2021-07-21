@@ -2,8 +2,8 @@
 #include "board.hpp"
 #include "cursor.hpp"
 #include "team.hpp"
-#include "unit_command_move.hpp"
 #include "ui_quick_stats.hpp"
+#include "commander.hpp"
 
 // SELECT UNIT MODE //////////////////////////////////////////////////////
 
@@ -75,18 +75,10 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 		// If so send proper commands to unit
 		case eBUTTON::SELECT:
 			if( selectedUnit.range().inRange( board, cursor.position()) ){
-				// Get path stack
-				auto directionsOfMov 
-					= playerTeam.selected().range().getPath(board, cursor.position());
-
-				// Create move commands queue from path stack
-				while( not directionsOfMov.empty() ){
-					m_commandQueue.emplace(std::make_unique<cCommandMove>( 
-						&playerTeam.selected(), 
-						directionsOfMov.top() 
-						));
-					directionsOfMov.pop();
-				}
+				// Create move commands to destination
+				commander.moveUnit( &playerTeam.selected(), 
+					playerTeam.selected().range().getPath(board, cursor.position())
+				);
 
 				// TMP switch to SELECT UNIT MODE
 				playerTeam.deselectUnit();
@@ -157,16 +149,9 @@ void cTurnPlayer::update(eBUTTON p_input) {
 	}
 
 
-	// Check command queue, 
+	// Check commander queue, 
 	// If all commands completed, jump to current mode
-	if(not m_commandQueue.empty()) {
-		m_commandQueue.front()->execute();
-
-		if(m_commandQueue.front()->isCompleted()){
-			m_commandQueue.pop();
-		}
-	}
-	else {
+	if( not commander.execute() ) {
 		switch (m_mode) {
 			case SELECT_UNIT:
 				processSelectUnit(p_input);

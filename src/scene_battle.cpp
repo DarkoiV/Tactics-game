@@ -16,6 +16,7 @@ cSceneBattle::cSceneBattle(){
 		m_board,
 		m_cursor,
 		m_qStats,
+		m_commander,
 		m_blueTeam,
 		m_redTeam
 		));
@@ -24,6 +25,7 @@ cSceneBattle::cSceneBattle(){
 		m_board,
 		m_cursor,
 		m_qStats,
+		m_commander,
 		m_redTeam,
 		m_blueTeam
 		));
