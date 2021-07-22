@@ -43,6 +43,11 @@ void cUnit::resetOffset(){
 	m_offset = {0, 0};
 }
 
+// Get unit stats
+auto cUnit::getStats() -> const sStats&{
+	return m_stats;
+}
+
 // Draw unit
 void cUnit::draw(vec2D p_cameraOffset, int p_animationFrame){
 	// Initialize drawing rectangles

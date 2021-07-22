@@ -7,12 +7,15 @@ void cQuickStats::operator[](cUnit *p_unit) {
 		return;
 	} 
 	else {
+		// Make HUD visible
 		m_visible = true;
-		// TODO: Get stats
-		int hp = 0;
-		int mp = 0;
-		m_HP.update("HP: " + std::to_string(hp));
-		m_MP.update("MP: " + std::to_string(mp));
+	
+		// Get unit stats
+		auto stats = p_unit->getStats();
+
+		// Send them to text
+		m_HP.update("HP: " + std::to_string(stats.HP));
+		m_MP.update("MP: " + std::to_string(stats.MP));
 	}
 }
 

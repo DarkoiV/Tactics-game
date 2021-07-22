@@ -47,6 +47,9 @@ class cUnit{
 		void offsetPosition(vec2D p_offset);
 		void resetOffset();
 
+		// Stats methods
+		auto getStats() -> const sStats&;
+
 		// Drawing
 		void draw(vec2D p_cameraOffset, int p_animationFrame);
 
