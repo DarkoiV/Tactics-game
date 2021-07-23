@@ -130,25 +130,14 @@ auto cTurnPlayer::status() -> eTURN_STATUS{
 
 // Process input, update turn
 void cTurnPlayer::update(eBUTTON p_input) {
-	// Check if any unit is under cursor
+	
+	// Check if any unit is under cursor and change cursor state
 	cUnit* unitUnderCursor = nullptr;
-	if(playerTeam.isAnyHere(cursor.position(), &unitUnderCursor)) {
-		// Change cursor display(for ally), show quick stats
-		cursor[eCURSOR_MODE::ALLY];
-		qStats[unitUnderCursor];
-	} 
-	else if(enemyTeam.isAnyHere(cursor.position(), &unitUnderCursor)){
-		// Change cursor display(for enemy), show quick stats
-		cursor[eCURSOR_MODE::ENEMY];
-		qStats[unitUnderCursor];
-	}
-	else {
-		// Change cursor display(normal), disable quickstats
-		cursor[eCURSOR_MODE::NORMAL];
-		qStats[nullptr];
-	}
-
-
+	if	(playerTeam.isAnyHere(cursor.position(), &unitUnderCursor)) 	cursor[eCURSOR_MODE::ALLY];
+	else if	(enemyTeam.isAnyHere(cursor.position(), &unitUnderCursor)) 	cursor[eCURSOR_MODE::ENEMY];
+	else 									cursor[eCURSOR_MODE::NORMAL];
+	qStats[unitUnderCursor];
+	
 	// Check commander queue, 
 	// If all commands completed, jump to current mode
 	if( not commander.execute() ) {
