@@ -122,10 +122,25 @@ void cSceneBattle::update(eBUTTON p_input){
 	// Process turn related input
 	currentTurn()->update(p_input);
 
-	// Check if turn is completed, if so, switch to next turn
-	if(currentTurn()->isCompleted())
-		nextTurn();
+	// Check turn status
+	switch(currentTurn()->status()){
+		// Do nothing
+		case eTURN_STATUS::IN_PROGRESS:
+			break;
 
+		// Switch to next turn
+		case eTURN_STATUS::COMPLETED:
+			nextTurn();
+			break;
+
+		// Switch to next turn after deleting turn from vector
+		case eTURN_STATUS::TO_BE_REMOVED:
+			// TODO implement
+			nextTurn();
+			break;
+	}
+
+	// Update camera
 	updateCamera();
 }
 

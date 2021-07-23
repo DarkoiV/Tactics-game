@@ -122,10 +122,10 @@ void cTurnPlayer::start(){
 	playerTeam.calculateRange(board, enemyTeam);
 }
 
-// Check if completed
-bool cTurnPlayer::isCompleted(){
-	// TMP always return false
-	return false;
+// Return turn status
+auto cTurnPlayer::status() -> eTURN_STATUS{
+	// TMP always return in progress
+	return eTURN_STATUS::IN_PROGRESS;
 }
 
 // Process input, update turn

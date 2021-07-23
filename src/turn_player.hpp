@@ -48,8 +48,9 @@ class cTurnPlayer: public cTurn{
 			playerTeam(pt),
 			enemyTeam(et){};
 
-		void start()       override;
-		bool isCompleted() override;
+		// Override turn functions
+		void start()       		override;
+		auto status() -> eTURN_STATUS 	override;
 
 		// Turn Loop
 		void update(eBUTTON p_input) override;
