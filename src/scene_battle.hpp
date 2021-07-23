@@ -9,12 +9,16 @@
 #include "team.hpp"
 #include "ui_quick_stats.hpp"
 #include "commander.hpp"
+#include "battle_lua.hpp"
 
 #include <vector>
 #include <memory>
 
 class cSceneBattle: public cScene{
 	private:
+		// Scene Lua
+		cBattleLua	m_lua;	
+
 		// Scene components
 		cBoard  	m_board;
 		cCursor 	m_cursor;
