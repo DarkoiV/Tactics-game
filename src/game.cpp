@@ -109,9 +109,9 @@ bool cGame::loadSettings(){
 	std::cout << "[INFO] Loading config from: " << configFile << std::endl;
 
 	// Check if config table exists
-	lua_getglobal(L, "config");
+	lua_getglobal(L, "CONFIG");
 	if(not lua_istable(L, -1) ){
-		std::cout << "[ERROR] In file data/config.lua: there is no config table" << std::endl;
+		std::cout << "[ERROR] In file data/config.lua: there is no CONFIG table" << std::endl;
 		return false;
 	}
 

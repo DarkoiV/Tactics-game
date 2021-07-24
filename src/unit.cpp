@@ -29,7 +29,7 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 
 	// For now push iron_sword
 	m_inventory.addItem({
-		"iron_sword",
+		"IRON_SWORD",
 		eITEM::SWORD,
 		1,
 	});
