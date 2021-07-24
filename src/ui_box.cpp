@@ -51,6 +51,7 @@ auto cBox::getInnerOrigin() -> vec2D {
 	return innerOriginPoint;
 }
 
+// DRAW A BOX ;)
 void cBox::draw() {
 	// Setup rectangles
 	SDL_Rect srcRect, dstRect;
