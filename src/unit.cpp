@@ -24,6 +24,7 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 
 	// Default stats
 	m_stats.HP  = 10;
+	m_stats.MP  = 10;
 	m_stats.MOV = 5 ;
 }
 

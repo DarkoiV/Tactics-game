@@ -5,18 +5,22 @@ cQuickStats::cQuickStats(){
 	m_HP.update("HP: XX");
 
 	// Set box properties based on text dimensions
-	vec2D textDimensions;
-	textDimensions.x = m_HP.getPixelWidth();
-	textDimensions.y = (m_HP.getPixelHeight() * 2) + 4;	// 2x text to display + 4 pixels space between
+	int textWidth  = m_HP.getPixelWidth();
+	int textHeight = m_HP.getPixelHeight();
 
-	m_box.setCapacity(textDimensions, 2);
+	vec2D innerDimensions{
+		textWidth,
+		textHeight * 2 + V_SPACE_TEXT,
+	};
+
+	m_box.setCapacity(innerDimensions, 2);
 	m_box.setOrigin({5, -5});
 
 	// Set text orgin points based on box
 	vec2D innerOrgin = m_box.getInnerOrigin();
 	m_HP.setOriginPoint(innerOrgin);
 
-	innerOrgin.y = innerOrgin.y + m_HP.getPixelHeight() + 4;	// Move MP orgin down in relation to HP
+	innerOrgin.y = innerOrgin.y + textHeight + V_SPACE_TEXT;		// Move MP orgin down in relation to HP
 	m_MP.setOriginPoint(innerOrgin);
 	
 }

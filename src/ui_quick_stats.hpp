@@ -8,6 +8,9 @@
 // Quick stats HUD
 class cQuickStats {
 	protected:
+		// Space between text
+		constexpr static int V_SPACE_TEXT = 3;
+
 		// Text showing stats
 		cText m_HP = cText({0, 0}, eTEXT_COLOR::YELLOW);
 		cText m_MP = cText({0, 0}, eTEXT_COLOR::YELLOW);
