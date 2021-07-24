@@ -27,6 +27,9 @@ class cUnit{
 		// Stats
 		sStats m_stats;
 
+		// Bitmask of useable items by this unit
+		uint8_t m_useableItems;
+
 		// Components ////////////////
 		cUnitRange m_range = cUnitRange(*this);
 		friend cUnitRange;
@@ -57,5 +60,6 @@ class cUnit{
 		auto getPosition() -> vec2D;
 
 		// Access components
-		auto range() -> cUnitRange&;
+		auto range()     -> cUnitRange&;
+		auto inventory() -> cUnitInventory&;
 };

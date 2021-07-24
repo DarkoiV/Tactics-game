@@ -26,6 +26,16 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 	m_stats.HP  = 10;
 	m_stats.MP  = 10;
 	m_stats.MOV = 5 ;
+
+	// For now push iron_sword
+	m_inventory.addItem({
+		"iron_sword",
+		eITEM::SWORD,
+		1,
+	});
+
+	// Add swords to useable items
+	m_useableItems += (uint8_t)eITEM::SWORD;
 }
 
 // Set position on board
@@ -75,4 +85,9 @@ auto cUnit::getPosition() -> vec2D{
 // Get range
 auto cUnit::range() -> cUnitRange&{
 	return m_range;
+}
+
+// Get inventory
+auto cUnit::inventory() -> cUnitInventory&{
+	return m_inventory;
 }
