@@ -75,10 +75,11 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 		// If so send proper commands to unit
 		case eBUTTON::SELECT:
 			if( selectedUnit.range().inRange( board, cursor.position()) ){
+				// Get path to selected position
+				auto path = selectedUnit.range().getPath(board, cursor.position());
+
 				// Create move commands to destination
-				commander.moveUnit( &playerTeam.selected(), 
-					playerTeam.selected().range().getPath(board, cursor.position())
-				);
+				commander.moveUnit(&selectedUnit, path);
 
 				// TMP switch to SELECT UNIT MODE
 				playerTeam.deselectUnit();
