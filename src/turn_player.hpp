@@ -5,7 +5,7 @@
 class cBoard;
 class cCursor;
 class cTeam;
-class cQuickStats;
+class cUI;
 class cCommander;
 
 class cTurnPlayer: public cTurn{
@@ -13,7 +13,7 @@ class cTurnPlayer: public cTurn{
 		// Parent scene dependencies
 		cBoard  	&board;
 		cCursor 	&cursor;
-		cQuickStats 	&qStats;
+		cUI 		&UI;
 		cCommander	&commander;
 		cTeam   	&playerTeam;
 		cTeam   	&enemyTeam;
@@ -40,10 +40,10 @@ class cTurnPlayer: public cTurn{
 		void processSelectTarget(eBUTTON p_input);
 
 	public:
-		cTurnPlayer(cBoard &b, cCursor &c, cQuickStats &qs, cCommander &com, cTeam &pt, cTeam &et):
+		cTurnPlayer(cBoard &b, cCursor &c, cUI &UI, cCommander &com, cTeam &pt, cTeam &et):
 			board(b),
 			cursor(c),
-			qStats(qs),
+			UI(UI),
 			commander(com),
 			playerTeam(pt),
 			enemyTeam(et){};

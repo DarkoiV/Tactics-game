@@ -2,7 +2,7 @@
 #include "board.hpp"
 #include "cursor.hpp"
 #include "team.hpp"
-#include "ui_quick_stats.hpp"
+#include "ui_collection.hpp"
 #include "commander.hpp"
 
 // SELECT UNIT MODE //////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ void cTurnPlayer::update(eBUTTON p_input) {
 	if	(playerTeam.isAnyHere(cursor.position(), &unitUnderCursor)) 	cursor[eCURSOR_MODE::ALLY];
 	else if	(enemyTeam.isAnyHere(cursor.position(), &unitUnderCursor)) 	cursor[eCURSOR_MODE::ENEMY];
 	else 									cursor[eCURSOR_MODE::NORMAL];
-	qStats[unitUnderCursor];
+	UI.qStats[unitUnderCursor];
 	
 	// Check commander queue, 
 	// If all commands completed, jump to current mode

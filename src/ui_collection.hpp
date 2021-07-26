@@ -1,18 +1,17 @@
 #pragma once
 
+#include "battle_lua.hpp"
 #include "ui_action_menu.hpp"
 #include "ui_quick_stats.hpp"
 
 class cUI {
-	private:
-		cActionMenu actionMenu;
-		cQuickStats quickStats;
+	public:
+		// UI elements to be accessed
+		cActionMenu aMenu;
+		cQuickStats qStats;
 
-	private:
+	public:
 		// Constructor
-		cUI();
-
-		// Access
-		auto aMenu()  -> cActionMenu&;
-		auto qStats() -> cQuickStats&;
+		cUI(cBattleLua &L):
+			aMenu(L){};
 };

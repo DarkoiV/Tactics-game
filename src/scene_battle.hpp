@@ -7,7 +7,7 @@
 #include "cursor.hpp"
 #include "struct_vec2D.hpp"
 #include "team.hpp"
-#include "ui_quick_stats.hpp"
+#include "ui_collection.hpp"
 #include "commander.hpp"
 #include "battle_lua.hpp"
 
@@ -22,7 +22,7 @@ class cSceneBattle: public cScene{
 		// Scene components
 		cBoard  	m_board;
 		cCursor 	m_cursor;
-		cQuickStats 	m_qStats;
+		cUI 		m_UI = cUI(m_lua);
 		cCommander 	m_commander;
 
 		// Teams

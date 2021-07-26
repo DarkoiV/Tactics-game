@@ -15,7 +15,7 @@ cSceneBattle::cSceneBattle(){
 	m_turnVector.emplace_back( new cTurnPlayer (
 		m_board,
 		m_cursor,
-		m_qStats,
+		m_UI,
 		m_commander,
 		m_blueTeam,
 		m_redTeam
@@ -24,7 +24,7 @@ cSceneBattle::cSceneBattle(){
 	m_turnVector.emplace_back( new cTurnPlayer (
 		m_board,
 		m_cursor,
-		m_qStats,
+		m_UI,
 		m_commander,
 		m_redTeam,
 		m_blueTeam
@@ -166,5 +166,5 @@ void cSceneBattle::draw(){
 	m_cursor.draw(m_cameraOffset, animationFrame);
 
 	// Draw quick stats
-	m_qStats.draw();
+	m_UI.qStats.draw();
 }
