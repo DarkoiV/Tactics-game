@@ -22,8 +22,8 @@ class cSceneBattle: public cScene{
 		// Scene components
 		cBoard  	m_board;
 		cCursor 	m_cursor;
-		cUI 		m_UI = cUI(m_lua);
-		cCommander 	m_commander;
+		cUI 		m_UI 		= cUI(m_lua);
+		cCommander 	m_commander 	= cCommander(m_lua);
 
 		// Teams
 		cTeam m_blueTeam = cTeam(eTEAM_COLOR::BLUE);

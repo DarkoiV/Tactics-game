@@ -4,6 +4,7 @@
 #include "ui_action_menu.hpp"
 #include "ui_quick_stats.hpp"
 
+// UI objects to be used in scenes
 class cUI {
 	public:
 		// UI elements to be accessed
