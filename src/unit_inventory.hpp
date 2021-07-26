@@ -1,6 +1,7 @@
 #pragma once
 
 #include "struct_item.hpp"
+#include <vector>
 
 class cUnit;
 
@@ -10,14 +11,16 @@ class cUnitInventory{
 		cUnit &unit;
 
 		// Items inside inventory
-		sItem m_items[5];
-		int   m_keptItems = 0;
+		std::vector<sItem> m_items;
 
 	public:
 		// Constructor
-		cUnitInventory(cUnit &u);
+		cUnitInventory(cUnit &u):
+			unit(u){};
 
 		// Methods
 		bool addItem(sItem p_newItem);		// Returns false when inventory is full
 		void deleteItem(int p_itemNo);		// Deletes item on position p_itemNo
+
+		auto getItems() -> const std::vector<sItem>&;
 };
