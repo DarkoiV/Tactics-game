@@ -15,6 +15,9 @@ class cActionMenu {
 		cBox m_box;
 		std::vector<cText> m_textOptions;
 
+		// Contruct menu for unit
+		void construct(cUnit *p_unit);
+
 		// Variables
 		bool   m_visible  = false;			// Is menu visible?
 		int    m_selected = 0;				// Which option is selected
@@ -24,7 +27,14 @@ class cActionMenu {
 		// Constructor
 		cActionMenu(cBattleLua &L);
 
-		void operator[](cUnit* p_unit);			// Display menu for unit, or hide for nullptr
+		// Display menu for unit, or hide for nullptr
+		void operator[](cUnit* p_unit);		
+
+		// Move selection
+		void moveUp();
+		void moveDown();
+
+		auto getSelectedAction() -> const std::string&;
 
 		// Draw menu
 		void draw();

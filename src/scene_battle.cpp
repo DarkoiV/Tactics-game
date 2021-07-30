@@ -165,6 +165,7 @@ void cSceneBattle::draw(){
 	// Draw cursor
 	m_cursor.draw(m_cameraOffset, animationFrame);
 
-	// Draw quick stats
+	// Draw UI
 	m_UI.qStats.draw();
+	m_UI.aMenu.draw();
 }

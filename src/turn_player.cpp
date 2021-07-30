@@ -82,9 +82,7 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 				commander.moveUnit(&selectedUnit, path);
 
 				// TMP switch to SELECT UNIT MODE
-				playerTeam.deselectUnit();
-				playerTeam.toggleMoveRange(false);
-				m_mode = SELECT_UNIT;
+				m_mode = SELECT_ACTION;
 			}
 			break;
 
@@ -105,6 +103,47 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 // SELECT ACTION MODE ////////////////////////////////////////////////////
 
 void cTurnPlayer::processSelectAction(eBUTTON p_input){
+	// Get selected unit
+	auto &selectedUnit = playerTeam.selected();
+
+	// Draw menu
+	UI.aMenu[&selectedUnit];
+
+	// Process input
+	switch (p_input) {
+		case eBUTTON::UP:
+			UI.aMenu.moveUp();
+			break;
+
+		case eBUTTON::DOWN:
+			UI.aMenu.moveDown();
+			break;
+
+		case eBUTTON::SELECT:
+			{
+				// Get selected action
+				auto selectedAction = UI.aMenu.getSelectedAction();
+
+				// ON WAIT
+				if (selectedAction == "Wait"){
+					playerTeam.deselectUnit();
+					playerTeam.toggleMoveRange(false);
+					UI.aMenu[nullptr];
+					m_mode = SELECT_UNIT;
+				}
+					
+			}
+			break;
+
+		// TODO Revert position, switch to move unit mode
+		case eBUTTON::CANCEL:
+			break;
+
+		// No input or unrecognized
+		default:
+		case eBUTTON::NONE:
+			break;
+	}
 }
 
 // SELECT TARGET MODE ////////////////////////////////////////////////////

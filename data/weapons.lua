@@ -24,7 +24,7 @@ IRON_SWORD = {
 	iType = 2,		-- Item Type 0000 0010
 	power = 2,
 	actions = {
-		"Attack"
+		"Attack",
 	}
 }
 
