@@ -44,8 +44,11 @@ class cTeam{
 		// Return if there is any unit at target position
 		bool isAnyHere(vec2D p_targetPos, cUnit** unitHere);
 
-		// Toogle move range
+		// Toogle
 		void toggleMoveRange(bool p_shown);
+		void toggleSelectedActive(bool p_active);
+
+		void resetActiveStatus();
 
 		// Draw
 		void drawUnits(vec2D p_cameraOffset, int p_animationFrame);

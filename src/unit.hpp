@@ -27,6 +27,9 @@ class cUnit{
 		// Stats
 		sStats m_stats;
 
+		// Status
+		bool m_active = true;
+
 		// Bitmask of useable items by this unit
 		uint8_t m_useableItems;
 
@@ -49,6 +52,10 @@ class cUnit{
 		void setPosition(vec2D p_pos);
 		void offsetPosition(vec2D p_offset);
 		void resetOffset();
+
+		// Status methods
+		void toggleActive(bool p_active);
+		bool isActive(){ return m_active; };
 
 		// Stats methods
 		auto getStats() -> const sStats&;

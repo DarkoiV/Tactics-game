@@ -54,6 +54,10 @@ void cUnit::resetOffset(){
 	m_offset = {0, 0};
 }
 
+void cUnit::toggleActive(bool p_active){
+	m_active = p_active;
+}
+
 // Get unit stats
 auto cUnit::getStats() -> const sStats&{
 	return m_stats;
@@ -74,7 +78,12 @@ void cUnit::draw(vec2D p_cameraOffset, int p_animationFrame){
 			, TILE_SIZE
 			};
 
-	SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
+	if(m_active) SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
+	else {
+		SDL_SetTextureColorMod(m_sprite, 125, 125, 125);
+		SDL_RenderCopy(g_renderer, m_sprite, &srcRect, &dstRect);
+		SDL_SetTextureColorMod(m_sprite, 255, 255, 255);
+	}
 }
 
 // Get position

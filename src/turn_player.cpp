@@ -126,8 +126,10 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 
 				// ON WAIT
 				if (selectedAction == "Wait"){
+					playerTeam.toggleSelectedActive(false);
 					playerTeam.deselectUnit();
 					playerTeam.toggleMoveRange(false);
+
 					UI.aMenu[nullptr];
 					m_mode = SELECT_UNIT;
 				}
@@ -158,8 +160,9 @@ void cTurnPlayer::start(){
 	// Turn start in select unit mode! 
 	m_mode = SELECT_UNIT;
 
-	// Calculate ranges
+	// Calculate ranges, and reset inactive of opposingTeam
 	playerTeam.calculateRange(board, enemyTeam);
+	enemyTeam.resetActiveStatus();
 }
 
 // Return turn status

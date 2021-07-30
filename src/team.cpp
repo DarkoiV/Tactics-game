@@ -14,7 +14,7 @@ void cTeam::spawnUnit(std::string p_name, vec2D p_pos){
 // Try to select unit on target position, return true if any selectable unit is present on target position
 bool cTeam::selectUnit(vec2D p_targetPos){
 	for(const auto &UNIT : m_units){
-		if(UNIT->getPosition() == p_targetPos){
+		if(UNIT->isActive() and UNIT->getPosition() == p_targetPos){
 			m_selectedUnit = UNIT.get();
 			std::cout << "[INFO] Unit selected" << std::endl;
 			return true;
@@ -82,6 +82,19 @@ bool cTeam::isAnyHere(vec2D p_targetPos, cUnit** unitHere){
 // Toggle move range drawing
 void cTeam::toggleMoveRange(bool p_shown){
 	m_showMoveRange = p_shown;
+}
+
+// Toggle unit status(active)
+void cTeam::toggleSelectedActive(bool p_active){
+	if(m_selectedUnit != nullptr) m_selectedUnit->toggleActive(p_active);
+	else
+		std::cout << "[ERROR] Toggle active when no selected unit" << std::endl;
+}
+
+// Reset active status
+void cTeam::resetActiveStatus() {
+	for(auto &UNIT : m_units)
+		UNIT->toggleActive(true);
 }
 
 // Draw units
