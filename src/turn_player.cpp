@@ -162,6 +162,8 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 // SELECT TARGET MODE ////////////////////////////////////////////////////
 
 void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
+	// Get selected unit
+	auto &selectedUnit = playerTeam.selected();
 
 	// Process input
 	switch (p_input) {
@@ -186,10 +188,11 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 			{
 				cUnit *enemyUnit = nullptr; 
 				if (enemyTeam.isAnyHere(cursor.position(), &enemyUnit)){
-					// TODO add attack command
-					// TMP Disable unit, switch to select unit
-					playerTeam.selected().toggleActive(false);
+					commander.attack(&selectedUnit, enemyUnit);
+
+					selectedUnit.toggleActive(false);
 					playerTeam.deselectUnit();
+
 					m_mode = SELECT_UNIT;
 				}
 			}

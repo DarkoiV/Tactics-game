@@ -1,5 +1,6 @@
 #include "commander.hpp"
 #include "command_move_unit.hpp"
+#include "command_attack_unit.hpp"
 
 // Execute command from queue
 bool cCommander::execute() {
@@ -28,4 +29,13 @@ void cCommander::moveUnit(cUnit *p_movedUnit, std::stack<eDIRECTION> p_direction
 		// Pop direction
 		p_directions.pop();
 	}
+}
+
+// Push attack command on queue
+void cCommander::attack(cUnit *p_attacking, cUnit *p_target){
+	m_commandQueue.emplace(std::make_unique<cCommandAttack>(
+		p_attacking,
+		p_target,
+		Lua
+	));
 }
