@@ -84,6 +84,11 @@ void cTeam::toggleMoveRange(bool p_shown){
 	m_showMoveRange = p_shown;
 }
 
+// Toggle action range drawing
+void cTeam::toggleActionRange(bool p_shown){
+	m_showActionRange = p_shown;
+}
+
 // Reset active status
 void cTeam::resetActiveStatus() {
 	for(auto &UNIT : m_units)
@@ -98,8 +103,10 @@ void cTeam::drawUnits(vec2D p_cameraOffset, int p_animationFrame){
 }
 
 // Draw selected unit move range
-void cTeam::drawMoveRange(vec2D p_cameraOffset, int p_animationFrame){
+void cTeam::drawRange(vec2D p_cameraOffset, int p_animationFrame){
 	if(m_selectedUnit != nullptr and m_showMoveRange)
 		m_selectedUnit->range().drawMoveRange(p_cameraOffset, p_animationFrame);
-	
+
+	if(m_selectedUnit != nullptr and m_showActionRange)
+		m_selectedUnit->range().drawActionRange(p_cameraOffset, p_animationFrame);	
 }

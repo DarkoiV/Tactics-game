@@ -155,8 +155,8 @@ void cSceneBattle::draw(){
 	m_board.draw(m_cameraOffset);
 
 	// Draw move ranges
-	m_blueTeam.drawMoveRange(m_cameraOffset, animationFrame);
-	m_redTeam.drawMoveRange(m_cameraOffset, animationFrame);
+	m_blueTeam.drawRange(m_cameraOffset, animationFrame);
+	m_redTeam.drawRange(m_cameraOffset, animationFrame);
 
 	// Draw units
 	m_blueTeam.drawUnits(m_cameraOffset, animationFrame);

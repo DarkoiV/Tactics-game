@@ -126,13 +126,23 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 				auto selectedAction = UI.aMenu.getSelectedAction();
 
 				// ON WAIT
-				if (selectedAction == "Wait"){
+				if (selectedAction == "Wait") {
 					selectedUnit.toggleActive(false);
 					playerTeam.deselectUnit();
 					playerTeam.toggleMoveRange(false);
 
 					UI.aMenu[nullptr];
 					m_mode = SELECT_UNIT;
+				}
+
+				// ON ATTACK
+				if (selectedAction == "Attack") {
+					selectedUnit.range().calculateActionRange(board, 1, 1);
+					playerTeam.toggleMoveRange(false);
+					playerTeam.toggleActionRange(true);
+
+					UI.aMenu[nullptr];
+					m_mode = SELECT_TARGET;
 				}
 					
 			}
@@ -151,7 +161,53 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 
 // SELECT TARGET MODE ////////////////////////////////////////////////////
 
-void cTurnPlayer::processSelectTarget(eBUTTON p_input){
+void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
+
+	// Process input
+	switch (p_input) {
+		case eBUTTON::UP:
+			cursor.moveUp();
+			break;
+
+		case eBUTTON::DOWN:
+			cursor.moveDown();
+			break;
+
+		case eBUTTON::LEFT:
+			cursor.moveLeft();
+			break;
+			
+		case eBUTTON::RIGHT:
+			cursor.moveRight();
+			break;
+
+		// Check if enemy is there, attack if so
+		case eBUTTON::SELECT:
+			{
+				cUnit *enemyUnit = nullptr; 
+				if (enemyTeam.isAnyHere(cursor.position(), &enemyUnit)){
+					// TODO add attack command
+					// TMP Disable unit, switch to select unit
+					playerTeam.selected().toggleActive(false);
+					playerTeam.deselectUnit();
+					m_mode = SELECT_UNIT;
+				}
+			}
+			break;
+
+		// Switch back to SELEC ACTION MODE
+		case eBUTTON::CANCEL:
+			playerTeam.toggleActionRange(false);
+			playerTeam.toggleMoveRange(true);
+			
+			m_mode = SELECT_ACTION;
+			break;
+
+		// No input or unrecognized
+		default:
+		case eBUTTON::NONE:
+			break;
+	}
 }
 
 // PUBLIC METHODS ////////////////////////////////////////////////////////

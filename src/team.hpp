@@ -16,6 +16,7 @@ class cTeam{
 		// Curently selected unit
 		cUnit* m_selectedUnit = nullptr;
 		bool m_showMoveRange = false;
+		bool m_showActionRange = false;
 
 		// Color of team
 		eTEAM_COLOR m_teamColor;
@@ -46,10 +47,11 @@ class cTeam{
 
 		// Toogle
 		void toggleMoveRange(bool p_shown);
+		void toggleActionRange(bool p_shown);
 
 		void resetActiveStatus();
 
 		// Draw
 		void drawUnits(vec2D p_cameraOffset, int p_animationFrame);
-		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);
+		void drawRange(vec2D p_cameraOffset, int p_animationFrame);
 };
