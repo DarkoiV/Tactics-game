@@ -1,17 +1,18 @@
 #include "command_attack_unit.hpp"
 
 // Constructor
-cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L, const std::string &p_weapon): 
-	Lua(L), m_attackingUnit(p_attacking), m_targetUnit(p_target), m_weapon(p_weapon) {
+cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L): 
+	Lua(L), m_attackingUnit(p_attacking), m_targetUnit(p_target) {
+		auto weapon = m_attackingUnit->inventory().getItems()[0];
 
 		std::cout << "[INFO] Attacking UNIT " << std::endl;
 
-		lua_getglobal(Lua(), m_weapon.c_str());			// Weapon arg
+		lua_getglobal(Lua(), weapon.name.c_str());		// Weapon arg
 		if (lua_istable(Lua(), -1)) {
 			lua_getfield(Lua(), -1, "Attack");		// Function of attack from this weapon
 		}
 		else {
-			std::cout << "[ERROR] There is no item: " << m_weapon << std::endl;
+			std::cout << "[ERROR] There is no item table: " << weapon.name << std::endl;
 			m_completed = true;
 			return;
 		}

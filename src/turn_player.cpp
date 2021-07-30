@@ -188,9 +188,7 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 			{
 				cUnit *enemyUnit = nullptr; 
 				if (enemyTeam.isAnyHere(cursor.position(), &enemyUnit)){
-					auto selectedWeapon = selectedUnit.inventory().getItems()[0].name;
-
-					commander.attack(&selectedUnit, enemyUnit, selectedWeapon);
+					commander.attack(&selectedUnit, enemyUnit);
 
 					selectedUnit.toggleActive(false);
 					playerTeam.deselectUnit();

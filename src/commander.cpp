@@ -32,11 +32,10 @@ void cCommander::moveUnit(cUnit *p_movedUnit, std::stack<eDIRECTION> p_direction
 }
 
 // Push attack command on queue
-void cCommander::attack(cUnit *p_attacking, cUnit *p_target, const std::string &p_weapon){
+void cCommander::attack(cUnit *p_attacking, cUnit *p_target){
 	m_commandQueue.emplace(std::make_unique<cCommandAttack>(
 		p_attacking,
 		p_target,
-		Lua,
-		p_weapon
+		Lua
 	));
 }

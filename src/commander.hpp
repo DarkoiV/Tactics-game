@@ -27,5 +27,5 @@ class cCommander {
 		// Create queue of move commands from stack holding path 
 		void moveUnit(cUnit* p_movedUnit, std::stack<eDIRECTION> p_directions);
 
-		void attack(cUnit* p_attacking, cUnit* p_target, const std::string &p_weapon);
+		void attack(cUnit* p_attacking, cUnit* p_target);
 };
