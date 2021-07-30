@@ -40,11 +40,12 @@ enum class eTEXT_COLOR{
 
 // Item types
 enum class eITEM : uint8_t {
-	SPEAR  = 0b00000001,		// Bonus anti armor
-	SWORD  = 0b00000010,		// Default
-	AXE    = 0b00000100,		// Higher crit, lower accuracy
-	STAFF  = 0b00001000,		// Buffs
-	BOOK   = 0b00010000,		// Magic distance attack
-	ORB    = 0b00100000,		// Magic high crit near attack
-	POTION = 0b01000000		// Self use
+	SPEAR  = 0b0000'0001,		// Bonus anti armor
+	SWORD  = 0b0000'0010,		// Default
+	AXE    = 0b0000'0100,		// Higher crit, lower accuracy
+	BOW    = 0b0000'1000,		// 2-4 range
+	STAFF  = 0b0001'0000,		// Buffs
+	BOOK   = 0b0010'0000,		// Magic distance attack
+	ORB    = 0b0100'0000,		// Magic high crit near attack
+	POTION = 0b1000'0000		// Self use
 };
