@@ -13,10 +13,13 @@ class cCommandAttack : public cCommand {
 		cUnit* m_attackingUnit;
 		cUnit* m_targetUnit;
 
+		// Weapon
+		std::string m_weapon;
+
 		bool m_completed = false;
 	public:
 		// Constructor
-		cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L);
+		cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L, const std::string &p_weapon);
 
 		// Methods
 		void execute()		override;

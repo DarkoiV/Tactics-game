@@ -7,11 +7,11 @@ local WEAPON_AXE   = 4		-- 0000 0100
 -- DEFAULT ATTACK ------------------------------------
 
 DEFAULT_ATTACK = function(weapon, attackingUnit, targetUnit)
-	print("Creating coroutine")
+	print("[LUA] Creating coroutine")
 
 	-- create coroutine of attack
 	local co = coroutine.create(function()
-		print("Attacking with", weapon["name"])
+		print("[LUA] Attacking with", weapon["name"])
 		coroutine.yield()
 
 		-- Wait one minute
@@ -23,7 +23,7 @@ DEFAULT_ATTACK = function(weapon, attackingUnit, targetUnit)
 	-- return anonymous function that will manage coroutine
 	return function()
 		if coroutine.status(co) == "dead" then
-			print("Coroutine ended")
+			print("[LUA] Coroutine ended")
 			return -1
 		end
 
