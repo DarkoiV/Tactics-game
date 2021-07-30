@@ -27,16 +27,14 @@ void cBox::setCapacity(vec2D p_size, int p_margin){
 // Set origin point
 void cBox::setOrigin(vec2D p_originPoint){
 	// X axis
-	if(p_originPoint.x < 0)
-		m_originPoint.x = SCREEN_WIDTH - (m_size.x - p_originPoint.x);
-	else 
-		m_originPoint.x = p_originPoint.x;
+	if (p_originPoint.x < 0)	m_originPoint.x = SCREEN_WIDTH - (m_size.x - p_originPoint.x);
+	else if (p_originPoint.x == 0)	m_originPoint.x = SCREEN_WIDTH/2 - (m_size.x/2);
+	else 				m_originPoint.x = p_originPoint.x;
 
 	// Y axis
-	if(p_originPoint.y < 0)
-		m_originPoint.y = SCREEN_HEIGHT - (m_size.y - p_originPoint.y);
-	else 
-		m_originPoint.y = p_originPoint.y;
+	if (p_originPoint.y < 0)	m_originPoint.y = SCREEN_HEIGHT - (m_size.y - p_originPoint.y);
+	else if (p_originPoint.y == 0)	m_originPoint.y = SCREEN_HEIGHT/2 - (m_size.y/2);
+	else 				m_originPoint.y = p_originPoint.y;
 
 }
 
