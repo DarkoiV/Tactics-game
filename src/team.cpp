@@ -70,7 +70,7 @@ bool cTeam::isAnyHere(vec2D p_targetPos, cUnit** unitHere){
 	// Check if any is here
 	for(size_t i = 0; i < m_units.size(); i++){
 		if(p_targetPos == m_units[i]->getPosition()){
-			*unitHere = m_units[i].get();
+			if(unitHere != nullptr) *unitHere = m_units[i].get();
 			return true;
 		}
 	}
@@ -82,13 +82,6 @@ bool cTeam::isAnyHere(vec2D p_targetPos, cUnit** unitHere){
 // Toggle move range drawing
 void cTeam::toggleMoveRange(bool p_shown){
 	m_showMoveRange = p_shown;
-}
-
-// Toggle unit status(active)
-void cTeam::toggleSelectedActive(bool p_active){
-	if(m_selectedUnit != nullptr) m_selectedUnit->toggleActive(p_active);
-	else
-		std::cout << "[ERROR] Toggle active when no selected unit" << std::endl;
 }
 
 // Reset active status

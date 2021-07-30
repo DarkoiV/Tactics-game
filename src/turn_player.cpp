@@ -74,7 +74,8 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 		// Check if move is withing range
 		// If so send proper commands to unit
 		case eBUTTON::SELECT:
-			if( selectedUnit.range().inRange( board, cursor.position()) ){
+			if( selectedUnit.range().inRange( board, cursor.position()) 
+			and not playerTeam.isAnyHere(cursor.position(), nullptr)) {
 				// Get path to selected position
 				auto path = selectedUnit.range().getPath(board, cursor.position());
 
@@ -126,7 +127,7 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 
 				// ON WAIT
 				if (selectedAction == "Wait"){
-					playerTeam.toggleSelectedActive(false);
+					selectedUnit.toggleActive(false);
 					playerTeam.deselectUnit();
 					playerTeam.toggleMoveRange(false);
 

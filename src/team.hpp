@@ -46,7 +46,6 @@ class cTeam{
 
 		// Toogle
 		void toggleMoveRange(bool p_shown);
-		void toggleSelectedActive(bool p_active);
 
 		void resetActiveStatus();
 
