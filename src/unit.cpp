@@ -104,6 +104,7 @@ auto cUnit::inventory() -> cUnitInventory&{
 
 ////////////// LUA ////////////////////////////////////////////////////////////
 
+// Offset unit from LUA
 int cUnit::l_offsetUnit(lua_State *L) {
 	// Takes unit, and {x, y} as argument
 	cUnit* unit;
@@ -125,13 +126,13 @@ int cUnit::l_offsetUnit(lua_State *L) {
 
 	vec2D offset{x, y};
 
-	std::cout << unit->getPosition() << std::endl;
 	std::cout << "[INFO][LUA API] Offseting unit: by " << x << "x" << y << std::endl;
 	unit->offsetPosition(offset);
 
 	return 0;
 }
 
+// Deal damage to unit from LUA
 int cUnit::l_dealDamage(lua_State *L) {
 
 	return 0;
