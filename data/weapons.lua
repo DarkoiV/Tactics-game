@@ -14,10 +14,16 @@ DEFAULT_ATTACK = function(weapon, attackingUnit, targetUnit)
 		print("[LUA] Attacking with", weapon["name"])
 		coroutine.yield()
 
+		offsetUnit(attackingUnit, 50, 50)
+		offsetUnit(targetUnit, 50, 50)
+
 		-- Wait one minute
 		for i = 1, 60 do
 			coroutine.yield()
 		end
+
+		offsetUnit(attackingUnit, -50, -50)
+		offsetUnit(targetUnit, -50, -50)
 	end)
 
 	-- return anonymous function that will manage coroutine

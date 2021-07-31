@@ -30,6 +30,9 @@ cSceneBattle::cSceneBattle(){
 		m_blueTeam
 		));
 
+	// Register lua functions
+	lua_register(m_lua(), "offsetUnit", cUnit::l_offsetUnit);
+
 	// TMP create units
 	m_blueTeam.spawnUnit("TMP", {8, 10});
 	m_blueTeam.spawnUnit("TMP", {9, 10});

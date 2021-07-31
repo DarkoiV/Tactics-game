@@ -29,8 +29,8 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 
 	// For now push iron_sword
 	m_inventory.addItem({
-		"IRON_SWORD",
-		eITEM::SWORD,
+		"IRON_SPEAR",
+		eITEM::SPEAR,
 		1,
 	});
 
@@ -54,6 +54,7 @@ void cUnit::resetOffset(){
 	m_offset = {0, 0};
 }
 
+// Toggle active
 void cUnit::toggleActive(bool p_active){
 	m_active = p_active;
 }
@@ -99,4 +100,39 @@ auto cUnit::range() -> cUnitRange&{
 // Get inventory
 auto cUnit::inventory() -> cUnitInventory&{
 	return m_inventory;
+}
+
+////////////// LUA ////////////////////////////////////////////////////////////
+
+int cUnit::l_offsetUnit(lua_State *L) {
+	// Takes unit, and {x, y} as argument
+	cUnit* unit;
+	int x, y;
+
+	if(lua_type(L, -3) != LUA_TLIGHTUSERDATA) {
+		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
+		return 0;
+	}
+
+	unit = (cUnit*)lua_topointer(L, -3);
+
+	if(not lua_isnumber(L, -2) or not lua_isnumber(L, -1)) {
+		std::cout << "[ERROR][LUA API] Function needs 2 integers which were not provided" << std::endl;
+		return 0;
+	}
+	x = (int)lua_tonumber(L, -2);
+	y = (int)lua_tonumber(L, -1);
+
+	vec2D offset{x, y};
+
+	std::cout << unit->getPosition() << std::endl;
+	std::cout << "[INFO][LUA API] Offseting unit: by " << x << "x" << y << std::endl;
+	unit->offsetPosition(offset);
+
+	return 0;
+}
+
+int cUnit::l_dealDamage(lua_State *L) {
+
+	return 0;
 }

@@ -5,6 +5,8 @@
 #include "struct_vec2D.hpp"
 #include "struct_stats.hpp"
 
+#include "lua.hpp"
+
 #include <SDL2/SDL.h>
 
 // Color of units
@@ -69,4 +71,9 @@ class cUnit{
 		// Access components
 		auto range()     -> cUnitRange&;
 		auto inventory() -> cUnitInventory&;
+
+/////////////// LUA API ///////////////////////////////////////////////////////
+	public:
+		static int l_offsetUnit(lua_State *L);		// Offset unit pos
+		static int l_dealDamage(lua_State *L);		// Deal damage to unit
 };
