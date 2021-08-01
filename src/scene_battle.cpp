@@ -30,8 +30,9 @@ cSceneBattle::cSceneBattle(){
 		m_blueTeam
 		));
 
+
 	// Register lua functions
-	lua_register(m_lua(), "offsetUnit", cUnit::l_offsetUnit);
+	registerLuaFunctions();
 
 	// TMP create units
 	m_blueTeam.spawnUnit("TMP", {8, 10});
@@ -75,6 +76,13 @@ inline void cSceneBattle::updateCamera(){
 	m_cameraOffset.y 
 		+= TILE_SIZE
 		*  ( (-m_cameraOffset.y) > cursorPosY);
+}
+
+// Register lua functions
+void cSceneBattle::registerLuaFunctions(){
+	// Unit
+	lua_register(m_lua(), "offsetUnit", cUnit::l_offsetUnit);
+	lua_register(m_lua(), "getUnitPos", cUnit::l_getUnitPos);
 }
 
 // TURN METHODS ////////////////////////////////////////////////////////////

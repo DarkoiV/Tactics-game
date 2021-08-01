@@ -33,6 +33,9 @@ class cSceneBattle: public cScene{
 		vec2D m_cameraOffset{0, 0};
 		inline void updateCamera();
 
+		// Register scene lua functions
+		void registerLuaFunctions();
+
 		// Turn methods
 		int  m_turnIndex    = 0;
 		auto currentTurn() -> cTurn*;
