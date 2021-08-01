@@ -12,17 +12,22 @@ DEFAULT_ATTACK = function(weapon, attackingUnit, targetUnit)
 	-- create coroutine of attack
 	local co = coroutine.create(function()
 		print("[LUA] Attacking with", weapon["name"])
+
 		coroutine.yield()
+
+		local x, y = Unit.getPos(targetUnit)
+		print("Target ", x, y)
 
 		-- Wait one minute
 		for i = 1, 60 do
 			if i < 30 then
-				offsetUnit(attackingUnit, 1, 1)
-			else
-				offsetUnit(attackingUnit, -1, -1)
+				Unit.offset(attackingUnit, 1, 1)
 			end
 			coroutine.yield()
 		end
+
+		Unit.resetOffset(attackingUnit);
+
 	end)
 
 	-- return anonymous function that will manage coroutine

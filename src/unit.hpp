@@ -74,8 +74,10 @@ class cUnit{
 
 /////////////// LUA API ///////////////////////////////////////////////////////
 	public:
-		static int l_getUnitPos(lua_State *L);		// Get unit pos
-		static int l_offsetUnit(lua_State *L);		// Offset unit pos
+		static void registerUnitApi(lua_State *L);
+
+		static int l_getPos(lua_State *L);		// Get unit pos
+		static int l_offset(lua_State *L);		// Offset unit pos
 		static int l_resetOffset(lua_State *L);		// Reset unit offset
-		static int l_dealDamage(lua_State *L);		// Deal damage to unit
+		static int l_damage(lua_State *L);		// Deal damage to unit
 };
