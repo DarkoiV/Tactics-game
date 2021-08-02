@@ -190,10 +190,7 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 				if (enemyTeam.isAnyHere(cursor.position(), &enemyUnit)){
 					commander.attack(&selectedUnit, enemyUnit);
 
-					selectedUnit.toggleActive(false);
-					playerTeam.deselectUnit();
 					playerTeam.toggleActionRange(false);
-
 					cursor.toggleHiden(true);
 					m_mode = POST_ACTION;
 				}
@@ -218,8 +215,14 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 // POST ACTION CHECKUP ////////////////////////////////////////////////////
 
 void cTurnPlayer::processPostAction() {
+	// Get selected unit
+	auto &selectedUnit = playerTeam.selected();
+
 	cursor.toggleHiden(false);
-	
+
+	selectedUnit.toggleActive(false);
+	playerTeam.deselectUnit();
+
 	// TODO check for dead unit, and remove them from scene
 	
 	// TODO check if any unit reamined active
