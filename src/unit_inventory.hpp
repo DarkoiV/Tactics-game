@@ -22,5 +22,6 @@ class cUnitInventory{
 		bool addItem(sItem p_newItem);		// Returns false when inventory is full
 		void deleteItem(int p_itemNo);		// Deletes item on position p_itemNo
 
-		auto getItems() -> const std::vector<sItem>&;
+		auto getItems()     -> const std::vector<sItem>&;
+		auto getFirstItem() -> const sItem*;
 };

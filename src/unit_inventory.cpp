@@ -27,6 +27,15 @@ void cUnitInventory::deleteItem(int p_itemNo){
 	m_items.erase(m_items.begin() + p_itemNo);
 }
 
+// Get items vector
 auto cUnitInventory::getItems() -> const std::vector<sItem>& {
 	return m_items;
+}
+
+// Get first item in vector
+auto cUnitInventory::getFirstItem() -> const sItem* {
+	if(m_items.size() == 0)
+		return nullptr;
+
+	return &m_items[0];
 }

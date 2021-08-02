@@ -3,31 +3,42 @@
 // Constructor
 cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L): 
 	Lua(L), m_attackingUnit(p_attacking), m_targetUnit(p_target) {
-		auto weapon = m_attackingUnit->inventory().getItems()[0];
+		// Get first item in inventory
+		auto weapon = m_attackingUnit->inventory().getFirstItem();
 
-		std::cout << "[INFO] Attacking UNIT " << std::endl;
-
-		lua_getglobal(Lua(), weapon.name.c_str());		// Weapon arg
-		if (lua_istable(Lua(), -1)) {
-			lua_getfield(Lua(), -1, "Attack");		// Function of attack from this weapon
-		}
-		else {
-			std::cout << "[ERROR] There is no item table: " << weapon.name << std::endl;
+		if(weapon == nullptr) {
+			std::cout << "[ERROR] No item in inventory" << std::endl;
 			m_completed = true;
 			return;
 		}
-		lua_insert(Lua(), -2);					// Swich function with weapon
 
-		lua_pushlightuserdata(Lua(), m_attackingUnit);		// Attacking Unit arg
-		lua_pushlightuserdata(Lua(), m_targetUnit);		// Target unit arg
+		std::cout << "[INFO] Attacking UNIT " << std::endl;
+
+		// Get weapon by name
+		lua_getglobal(Lua(), weapon->name.c_str());
+		if (not lua_istable(Lua(), -1)) {
+			std::cout << "[ERROR] There is no item table: " << weapon->name << std::endl;
+			m_completed = true;
+			return;
+		}
+
+		// Get attack method, and switch its position with weapon arg
+		lua_getfield(Lua(), -1, "Attack");
+		lua_insert(Lua(), -2);
+
+		// Push attackingUnit param and targetUnit param
+		lua_pushlightuserdata(Lua(), m_attackingUnit);
+		lua_pushlightuserdata(Lua(), m_targetUnit);
 
 		// Call attack function
-		if(lua_isfunction(Lua(), -4)){
+		if (lua_isfunction(Lua(), -4)) {
 			if (lua_pcall(Lua(), 3, 1, 0) != 0)
 				std::cout << "[ERROR] Running function " << lua_tostring(Lua(), -1) << std::endl;	
 		}
-		else
+		else {
 			std::cout << "[ERROR] Not a Lua function " << std::endl;
+			m_completed = true;
+		}
 }
 
 // Execute command
@@ -51,7 +62,11 @@ void cCommandAttack::execute() {
 			
 		lua_pop(Lua(), 1);			// Pop return code
 	}
-	else std::cout << "[WARN] NO RETURN CODE !!" << std::endl;
+	else {
+		std::cout << "[ERROR] No return code from LUA coroutine, terminating" << std::endl;
+		lua_pop(Lua(), -1);
+		m_completed = true;
+	}
 }
 
 // Is commnad completed
