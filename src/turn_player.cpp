@@ -192,8 +192,10 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 
 					selectedUnit.toggleActive(false);
 					playerTeam.deselectUnit();
+					playerTeam.toggleActionRange(false);
 
-					m_mode = SELECT_UNIT;
+					cursor.toggleHiden(true);
+					m_mode = POST_ACTION;
 				}
 			}
 			break;
@@ -211,6 +213,19 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 		case eBUTTON::NONE:
 			break;
 	}
+}
+
+// POST ACTION CHECKUP ////////////////////////////////////////////////////
+
+void cTurnPlayer::processPostAction() {
+	cursor.toggleHiden(false);
+	
+	// TODO check for dead unit, and remove them from scene
+	
+	// TODO check if any unit reamined active
+	
+	m_mode = SELECT_UNIT;
+
 }
 
 // PUBLIC METHODS ////////////////////////////////////////////////////////
@@ -244,10 +259,6 @@ void cTurnPlayer::update(eBUTTON p_input) {
 	// Check commander queue, 
 	// If all commands completed, jump to current mode
 	if( not commander.execute() ) {
-		// Show cursor
-		cursor.toggleHiden(false);
-
-		// Process mode
 		switch (m_mode) {
 			case SELECT_UNIT:
 				processSelectUnit(p_input);
@@ -264,8 +275,10 @@ void cTurnPlayer::update(eBUTTON p_input) {
 			case SELECT_TARGET:
 				processSelectTarget(p_input);
 				break;
+
+			case POST_ACTION:
+				processPostAction();
+				break;
 		}
 	}
-	// When processing commands hide cursor
-	else cursor.toggleHiden(true);
 }

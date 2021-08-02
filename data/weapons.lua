@@ -47,6 +47,7 @@ DEFAULT_ATTACK = function(weapon, attackingUnit, targetUnit)
 		if damage < 0 then damage = 0 end
 
 		Unit.damage(targetUnit, damage)
+		print("[LUA] Dealt " .. damage .. " damage to unit")
 
 		Fn.wait(5);
 	end)

@@ -24,20 +24,15 @@ class cTurnPlayer: public cTurn{
 			SELECT_UNIT,
 			MOVE_UNIT,
 			SELECT_ACTION,
-			SELECT_TARGET
+			SELECT_TARGET,
+			POST_ACTION
 		} m_mode;
 
-		// SELECT UNIT MODE
-		void processSelectUnit(eBUTTON p_input);
-
-		// MOVE UNIT MODE
-		void processMoveUnit(eBUTTON p_input);
-
-		// SELECT ACTION MODE
-		void processSelectAction(eBUTTON p_input);
-
-		// SELECT TARGET MODE
-		void processSelectTarget(eBUTTON p_input);
+		void processSelectUnit(eBUTTON p_input);		// SELECT UNIT MODE
+		void processMoveUnit(eBUTTON p_input);			// MOVE UNIT MODE
+		void processSelectAction(eBUTTON p_input);		// SELECT ACTION MODE
+		void processSelectTarget(eBUTTON p_input);		// SELECT TARGET MODE
+		void processPostAction();				// POST ACTION CHECKUP
 
 	public:
 		cTurnPlayer(cBoard &b, cCursor &c, cUI &UI, cCommander &com, cTeam &pt, cTeam &et):
