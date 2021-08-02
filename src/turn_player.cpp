@@ -244,6 +244,10 @@ void cTurnPlayer::update(eBUTTON p_input) {
 	// Check commander queue, 
 	// If all commands completed, jump to current mode
 	if( not commander.execute() ) {
+		// Show cursor
+		cursor.toggleHiden(false);
+
+		// Process mode
 		switch (m_mode) {
 			case SELECT_UNIT:
 				processSelectUnit(p_input);
@@ -262,4 +266,6 @@ void cTurnPlayer::update(eBUTTON p_input) {
 				break;
 		}
 	}
+	// When processing commands hide cursor
+	else cursor.toggleHiden(true);
 }

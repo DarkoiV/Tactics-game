@@ -44,6 +44,11 @@ void cCursor::moveRight(){
 		std::cout << "[INFO] Cursor at board limit" << std::endl;
 }
 
+// Toggle hidden
+void cCursor::toggleHiden(bool p_toggle) {
+	m_hidden = p_toggle;
+}
+
 // Change mode of display
 void cCursor::operator[](eCURSOR_MODE p_mode) {
 	m_mode = p_mode;
@@ -56,6 +61,8 @@ auto cCursor::position() -> vec2D{
 
 // Draw cursor
 void cCursor::draw(vec2D p_cameraOffset, int p_animationFrame){
+	if(m_hidden) return;
+
 	// Initialize drawing rectangles
 	SDL_Rect srcRect{ 30 * (p_animationFrame / 40) // 0-39 First frame 40-59 second
 			, 30 * (int)m_mode  

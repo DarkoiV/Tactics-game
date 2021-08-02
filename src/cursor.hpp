@@ -23,6 +23,9 @@ class cCursor{
 		// Size of board in TILES
 		vec2D m_boardSize{0, 0};
 
+		// Cursor hidden
+		bool m_hidden = false;
+
 		// Sprite used for drawing
 		SDL_Texture* m_sprite = nullptr;
 	public:
@@ -34,6 +37,9 @@ class cCursor{
 		void moveDown();
 		void moveLeft();
 		void moveRight();
+
+		// Hide
+		void toggleHiden(bool p_toggle);
 
 		// Change mode of display
 		void operator[](eCURSOR_MODE p_mode);
