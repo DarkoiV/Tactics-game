@@ -25,6 +25,8 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 	// Default stats
 	m_stats.HP  = 10;
 	m_stats.MP  = 10;
+	m_stats.DEF = 2;
+	m_stats.STR = 2;
 	m_stats.MOV = 5 ;
 
 	// For now push iron_sword

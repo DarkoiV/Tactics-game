@@ -79,5 +79,7 @@ class cUnit{
 		static int l_getPos(lua_State *L);		// Get unit pos
 		static int l_offset(lua_State *L);		// Offset unit pos
 		static int l_resetOffset(lua_State *L);		// Reset unit offset
+
+		static int l_getPhysical(lua_State *L);		// Get physical stats STR, DEF
 		static int l_damage(lua_State *L);		// Deal damage to unit
 };

@@ -17,6 +17,9 @@ void cUnit::registerUnitApi(lua_State *L) {
 	lua_pushcfunction(L, l_resetOffset);
 	lua_setfield(L, -2, "resetOffset");
 
+	lua_pushcfunction(L, l_getPhysical);
+	lua_setfield(L, -2, "getPhysical");
+
 	lua_pushcfunction(L, l_damage);
 	lua_setfield(L, -2, "damage");
 }
@@ -73,7 +76,7 @@ int cUnit::l_resetOffset(lua_State *L) {
 	// Takes unit as argument
 	cUnit* unit;
 	
-	if(lua_type(L, -1) != LUA_TLIGHTUSERDATA) {
+	if (lua_type(L, -1) != LUA_TLIGHTUSERDATA) {
 		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
 		return 0;
 	}
@@ -84,8 +87,52 @@ int cUnit::l_resetOffset(lua_State *L) {
 	return 0;
 }
 
+// Get STR and DEF
+int cUnit::l_getPhysical(lua_State *L) {
+	// Takes unit as argument
+	cUnit* unit;
+
+	if (lua_type(L, -1) != LUA_TLIGHTUSERDATA) {
+		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
+		return 0;
+	}
+
+	unit = (cUnit*)lua_topointer(L, -1);
+
+	//Returns STR and DEG
+	int STR, DEF;
+	STR = unit->m_stats.STR;
+	DEF = unit->m_stats.DEF;
+	
+	lua_pushnumber(L, STR);
+	lua_pushnumber(L, DEF);
+
+	return 2;
+}
+
 // Deal damage to unit from LUA
 int cUnit::l_damage(lua_State *L) {
+	// Takes unit, and amount of damage as arguments
+	cUnit* unit;
+	int damage;
+
+	if (lua_type(L, -2) != LUA_TLIGHTUSERDATA) {
+		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
+		return 0;
+	}
+	if (not lua_isnumber(L, -1)) {
+		std::cout << "[ERROR][LUA API] Not a lua number" << std::endl;
+		return 0;
+	}
+
+	unit = (cUnit*)lua_topointer(L, -2);
+	damage = (int)lua_tonumber(L, -1);
+	
+	// Deal damage
+	if(unit->m_stats.HP > damage)
+		unit->m_stats.HP -= damage;
+	else
+		unit->m_stats.HP = 0;
 
 	return 0;
 }
