@@ -38,6 +38,8 @@ class cUnitRange{
 		bool inRange(cBoard &board, vec2D p_targetPos);					// Returns true if targetPos is valid move
 		auto getPath(cBoard &board, vec2D p_targetPos) -> std::stack<eDIRECTION>;	// Get Stack of path directions
 
+		bool inActionRange(cBoard &board, vec2D p_targetPos);				// Returns true if targetPos is valid action pos
+
 		// Draw
 		void drawMoveRange(vec2D p_cameraOffset, int p_animationFrame);
 		void drawActionRange(vec2D p_cameraOffset, int p_animationFrame);

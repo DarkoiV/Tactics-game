@@ -74,8 +74,9 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 		// Check if move is withing range
 		// If so send proper commands to unit
 		case eBUTTON::SELECT:
-			if( selectedUnit.range().inRange( board, cursor.position()) 
-			and not playerTeam.isAnyHere(cursor.position(), nullptr)) {
+			if( selectedUnit.getPosition() == cursor.position() 
+			or ( selectedUnit.range().inRange( board, cursor.position())
+			and not playerTeam.isAnyHere(cursor.position(), nullptr)) ) {
 				// Get path to selected position
 				auto path = selectedUnit.range().getPath(board, cursor.position());
 
@@ -187,7 +188,9 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 		case eBUTTON::SELECT:
 			{
 				cUnit *enemyUnit = nullptr; 
-				if (enemyTeam.isAnyHere(cursor.position(), &enemyUnit)){
+				if (enemyTeam.isAnyHere(cursor.position(), &enemyUnit)
+				and selectedUnit.range().inActionRange(board, cursor.position()) ) {
+					// Create command of attack
 					commander.attack(&selectedUnit, enemyUnit);
 
 					playerTeam.toggleActionRange(false);

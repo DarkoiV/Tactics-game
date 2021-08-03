@@ -247,6 +247,19 @@ auto cUnitRange::getPath(cBoard &board, vec2D p_targetPos) -> std::stack<eDIRECT
 	return pathStack;
 }
 
+// Returns true if targetPos is valid action pos
+bool cUnitRange::inActionRange(cBoard &board, vec2D p_targetPos) {
+	// Calculate target tile in 1D space
+	const int boardLine  = board.getSize().x;
+	const int targetTile = p_targetPos.x + p_targetPos.y * boardLine;
+
+	// Check if valid move
+	if(m_validActionDistance.count(targetTile) == 1)
+		return true;
+	else
+		return false;
+}
+
 // Draw move range
 void cUnitRange::drawMoveRange(vec2D p_cameraOffset, int p_animationFrame){
 	SDL_Rect srcRect{0, 0, TILE_SIZE, TILE_SIZE};
