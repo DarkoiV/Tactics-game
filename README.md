@@ -7,13 +7,21 @@ SDL 2.0
 SDL_image 2.0  
 Lua 5.4 (5.4.3+)
 
-## BUILD
-For linux build make sure you have installed libsdl2-dev, libsdl2-image-2.0-0 and CMake.  
-After that just run:
+## Building from source
+### Linux
+Make sure you have installed SDL2-dev, SDL2_image-dev and CMake.  
+```console
+# Download and build
+git clone https://github.com/DarkoiV/Tactics-game.git
+cd Tactics-game
+./build.sh
+
+# To start
+./TacticsGame
 ```
-> ./build.sh
-> ./TacticsGame
-```
+
+### Windows
+To be done in future
 
 # IN CONSTRUCTION
 
