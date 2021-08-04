@@ -123,7 +123,7 @@ int cUnit::l_damage(lua_State *L) {
 	int damage;
 
 	// Get unit from lua stack
-	unit = cUnit::getTaggedUnit(L, -1);
+	unit = cUnit::getTaggedUnit(L, -2);
 	if(unit == nullptr) return 0;
 
 	if (not lua_isnumber(L, -1)) {
