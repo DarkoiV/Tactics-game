@@ -75,13 +75,14 @@ void cAssetManager::freeResources(){
 
 // Get sprite by name
 SDL_Texture* cAssetManager::getSprite(std::string p_requesterName, std::string p_spriteName){
-	std::cout << "[INFO] " << p_requesterName << " wants pointer to asset: " << p_spriteName << std::endl;
+	std::cout << "[INFO] " << p_requesterName << " wants asset: " << p_spriteName << std::endl;
 	if(m_spriteMap.count(p_spriteName) != 0){
 		std::cout << "[OK] Access to asset granted " << std::endl;
 		return m_spriteMap[p_spriteName];
 	}
 	else {
 		std::cout << "[ERROR] Non existent asset: " << p_spriteName << std::endl;
+		// TODO give dummy spirte
 		return nullptr;
 	}
 	
