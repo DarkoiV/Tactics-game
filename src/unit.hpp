@@ -74,6 +74,9 @@ class cUnit{
 
 /////////////// LUA API ///////////////////////////////////////////////////////
 	public:
+		// Get unit from tagged, return nullptr on failure
+		static auto getTaggedUnit(lua_State *L, int indx) -> cUnit*;
+
 		static void registerUnitApi(lua_State *L);
 
 		static int l_getPos(lua_State *L);		// Get unit pos

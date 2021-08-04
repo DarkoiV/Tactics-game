@@ -1,10 +1,17 @@
 #include "command_attack_unit.hpp"
+#include "unit.hpp"
 
 // Constructor
-cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L): 
-	Lua(L), m_attackingUnit(p_attacking), m_targetUnit(p_target) {
+cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &L): Lua(L) {
+		// Setup tagged container
+		m_attackingUnit.tag = eTAG::UNIT;
+		m_attackingUnit.pointer = p_attacking;
+
+		m_targetUnit.tag = eTAG::UNIT;
+		m_targetUnit.pointer = p_target;
+
 		// Get first item in inventory
-		auto weapon = m_attackingUnit->inventory().getFirstItem();
+		auto weapon = p_attacking->inventory().getFirstItem();
 
 		if(weapon == nullptr) {
 			std::cout << "[ERROR] No item in inventory" << std::endl;
@@ -27,8 +34,8 @@ cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &
 		lua_insert(Lua(), -2);
 
 		// Push attackingUnit param and targetUnit param
-		lua_pushlightuserdata(Lua(), m_attackingUnit);
-		lua_pushlightuserdata(Lua(), m_targetUnit);
+		lua_pushlightuserdata(Lua(), &m_attackingUnit);
+		lua_pushlightuserdata(Lua(), &m_targetUnit);
 
 		// Call attack function
 		if (lua_isfunction(Lua(), -4)) {

@@ -1,4 +1,21 @@
 #include "unit.hpp"
+#include "struct_tagged.hpp"
+
+// Get unit pointer from tagged container
+auto cUnit::getTaggedUnit(lua_State *L, int indx) -> cUnit* {	
+	if(lua_type(L, indx) != LUA_TLIGHTUSERDATA) {
+		std::cout << "[ERROR][LUA API] Not a pointer" << std::endl;
+		return nullptr;
+	}
+
+	sTagged *taggedPointer = (sTagged*)lua_topointer(L, indx);
+	if(taggedPointer->tag != eTAG::UNIT) {
+		std::cout << "[ERROR][LUA API] Wrong pointer type" << std::endl;
+		return nullptr;
+	}
+
+	return (cUnit*)taggedPointer->pointer;
+}
 
 // Create unit table, and register functions
 void cUnit::registerUnitApi(lua_State *L) {
@@ -29,12 +46,9 @@ int cUnit::l_getPos(lua_State *L) {
 	// Takes unit as argument
 	cUnit *unit;
 
-	if(lua_type(L, -1) != LUA_TLIGHTUSERDATA) {
-		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
-		return 0;
-	}
-
-	unit = (cUnit*)lua_topointer(L, -1);
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -1);
+	if(unit == nullptr) return 0;
 
 	// Returns x, y
 	vec2D pos = unit->getPosition();
@@ -50,15 +64,12 @@ int cUnit::l_offset(lua_State *L) {
 	cUnit* unit;
 	int x, y;
 
-	if(lua_type(L, -3) != LUA_TLIGHTUSERDATA) {
-		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
-		return 0;
-	}
-
-	unit = (cUnit*)lua_topointer(L, -3);
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -3);
+	if(unit == nullptr) return 0;
 
 	if(not lua_isnumber(L, -2) or not lua_isnumber(L, -1)) {
-		std::cout << "[ERROR][LUA API] Function needs 2 integers which were not provided" << std::endl;
+		std::cout << "[ERROR][LUA API] Function needs 2 numbers which were not provided" << std::endl;
 		return 0;
 	}
 	x = (int)lua_tonumber(L, -2);
@@ -76,12 +87,10 @@ int cUnit::l_resetOffset(lua_State *L) {
 	// Takes unit as argument
 	cUnit* unit;
 	
-	if (lua_type(L, -1) != LUA_TLIGHTUSERDATA) {
-		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
-		return 0;
-	}
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -1);
+	if(unit == nullptr) return 0;
 
-	unit = (cUnit*)lua_topointer(L, -1);
 	unit->resetOffset();
 
 	return 0;
@@ -92,12 +101,9 @@ int cUnit::l_getPhysical(lua_State *L) {
 	// Takes unit as argument
 	cUnit* unit;
 
-	if (lua_type(L, -1) != LUA_TLIGHTUSERDATA) {
-		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
-		return 0;
-	}
-
-	unit = (cUnit*)lua_topointer(L, -1);
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -1);
+	if(unit == nullptr) return 0;
 
 	//Returns STR and DEG
 	int STR, DEF;
@@ -116,16 +122,15 @@ int cUnit::l_damage(lua_State *L) {
 	cUnit* unit;
 	int damage;
 
-	if (lua_type(L, -2) != LUA_TLIGHTUSERDATA) {
-		std::cout << "[ERROR][LUA API] Not a pointer to unit" << std::endl;
-		return 0;
-	}
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -1);
+	if(unit == nullptr) return 0;
+
 	if (not lua_isnumber(L, -1)) {
-		std::cout << "[ERROR][LUA API] Not a lua number" << std::endl;
+		std::cout << "[ERROR][LUA API] Function needs number, which were not provided" << std::endl;
 		return 0;
 	}
 
-	unit = (cUnit*)lua_topointer(L, -2);
 	damage = (int)lua_tonumber(L, -1);
 	
 	// Deal damage
