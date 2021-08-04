@@ -6,7 +6,7 @@ echo "--------------"
 echo
 
 # check for ~ LUA ~
-if test -f "./lib/Lua5.4/src/lua.hpp"; then
+if test -f "./lib/Lua5.4/lua.hpp"; then
 	echo "LUA is present"
 else
 	echo "LUA is not present, downloading"
@@ -19,7 +19,7 @@ else
 	echo
 
 	echo "Deleting reaming files from LUA download"
-	rm -rf lua-5.4.3*
+	rm -r lua-5.4.3*
 	echo
 fi
 echo
