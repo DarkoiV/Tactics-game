@@ -17,7 +17,7 @@ cd Tactics-game
 ./build.sh
 
 # To start
-./TacticsGame
+./game
 ```
 
 ### Windows

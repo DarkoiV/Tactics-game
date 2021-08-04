@@ -25,8 +25,8 @@ add_subdirectory("lib/Lua5.4")
 
 # build
 file(GLOB SOURCES "src/*.cpp")
-add_executable(TacticsGame "${SOURCES}")
-target_link_libraries(TacticsGame 
+add_executable(game "${SOURCES}")
+target_link_libraries(game 
     "${SDL2_LIBRARIES}" 
     "${SDL2_IMAGE_LIBRARIES}"
     "${CMAKE_THREAD_LIBS_INIT}"

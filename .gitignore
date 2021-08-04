@@ -3,9 +3,8 @@ lib/Lua5.4/*.h
 lib/Lua5.4/*.hpp
 lib/Lua5.4/Makefile
 
-TacticsGame
-
 build
+game
 
 compile_flags.txt
 compile_commands.json
