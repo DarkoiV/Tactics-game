@@ -1,0 +1,11 @@
+lib/Lua5.4/*.c
+lib/Lua5.4/*.h
+lib/Lua5.4/*.hpp
+lib/Lua5.4/Makefile
+
+TacticsGame
+
+build
+
+compile_flags.txt
+compile_commands.json
