@@ -5,7 +5,7 @@
 void cTeam::spawnUnit(std::string p_name, vec2D p_pos){
 	std::cout << "[INFO] Creating unit by name: " << p_name << std::endl;
 	// Create TMP unit
-	if(p_name == "TMP"){
+	if(p_name == "infantry"){
 		m_units.push_back(std::make_shared<cUnit>(p_name, m_teamColor));
 		m_units.back()->setPosition(p_pos);
 	}

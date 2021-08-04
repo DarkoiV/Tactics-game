@@ -34,12 +34,12 @@ cSceneBattle::cSceneBattle(){
 	cUnit::registerUnitApi(m_lua());
 
 	// TMP create units
-	m_blueTeam.spawnUnit("TMP", {8, 10});
-	m_blueTeam.spawnUnit("TMP", {9, 10});
+	m_blueTeam.spawnUnit("infantry", {8, 10});
+	m_blueTeam.spawnUnit("infantry", {9, 10});
 
 	// m_redTeam.addNewUnit("TMP");
-	m_redTeam.spawnUnit("TMP", {5, 10});
-	m_redTeam.spawnUnit("TMP", {4, 10});
+	m_redTeam.spawnUnit("infantry", {5, 10});
+	m_redTeam.spawnUnit("infantry", {4, 10});
 
 	// Start current turn
 	currentTurn()->start();
@@ -110,14 +110,44 @@ void cSceneBattle::command(const std::string &p_command){
 				arguments.push_back(current_argument);
 	}
 
-	if(arguments.size() < 1){
+	if(arguments.size() < 1) {
 		std::cout << "[INFO] Empty command" << std::endl;
 		return;
 	}
-	if(arguments[0] == "next_turn"){
+
+	if(arguments[0] == "nextturn") {
 		std::cout << "[INFO] Switching to next turn via command" << std::endl;
 		nextTurn();
 	}
+
+	// Commands after that requires at least 3 args
+	if(arguments.size() < 3) return;
+
+	// Spawn unit commands
+	if(arguments[0] == "spawn") {
+		if(arguments[1] == "blue" ) {
+			// Spawn blue infantry at cursor pos
+			if(arguments[2] == "infantry") { 
+				std::cout << "[INFO] Spawning unit" << std::endl;
+				m_blueTeam.spawnUnit("infantry", m_cursor.position());
+				return;
+			}
+
+		}
+
+		if(arguments[1] == "red" ) {
+			// Spawn blue infantry at cursor pos
+			if(arguments[2] == "infantry") {
+				std::cout << "[INFO] Spawning unit" << std::endl;
+				m_redTeam.spawnUnit("infantry", m_cursor.position());
+				return;
+			}
+
+		}
+		std::cout << "[WARN] Unknown type of unit" << std::endl;
+	}
+
+	std::cout << "[WARN] Unknown command" << std::endl;
 }
 
 // Update scene
