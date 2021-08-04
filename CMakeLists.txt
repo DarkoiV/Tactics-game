@@ -9,6 +9,9 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 # Create compile comands
 set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 
+# Set output directory
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}) 
+
 # Enable multithreading
 find_package(Threads REQUIRED)
 
