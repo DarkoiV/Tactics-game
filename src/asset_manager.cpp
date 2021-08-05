@@ -74,7 +74,7 @@ void cAssetManager::freeResources(){
 }
 
 // Get sprite by name
-SDL_Texture* cAssetManager::getSprite(std::string p_requesterName, std::string p_spriteName){
+SDL_Texture* cAssetManager::getSprite(const std::string& p_requesterName, const std::string& p_spriteName){
 	std::cout << "[INFO] " << p_requesterName << " wants asset: " << p_spriteName << std::endl;
 	if(m_spriteMap.count(p_spriteName) != 0){
 		std::cout << "[OK] Access to asset granted " << std::endl;

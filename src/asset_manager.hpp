@@ -25,5 +25,5 @@ class cAssetManager{
 		}
 
 		// Get sprite pointer
-		SDL_Texture* getSprite(std::string p_requesterName, std::string p_spriteName);
+		SDL_Texture* getSprite(const std::string& p_requesterName, const std::string& p_spriteName);
 };
