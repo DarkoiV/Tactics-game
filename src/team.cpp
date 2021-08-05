@@ -18,8 +18,8 @@ void cTeam::checkDeadUnits(cCommander &commander) {
 		if(m_units[i]->getStats().HP == 0) {
 			commander.unitKilled(m_units[i]);
 			m_units.erase(m_units.begin() + i);
+			i--;
 		}
-		else i++;
 	}
 }
 

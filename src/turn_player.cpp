@@ -129,11 +129,10 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 				// ON WAIT
 				if (selectedAction == "Wait") {
 					selectedUnit.toggleActive(false);
-					playerTeam.deselectUnit();
 					playerTeam.toggleMoveRange(false);
 
 					UI.aMenu[nullptr];
-					m_mode = SELECT_UNIT;
+					m_mode = POST_ACTION;
 				}
 
 				// ON ATTACK
@@ -232,8 +231,10 @@ void cTurnPlayer::processPostAction() {
 	
 	// TODO check if any unit reamined active
 	
-	m_mode = SELECT_UNIT;
+	// Recalc ranges
+	playerTeam.calculateRange(board, enemyTeam);
 
+	m_mode = SELECT_UNIT;
 }
 
 // PUBLIC METHODS ////////////////////////////////////////////////////////
