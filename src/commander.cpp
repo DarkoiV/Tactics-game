@@ -1,6 +1,7 @@
 #include "commander.hpp"
 #include "command_move_unit.hpp"
 #include "command_attack_unit.hpp"
+#include "command_unit_killed.hpp"
 
 // Execute command from queue
 bool cCommander::execute() {
@@ -31,11 +32,19 @@ void cCommander::moveUnit(cUnit *p_movedUnit, std::stack<eDIRECTION> p_direction
 	}
 }
 
-// Push attack command on queue
-void cCommander::attack(cUnit *p_attacking, cUnit *p_target){
+// Push attack command to queue
+void cCommander::attack(cUnit *p_attacking, cUnit *p_target) {
 	m_commandQueue.emplace(std::make_unique<cCommandAttack>(
 		p_attacking,
 		p_target,
 		Lua
 	));
+}
+
+// Push unit killed command to queue
+void cCommander::unitKilled(const std::shared_ptr<cUnit> &p_unit) {
+	m_commandQueue.emplace(std::make_unique<cCommandUnitKilled>(
+		p_unit
+	));
+
 }

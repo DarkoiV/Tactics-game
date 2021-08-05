@@ -1,13 +1,25 @@
 #include "team.hpp"
 #include "board.hpp"
+#include "commander.hpp"
 
 // Add new unit to team by name
-void cTeam::spawnUnit(std::string p_name, vec2D p_pos){
+void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 	std::cout << "[INFO] Creating unit by name: " << p_name << std::endl;
 	// Create TMP unit
 	if(p_name == "infantry"){
 		m_units.push_back(std::make_shared<cUnit>(p_name, m_teamColor));
 		m_units.back()->setPosition(p_pos);
+	}
+}
+
+// Check if any unit is dead
+void cTeam::checkDeadUnits(cCommander &commander) {
+	for(size_t i = 0; i < m_units.size(); i++) {
+		if(m_units[i]->getStats().HP == 0) {
+			commander.unitKilled(m_units[i]);
+			m_units.erase(m_units.begin() + i);
+		}
+		else i++;
 	}
 }
 

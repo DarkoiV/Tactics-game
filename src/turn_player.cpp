@@ -226,7 +226,9 @@ void cTurnPlayer::processPostAction() {
 	selectedUnit.toggleActive(false);
 	playerTeam.deselectUnit();
 
-	// TODO check for dead unit, and remove them from scene
+	// Check for dead unit, and remove them from scene
+	playerTeam.checkDeadUnits(commander);
+	enemyTeam.checkDeadUnits(commander);
 	
 	// TODO check if any unit reamined active
 	

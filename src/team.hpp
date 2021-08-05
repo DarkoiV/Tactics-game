@@ -7,6 +7,8 @@
 #include <memory>
 #include <string>
 
+class cCommander;
+
 // Team class
 class cTeam{
 	private:
@@ -27,7 +29,10 @@ class cTeam{
 			:m_teamColor(p_teamColor){};
 
 		// Spawn new unit by name
-		void spawnUnit(std::string p_name, vec2D p_pos);
+		void spawnUnit(const std::string& p_name, vec2D p_pos);
+
+		// Check for dead units
+		void checkDeadUnits(cCommander &commander);
 
 		// Select unit, returns true if unit selected
 		bool selectUnit(vec2D p_targetPos);
@@ -49,6 +54,7 @@ class cTeam{
 		void toggleMoveRange(bool p_shown);
 		void toggleActionRange(bool p_shown);
 
+		// Make all units active
 		void resetActiveStatus();
 
 		// Draw

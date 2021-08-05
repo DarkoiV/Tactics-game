@@ -24,8 +24,10 @@ class cCommander {
 		// Execute command from command queue, return false when no command left
 		bool execute();
 
-		// Create queue of move commands from stack holding path 
+		// Create commands and add them to queue
 		void moveUnit(cUnit* p_movedUnit, std::stack<eDIRECTION> p_directions);
 
 		void attack(cUnit* p_attacking, cUnit* p_target);
+
+		void unitKilled(const std::shared_ptr<cUnit> &p_unit);
 };
