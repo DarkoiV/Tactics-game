@@ -23,6 +23,14 @@ void cTeam::checkDeadUnits(cCommander &commander) {
 	}
 }
 
+// Check if any unit is still active
+bool cTeam::checkForActive() {
+	for(size_t i = 0; i < m_units.size(); i++) {
+		if(m_units[i]->isActive()) return true;
+	}
+	return false;
+}
+
 // Try to select unit on target position, return true if any selectable unit is present on target position
 bool cTeam::selectUnit(vec2D p_targetPos){
 	for(const auto &UNIT : m_units){

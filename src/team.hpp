@@ -31,8 +31,9 @@ class cTeam{
 		// Spawn new unit by name
 		void spawnUnit(const std::string& p_name, vec2D p_pos);
 
-		// Check for dead units
+		// Check units status
 		void checkDeadUnits(cCommander &commander);
+		bool checkForActive();				// Returns false when no unit reamins active
 
 		// Select unit, returns true if unit selected
 		bool selectUnit(vec2D p_targetPos);

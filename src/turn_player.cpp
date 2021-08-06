@@ -229,7 +229,9 @@ void cTurnPlayer::processPostAction() {
 	playerTeam.checkDeadUnits(commander);
 	enemyTeam.checkDeadUnits(commander);
 	
-	// TODO check if any unit reamined active
+	// check if any unit remained active
+	if (not playerTeam.checkForActive())
+		m_status = eTURN_STATUS::COMPLETED;
 	
 	// Recalc ranges
 	playerTeam.calculateRange(board, enemyTeam);
@@ -241,6 +243,9 @@ void cTurnPlayer::processPostAction() {
 
 // Start turn
 void cTurnPlayer::start(){
+	// Switch to in progress status
+	m_status = eTURN_STATUS::IN_PROGRESS;
+
 	// Turn start in select unit mode! 
 	m_mode = SELECT_UNIT;
 
@@ -252,7 +257,7 @@ void cTurnPlayer::start(){
 // Return turn status
 auto cTurnPlayer::status() -> eTURN_STATUS{
 	// TMP always return in progress
-	return eTURN_STATUS::IN_PROGRESS;
+	return m_status;
 }
 
 // Process input, update turn

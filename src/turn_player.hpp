@@ -28,6 +28,9 @@ class cTurnPlayer: public cTurn{
 			POST_ACTION
 		} m_mode;
 
+		// Turn status
+		eTURN_STATUS m_status = eTURN_STATUS::IN_PROGRESS;
+
 		void processSelectUnit(eBUTTON p_input);		// SELECT UNIT MODE
 		void processMoveUnit(eBUTTON p_input);			// MOVE UNIT MODE
 		void processSelectAction(eBUTTON p_input);		// SELECT ACTION MODE
