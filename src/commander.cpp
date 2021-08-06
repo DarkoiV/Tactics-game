@@ -46,5 +46,5 @@ void cCommander::unitKilled(const std::shared_ptr<cUnit> &p_unit) {
 	m_commandQueue.emplace(std::make_unique<cCommandUnitKilled>(
 		p_unit
 	));
-
+	animator.unitDied("INFANTRY");
 }

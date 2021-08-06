@@ -13,4 +13,7 @@ class cAnimator {
 	public:
 		// Draw all animations
 		void draw();
+
+		// Draw info about killed unit
+		void unitDied(const std::string& p_name);
 };

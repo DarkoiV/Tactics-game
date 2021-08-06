@@ -4,7 +4,7 @@
 class cAnimation {
 	public:
 		// Destructor
-		virtual ~cAnimation() = 0;
+		virtual ~cAnimation(){};
 
 		// Draw animation
 		virtual void draw() = 0;

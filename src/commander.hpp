@@ -3,6 +3,7 @@
 #include "command.hpp"
 #include "enums.hpp"
 #include "unit.hpp"
+#include "animator.hpp"
 #include "battle_lua.hpp"
 
 #include <queue>
@@ -14,12 +15,16 @@ class cCommander {
 		// Access to lua state
 		cBattleLua &Lua;
 
+		// Access to animator
+		cAnimator &animator;
+
 		// Queue of commands to execute
 		std::queue<std::unique_ptr<cCommand>> m_commandQueue;
 	public:
 		// Constructor
-		cCommander(cBattleLua &Lua):
-			Lua(Lua){};
+		cCommander(cBattleLua &Lua, cAnimator &a):
+			Lua(Lua),
+			animator(a){};
 
 		// Execute command from command queue, return false when no command left
 		bool execute();

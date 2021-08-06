@@ -1,4 +1,5 @@
 #include "animator.hpp"
+#include "animation_unit_died.hpp"
 
 // Draw all animations
 void cAnimator::draw() {
@@ -11,4 +12,11 @@ void cAnimator::draw() {
 			i--;
 		}
 	}
+}
+
+void cAnimator::unitDied(const std::string &p_name) {
+	m_animations.push_back(std::make_unique<cAnimationUnitDied>( 
+		cAnimationUnitDied(p_name)
+	));
+
 }
