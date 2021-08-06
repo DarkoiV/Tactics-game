@@ -156,6 +156,8 @@ void cActionMenu::moveDown() {
 
 // Get selected action
 auto cActionMenu::getSelectedAction() -> const std::string& {
+	// Reset stored unti
+	unit = nullptr;	
 	return m_textOptions[m_selected]();
 }
 
