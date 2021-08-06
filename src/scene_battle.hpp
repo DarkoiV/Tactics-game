@@ -9,6 +9,7 @@
 #include "team.hpp"
 #include "ui_collection.hpp"
 #include "commander.hpp"
+#include "animator.hpp"
 #include "battle_lua.hpp"
 
 #include <vector>
@@ -22,8 +23,9 @@ class cSceneBattle: public cScene{
 		// Scene components
 		cBoard  	m_board;
 		cCursor 	m_cursor;
-		cUI 		m_UI 		= cUI(m_lua);
-		cCommander 	m_commander 	= cCommander(m_lua);
+		cUI 		m_UI 		= (m_lua);
+		cCommander 	m_commander 	= (m_lua);
+		cAnimator	m_animator;
 
 		// Teams
 		cTeam m_blueTeam = cTeam(eTEAM_COLOR::BLUE);
