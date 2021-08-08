@@ -93,7 +93,7 @@ auto cText::operator()() -> std::string& {
 }
 
 // Change text to render
-void cText::update(const std::string p_newText){
+void cText::update(const std::string& p_newText){
 	m_textToRender = p_newText;
 }
 

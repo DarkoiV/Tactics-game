@@ -51,4 +51,8 @@ set( LUA_LIBRARIES
  
 add_library( LuaLib "${LUA_INCLUDES}" "${LUA_CORE}" "${LUA_LIBRARIES}")
 
+if (UNIX)
+	add_definitions(-DLUA_USE_POSIX)
+endif()
+
 target_include_directories ( LuaLib PUBLIC "./")
