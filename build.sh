@@ -35,14 +35,23 @@ else
 
 	echo "LUA is not present, downloading"
 	curl https://www.lua.org/ftp/lua-5.4.3.tar.gz -o lua-5.4.3.tar.gz
+	if test $? -ne 0; then
+		echo "curl ended with non zero"
+		exit 1
+	fi
 	echo
 
 	echo "Unpacking LUA"
 	tar -xzf lua-5.4.3.tar.gz
+	if test $? -ne 0; then
+		echo "tar ended with non zero"
+		exit 1
+	fi
+
 	mv lua-5.4.3/src/* lib/Lua5.4
 	echo
 
-	echo "Deleting reaming files after LUA download"
+	echo "Deleting remaing files after LUA download"
 	rm -r lua-5.4.3*
 fi
 echo
@@ -55,6 +64,10 @@ fi
 cd build
 
 cmake ..
+if test $? -ne 0; then
+	echo "Cmake ended with non zero"
+	exit 1
+fi
 echo 
 
 make
