@@ -226,10 +226,13 @@ void cTurnPlayer::processPostAction() {
 	playerTeam.deselectUnit();
 
 	// Check for dead unit, and remove them from scene
-	int deadUnits = 0;
-	deadUnits += playerTeam.checkDeadUnits();
-	deadUnits += enemyTeam.checkDeadUnits();
-	if(deadUnits > 0) commander.unitsKilled(deadUnits);
+	int deadUnits;
+	deadUnits = playerTeam.checkDeadUnits();
+	if(deadUnits > 0) commander.unitsKilled(deadUnits, false);
+
+	int enemyKilled;
+	enemyKilled = enemyTeam.checkDeadUnits();
+	if(enemyKilled > 0) commander.unitsKilled(enemyKilled, true);
 	
 	// check if any unit remained active
 	if (not playerTeam.checkForActive())

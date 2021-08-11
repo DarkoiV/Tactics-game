@@ -40,15 +40,18 @@ void cCommander::attack(cUnit *p_attacking, cUnit *p_target) {
 	));
 }
 
-// Push unit killed command to queue
-void cCommander::unitsKilled(int p_howMany) {
+// Display text about killed units 
+void cCommander::unitsKilled(int p_howMany, bool p_enemy) {
 	std::string infoText;
 
 	if (p_howMany == 1) {
-		infoText = "UNIT HAS DIED";
+		if(p_enemy) infoText = "ENEMY UNIT HAVE BEEN KILLED";
+		else        infoText = "ALLY UNIT HAS DIED";
 	}
 	else {
-		infoText = std::to_string(p_howMany) + " UNITS HAVE DIED";
+		infoText = std::to_string(p_howMany);
+		if(p_enemy) infoText += " ENEMY UNIS HAVE BEEN KILLED";
+		else        infoText += " ALLY UNITS HAVE DIED";
 	}
 
 	animator.animateText(infoText, eTEXT_COLOR::RED, 3);

@@ -34,5 +34,5 @@ class cCommander {
 
 		void attack(cUnit* p_attacking, cUnit* p_target);
 
-		void unitsKilled(int p_howMany);
+		void unitsKilled(int p_howMany, bool p_enemy);
 };
