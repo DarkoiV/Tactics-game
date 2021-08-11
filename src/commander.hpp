@@ -34,5 +34,5 @@ class cCommander {
 
 		void attack(cUnit* p_attacking, cUnit* p_target);
 
-		void unitKilled(const std::shared_ptr<cUnit> &p_unit);
+		void unitsKilled(int p_howMany);
 };

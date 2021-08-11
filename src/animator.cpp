@@ -1,5 +1,5 @@
 #include "animator.hpp"
-#include "animation_unit_died.hpp"
+#include "animation_text.hpp"
 
 // Draw all animations
 void cAnimator::draw() {
@@ -14,9 +14,10 @@ void cAnimator::draw() {
 	}
 }
 
-void cAnimator::unitDied(const std::string &p_name) {
-	m_animations.push_back(std::make_unique<cAnimationUnitDied>( 
-		cAnimationUnitDied(p_name)
+// Draw text to screen
+void cAnimator::animateText(const std::string &p_text, eTEXT_COLOR p_color, int p_scale) {
+	m_animations.push_back(std::make_unique<cAnimationText>(
+		p_text, p_color, p_scale
 	));
 
 }

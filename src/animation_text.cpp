@@ -1,10 +1,10 @@
-#include "animation_unit_died.hpp"
+#include "animation_text.hpp"
 #include "globals.hpp"
 
 // Constructor
-cAnimationUnitDied::cAnimationUnitDied(const std::string& p_unitName) {
-	textToDisplay = "UNIT " + p_unitName + " HAS DIED";
-	m_text.update(textToDisplay);
+cAnimationText::cAnimationText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale) : m_text({0,0}, p_color, p_scale) {
+	m_textToDisplay = p_text;
+	m_text.update(m_textToDisplay);
 
 	// Measure text to display
 	const int width  = m_text.getPixelWidth();
@@ -15,24 +15,24 @@ cAnimationUnitDied::cAnimationUnitDied(const std::string& p_unitName) {
 	
 	// Set first letter visible
 	m_displayedletters = 1;
-	m_text.update(textToDisplay.substr(0, m_displayedletters));
+	m_text.update(m_textToDisplay.substr(0, m_displayedletters));
 
 	// Set how many frames it is going to take
-	m_framesToDisplay = NEW_CHAR_DELAY * textToDisplay.size() + 60;
+	m_framesToDisplay = NEW_CHAR_DELAY * m_textToDisplay.size() + 60;
 }
 
 // Draw text to screen
-void cAnimationUnitDied::draw() {
+void cAnimationText::draw() {
 	m_text.draw();
 
 	m_animationFrame++;
 	if(m_animationFrame % NEW_CHAR_DELAY == 0) {
 		m_displayedletters++;
-		m_text.update(textToDisplay.substr(0, m_displayedletters));
+		m_text.update(m_textToDisplay.substr(0, m_displayedletters));
 	}
 }
 
 // Check if completed
-bool cAnimationUnitDied::isCompleted() {
+bool cAnimationText::isCompleted() {
 	return m_animationFrame > m_framesToDisplay;	
 }

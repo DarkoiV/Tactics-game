@@ -1,7 +1,6 @@
 #include "commander.hpp"
 #include "command_move_unit.hpp"
 #include "command_attack_unit.hpp"
-#include "command_unit_killed.hpp"
 
 // Execute command from queue
 bool cCommander::execute() {
@@ -42,9 +41,15 @@ void cCommander::attack(cUnit *p_attacking, cUnit *p_target) {
 }
 
 // Push unit killed command to queue
-void cCommander::unitKilled(const std::shared_ptr<cUnit> &p_unit) {
-	m_commandQueue.emplace(std::make_unique<cCommandUnitKilled>(
-		p_unit
-	));
-	animator.unitDied("INFANTRY");
+void cCommander::unitsKilled(int p_howMany) {
+	std::string infoText;
+
+	if (p_howMany == 1) {
+		infoText = "UNIT HAS DIED";
+	}
+	else {
+		infoText = std::to_string(p_howMany) + " UNITS HAVE DIED";
+	}
+
+	animator.animateText(infoText, eTEXT_COLOR::RED, 3);
 }

@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 
+enum class eTEXT_COLOR;
+
 class cAnimator {
 	private:
 		// All animations
@@ -15,5 +17,5 @@ class cAnimator {
 		void draw();
 
 		// Draw info about killed unit
-		void unitDied(const std::string& p_name);
+		void animateText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale);
 };

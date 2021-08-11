@@ -5,11 +5,11 @@
 
 #include <string>
 
-class cAnimationUnitDied : public cAnimation {
+class cAnimationText : public cAnimation {
 	private:
-		cText m_text = cText({0, 0}, eTEXT_COLOR::RED, 3);
+		cText m_text;
 
-		std::string textToDisplay;
+		std::string m_textToDisplay;
 
 		int m_animationFrame = 0;
 		int m_displayedletters = 0;
@@ -18,7 +18,7 @@ class cAnimationUnitDied : public cAnimation {
 		const int NEW_CHAR_DELAY = 3;
 
 	public:
-		cAnimationUnitDied(const std::string& p_unitName);
+		cAnimationText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale);
 
 		// Animation methods
 		void draw() 		override;

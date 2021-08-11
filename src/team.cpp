@@ -1,6 +1,5 @@
 #include "team.hpp"
 #include "board.hpp"
-#include "commander.hpp"
 
 // Add new unit to team by name
 void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
@@ -12,15 +11,19 @@ void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 	}
 }
 
-// Check if any unit is dead
-void cTeam::checkDeadUnits(cCommander &commander) {
+// Check if any unit is dead, reaturns how many
+int cTeam::checkDeadUnits() {
+	int deadUnits = 0;
+
 	for(size_t i = 0; i < m_units.size(); i++) {
 		if(m_units[i]->getStats().HP == 0) {
-			commander.unitKilled(m_units[i]);
 			m_units.erase(m_units.begin() + i);
+			deadUnits++;
 			i--;
 		}
 	}
+
+	return deadUnits;
 }
 
 // Check if any unit is still active
