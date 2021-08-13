@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Method for cheking if command exists
 require () {
@@ -10,6 +10,17 @@ require () {
 	echo
 }
 
+# Exit if program fails
+must () {
+	$1
+	if test $? -ne 0; then
+		echo
+		echo "command \" $1 \" ended with non zero"
+		exit 1
+	fi
+	echo
+}
+
 echo
 echo "------------------------------"
 echo "        Starting build"
@@ -17,33 +28,22 @@ echo "------------------------------"
 echo
 
 # check for cmake
-require cmake	
+require "cmake"
 
 # check for ~ LUA ~
 if test -f "./lib/Lua5.4/lua.hpp"; then
-	echo "LUA is present"
+	echo "LUA source found"
 else
-	echo "Downloading LUA"
-	require curl
-	require tar
+	echo "Downloading LUA source"
+	require "curl"
+	require "tar"
 
-	echo "LUA is not present, downloading"
-	curl https://www.lua.org/ftp/lua-5.4.3.tar.gz -o lua-5.4.3.tar.gz
-	if test $? -ne 0; then
-		echo "curl ended with non zero"
-		exit 1
-	fi
-	echo
+	must "curl https://www.lua.org/ftp/lua-5.4.3.tar.gz -o lua-5.4.3.tar.gz"
 
 	echo "Unpacking LUA"
-	tar -xzf lua-5.4.3.tar.gz
-	if test $? -ne 0; then
-		echo "tar ended with non zero"
-		exit 1
-	fi
+	must "tar -xzf lua-5.4.3.tar.gz"
 
-	mv lua-5.4.3/src/* lib/Lua5.4
-	echo
+	must "mv lua-5.4.3/src/* lib/Lua5.4"
 
 	echo "Deleting remaing files after LUA download"
 	rm -r lua-5.4.3*
@@ -57,11 +57,12 @@ fi
 
 cd build
 
-cmake ..
-if test $? -ne 0; then
-	echo "Cmake ended with non zero"
-	exit 1
-fi
-echo 
+must "cmake .."
 
-make
+must "make"
+
+echo
+echo "------------------------------"
+echo "        BUILD COMPLETED"
+echo "------------------------------"
+echo

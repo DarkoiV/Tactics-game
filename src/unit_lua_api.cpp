@@ -34,6 +34,9 @@ void cUnit::registerUnitApi(lua_State *L) {
 	lua_pushcfunction(L, l_resetOffset);
 	lua_setfield(L, -2, "resetOffset");
 
+	lua_pushcfunction(L, l_getFirstItem);
+	lua_setfield(L, -2, "getItem");
+
 	lua_pushcfunction(L, l_getPhysical);
 	lua_setfield(L, -2, "getPhysical");
 
@@ -94,6 +97,26 @@ int cUnit::l_resetOffset(lua_State *L) {
 	unit->resetOffset();
 
 	return 0;
+}
+
+// Get first item in inventory(nil if none)
+int cUnit::l_getFirstItem(lua_State *L) {
+	// Takes unit as argument
+	cUnit* unit;
+
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -1);
+	if (unit == nullptr) return 0;
+
+	// Get first item in inventory, and check if exists
+	auto item = unit->inventory().getFirstItem();
+	if (item == nullptr) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	lua_getglobal(L, item->name.c_str());
+	return 1;
 }
 
 // Get STR and DEF
