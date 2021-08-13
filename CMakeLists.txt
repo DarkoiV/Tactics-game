@@ -24,6 +24,7 @@ include_directories("${SDL2_INCLUDE_DIRS}" "${SDL2_IMAGE_INCLUDE_DIRS}")
 add_subdirectory("lib/Lua5.4")
 
 # build
+include_directories("include")
 file(GLOB SOURCES "src/*.cpp")
 add_executable(game "${SOURCES}")
 target_link_libraries(game 
