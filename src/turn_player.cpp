@@ -127,7 +127,7 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 				auto selectedAction = UI.aMenu.getSelectedAction();
 
 				// ON WAIT
-				if (selectedAction == "Wait") {
+				if (selectedAction.actionName == "Wait") {
 					selectedUnit.toggleActive(false);
 					playerTeam.toggleMoveRange(false);
 
@@ -136,8 +136,14 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 				}
 
 				// ON ATTACK
-				if (selectedAction == "Attack") {
-					selectedUnit.range().calculateActionRange(board, 1, 1);
+				if (selectedAction.actionName == "Attack") {
+					selectedUnit.range()
+						.calculateActionRange(
+							board, 
+							selectedAction.minRange, 
+							selectedAction.maxRange
+						);
+
 					playerTeam.toggleMoveRange(false);
 					playerTeam.toggleActionRange(true);
 

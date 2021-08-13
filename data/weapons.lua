@@ -90,44 +90,50 @@ end
 -- IRON SPEAR ----------------------------------------
 
 IRON_SPEAR = {
-	name    = "Iron Spear",
-	iType   = WEAPON_SPEAR,
-	power   = 1,
-	pierce  = 2,
-	actions = {
+	name     = "Iron Spear",
+	iType    = WEAPON_SPEAR,
+	power    = 1,
+	pierce   = 2,
+	minRange = 1,
+	maxRange = 1,
+	actions  = {
 		"Attack"
 	}
 }
 
-IRON_SPEAR["Attack"] = DEFAULT_ATTACK
+IRON_SPEAR["Attack"]  = DEFAULT_ATTACK
 IRON_SPEAR["Counter"] = DEFAULT_ATTACK
 
 -- IRON SWORD ----------------------------------------
 
 IRON_SWORD = {
-	name    = "Iron Sword",
-	iType   = WEAPON_SWORD,
-	power   = 2,
-	pierce  = 0,
-	actions = {
+	name     = "Iron Sword",
+	iType    = WEAPON_SWORD,
+	power    = 2,
+	pierce   = 0,
+	minRange = 1,
+	maxRange = 1,
+	actions  = {
 		"Attack"
 	}
 }
 
-IRON_SWORD["Attack"] = DEFAULT_ATTACK
+IRON_SWORD["Attack"]  = DEFAULT_ATTACK
 IRON_SWORD["Counter"] = DEFAULT_ATTACK
 
 -- IRON AXE ------------------------------------------
 
 IRON_AXE = {
-	name    = "Iron Axe",
-	iType   = WEAPON_AXE,
-	power   = 2,
-	pierce  = 0,
-	actions = {
+	name     = "Iron Axe",
+	iType    = WEAPON_AXE,
+	power    = 2,
+	pierce   = 0,
+	minRange = 1,
+	maxRange = 1,
+	actions  = {
 		"Attack"
 	}
 }
 
-IRON_AXE["Attack"] = DEFAULT_ATTACK
+IRON_AXE["Attack"]  = DEFAULT_ATTACK
 IRON_AXE["Counter"] = DEFAULT_ATTACK

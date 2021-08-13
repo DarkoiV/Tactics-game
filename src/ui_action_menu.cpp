@@ -155,10 +155,14 @@ void cActionMenu::moveDown() {
 }
 
 // Get selected action
-auto cActionMenu::getSelectedAction() -> const std::string& {
+auto cActionMenu::getSelectedAction() -> const actionData {
 	// Reset stored unti
 	unit = nullptr;	
-	return m_textOptions[m_selected]();
+	return actionData{
+		m_textOptions[m_selected]()
+		, 1 
+		, 1
+	};
 }
 
 // draw

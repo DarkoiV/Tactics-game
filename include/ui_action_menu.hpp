@@ -7,6 +7,14 @@
 #include <vector>
 
 class cActionMenu {
+	public:
+		// data about action
+		struct actionData {
+			std::string& 	actionName;
+			int 		minRange;
+			int 		maxRange;
+		};
+
 	private:
 		// ~ LUA ~
 		cBattleLua &Lua;				// Acces to Lua state
@@ -34,7 +42,7 @@ class cActionMenu {
 		void moveUp();
 		void moveDown();
 
-		auto getSelectedAction() -> const std::string&;
+		auto getSelectedAction() -> const actionData;
 
 		// Draw menu
 		void draw();
