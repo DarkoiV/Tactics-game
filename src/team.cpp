@@ -1,13 +1,16 @@
 #include "team.hpp"
 #include "board.hpp"
 
-// Add new unit to team by name
+// Spawn new unit, add it to team, by name
 void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 	std::cout << "[INFO] Creating unit by name: " << p_name << std::endl;
 	// Create TMP unit
 	if(p_name == "infantry"){
 		m_units.push_back(std::make_shared<cUnit>(p_name, m_teamColor));
 		m_units.back()->setPosition(p_pos);
+	}
+	else {
+		std::cout << "[WARN] Unknow unit type, spawning aborted" << std::endl;
 	}
 }
 
@@ -125,7 +128,7 @@ void cTeam::drawUnits(vec2D p_cameraOffset, int p_animationFrame){
 	}
 }
 
-// Draw selected unit move range
+// Draw ranges
 void cTeam::drawRange(vec2D p_cameraOffset, int p_animationFrame){
 	if(m_selectedUnit != nullptr and m_showMoveRange)
 		m_selectedUnit->range().drawMoveRange(p_cameraOffset, p_animationFrame);

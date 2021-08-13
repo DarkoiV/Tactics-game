@@ -126,25 +126,14 @@ void cSceneBattle::command(const std::string &p_command){
 	// Spawn unit commands
 	if(arguments[0] == "spawn") {
 		if(arguments[1] == "blue" ) {
-			// Spawn blue infantry at cursor pos
-			if(arguments[2] == "infantry") { 
-				std::cout << "[INFO] Spawning unit" << std::endl;
-				m_blueTeam.spawnUnit("infantry", m_cursor.position());
-				return;
-			}
-
+			m_blueTeam.spawnUnit(arguments[2], m_cursor.position());
+			return;
 		}
 
 		if(arguments[1] == "red" ) {
-			// Spawn blue infantry at cursor pos
-			if(arguments[2] == "infantry") {
-				std::cout << "[INFO] Spawning unit" << std::endl;
-				m_redTeam.spawnUnit("infantry", m_cursor.position());
-				return;
-			}
-
+			m_blueTeam.spawnUnit(arguments[2], m_cursor.position());
+			return;
 		}
-		std::cout << "[WARN] Unknown type of unit" << std::endl;
 	}
 
 	std::cout << "[WARN] Unknown command" << std::endl;
