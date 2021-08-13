@@ -85,5 +85,7 @@ class cUnit{
 
 		static int l_getFirstItem(lua_State *L);	// Get first item in inventory(nil if none)
 		static int l_getPhysical(lua_State *L);		// Get physical stats STR, DEF
+		static int l_getHP(lua_State *L);		// Get HP of unit
+
 		static int l_damage(lua_State *L);		// Deal damage to unit
 };

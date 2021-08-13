@@ -40,6 +40,9 @@ void cUnit::registerUnitApi(lua_State *L) {
 	lua_pushcfunction(L, l_getPhysical);
 	lua_setfield(L, -2, "getPhysical");
 
+	lua_pushcfunction(L, l_getHP);
+	lua_setfield(L, -2, "getHP");
+
 	lua_pushcfunction(L, l_damage);
 	lua_setfield(L, -2, "damage");
 }
@@ -137,6 +140,21 @@ int cUnit::l_getPhysical(lua_State *L) {
 	lua_pushnumber(L, DEF);
 
 	return 2;
+}
+
+// Get HP
+int cUnit::l_getHP(lua_State *L) {
+	// Takes unit as argument
+	cUnit* unit;
+
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -1);
+	if (unit == nullptr) return 0;
+
+	int hp = unit->getStats().HP;
+	lua_pushnumber(L, hp);
+
+	return 1;
 }
 
 // Deal damage to unit from LUA
