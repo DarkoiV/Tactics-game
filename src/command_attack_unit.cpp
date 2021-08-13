@@ -10,36 +10,18 @@ cCommandAttack::cCommandAttack(cUnit* p_attacking, cUnit* p_target, cBattleLua &
 		m_targetUnit.tag = eTAG::UNIT;
 		m_targetUnit.pointer = p_target;
 
-		// Get first item in inventory
-		auto weapon = p_attacking->inventory().getFirstItem();
-
-		if(weapon == nullptr) {
-			std::cout << "[ERROR] No item in inventory" << std::endl;
-			m_completed = true;
-			return;
-		}
-
 		std::cout << "[INFO] Attacking UNIT " << std::endl;
 
-		// Get weapon by name
-		lua_getglobal(Lua(), weapon->name.c_str());
-		if (not lua_istable(Lua(), -1)) {
-			std::cout << "[ERROR] There is no item table: " << weapon->name << std::endl;
-			m_completed = true;
-			return;
-		}
+		// get attack sequence 
+		lua_getglobal(Lua(), "ATTACK_SEQUENCE");
 
-		// Get attack method, and switch its position with weapon arg
-		lua_getfield(Lua(), -1, "Attack");
-		lua_insert(Lua(), -2);
-
-		// Push attackingUnit param and targetUnit param
+		// Push attackUnit param and targetUnit param
 		lua_pushlightuserdata(Lua(), &m_attackingUnit);
 		lua_pushlightuserdata(Lua(), &m_targetUnit);
 
 		// Call attack function
-		if (lua_isfunction(Lua(), -4)) {
-			if (lua_pcall(Lua(), 3, 1, 0) != 0)
+		if (lua_isfunction(Lua(), -3)) {
+			if (lua_pcall(Lua(), 2, 1, 0) != 0)
 				std::cout << "[ERROR] Running function " << lua_tostring(Lua(), -1) << std::endl;	
 		}
 		else {
