@@ -10,13 +10,13 @@ require () {
 	echo
 }
 
-# Exit if program fails
+# Exit if command fails
 must () {
 	$1
 	if test $? -ne 0; then
 		echo
 		echo "command \" $1 \" ended with non zero"
-		exit 1
+		exit $?
 	fi
 	echo
 }
@@ -56,9 +56,7 @@ if ! test -d "./build"; then
 fi
 
 cd build
-
 must "cmake .."
-
 must "make"
 
 echo
