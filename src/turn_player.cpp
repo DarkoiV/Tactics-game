@@ -122,7 +122,10 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 			break;
 
 		case eBUTTON::SELECT:
-			{
+			UI.aMenu.select();
+
+			// Check if menu reports selected action
+			if (UI.aMenu.isSelected()) {
 				// Get selected action
 				auto selectedAction = UI.aMenu.getSelectedAction();
 
@@ -154,8 +157,8 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 			}
 			break;
 
-		// TODO Revert position, switch to move unit mode
 		case eBUTTON::CANCEL:
+			UI.aMenu.cancel();
 			break;
 
 		// No input or unrecognized
