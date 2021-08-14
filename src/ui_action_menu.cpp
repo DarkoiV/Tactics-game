@@ -20,16 +20,16 @@ void cActionMenu::construct(cUnit* p_unit) {
 	// Loop through items, and add options to action menu
 	for(const auto &item : inventoryItems) {
 		// Check for item data in lua
-		lua_getglobal(Lua(), item.name.c_str());
+		lua_getglobal(Lua(), item.id.c_str());
 		if (not lua_istable(Lua(), -1)){
-			std::cout << "[ERROR] " << item.name << " is not item table, ignoring" << std::endl;
+			std::cout << "[ERROR] " << item.id << " is not item table, ignoring" << std::endl;
 			continue;
 		}
 
 		// Get name of this item
 		lua_getfield(Lua(), -1, "name");
 		if (not lua_isstring(Lua(), -1) ){
-			std::cout << "[ERROR] " << item.name << " name is not string" << std::endl;
+			std::cout << "[ERROR] In table " << item.id << " field name is not string" << std::endl;
 			continue;
 		}
 		std::cout << "[INFO] Item in inventory: " << lua_tostring(Lua(), -1) << std::endl;
@@ -39,7 +39,7 @@ void cActionMenu::construct(cUnit* p_unit) {
 		// Get possible actions by this item
 		lua_getfield(Lua(), -1, "actions");
 		if (not lua_istable(Lua(), -1)){
-			std::cout << "[ERROR] actions in " << item.name << " is not table." << std::endl;
+			std::cout << "[ERROR] actions in " << item.id << " is not table." << std::endl;
 			continue;
 		}
 
@@ -110,16 +110,16 @@ void cActionMenu::constructInventory() {
 	// Loop through items
 	for(const auto &item : inventoryItems) {
 		// Check for item data in lua
-		lua_getglobal(Lua(), item.name.c_str());
+		lua_getglobal(Lua(), item.id.c_str());
 		if (not lua_istable(Lua(), -1)){
-			std::cout << "[ERROR] " << item.name << " is not item table, ignoring" << std::endl;
+			std::cout << "[ERROR] " << item.id << " is not item table, ignoring" << std::endl;
 			continue;
 		}
 
 		// Get name of this item
 		lua_getfield(Lua(), -1, "name");
 		if (not lua_isstring(Lua(), -1) ){
-			std::cout << "[ERROR] " << item.name << " name is not string" << std::endl;
+			std::cout << "[ERROR] In table " << item.id << " name is not string" << std::endl;
 			continue;
 		}
 

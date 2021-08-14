@@ -5,7 +5,7 @@
 
 // Struct holding information about item
 struct sItem{
-	std::string name;
+	std::string id;
 	eITEM       type;
 	int         level;
 };

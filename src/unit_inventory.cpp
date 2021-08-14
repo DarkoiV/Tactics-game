@@ -11,7 +11,7 @@ bool cUnitInventory::addItem(sItem p_newItem){
 
 	// Add new item
 	m_items.push_back(p_newItem);
-	std::cout << "[INFO] Added new item: " << p_newItem.name << ", at position: " << m_items.size() << std::endl;
+	std::cout << "[INFO] Added new item: " << p_newItem.id << ", at position: " << m_items.size() << std::endl;
 	return true;
 }
 
