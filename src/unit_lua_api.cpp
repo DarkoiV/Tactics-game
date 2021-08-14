@@ -1,14 +1,29 @@
 #include "unit.hpp"
 #include "struct_tagged.hpp"
 
+// Push tagged unit on Lua stack
+void cUnit::pushTaggedUnit(lua_State *L, cUnit* pointer) {
+	sTagged* taggedUnit = (sTagged*)lua_newuserdatauv(L, sizeof(sTagged), 0);
+	taggedUnit->pointer = pointer;
+	taggedUnit->tag = eTAG::UNIT;
+
+	luaL_getmetatable(L, "UnitMetatable");
+	if( not lua_istable(L, -1) ) {
+		std::cout << "[ERROR] Could not set unit metatable " << std::endl;
+		return;
+	}
+	
+	lua_setmetatable(L, -2);
+}
+
 // Get unit pointer from tagged container
 auto cUnit::getTaggedUnit(lua_State *L, int indx) -> cUnit* {	
-	if(lua_type(L, indx) != LUA_TLIGHTUSERDATA) {
-		std::cout << "[ERROR][LUA API] Not a pointer" << std::endl;
+	if(lua_type(L, indx) != LUA_TUSERDATA) {
+		std::cout << "[ERROR][LUA API] Not a user data" << std::endl;
 		return nullptr;
 	}
 
-	sTagged *taggedPointer = (sTagged*)lua_topointer(L, indx);
+	sTagged *taggedPointer = (sTagged*)lua_touserdata(L, indx);
 	if(taggedPointer->tag != eTAG::UNIT) {
 		std::cout << "[ERROR][LUA API] Wrong pointer type" << std::endl;
 		return nullptr;
@@ -45,6 +60,14 @@ void cUnit::registerUnitApi(lua_State *L) {
 
 	lua_pushcfunction(L, l_damage);
 	lua_setfield(L, -2, "damage");
+
+	// Create metatable and register functions
+	luaL_newmetatable(L, "UnitMetatable");
+	lua_pushvalue(L, tableIndex);
+	lua_setfield(L, -2, "__index");
+
+	// Clean stack
+	lua_pop(L, -1);
 }
 
 // Get unit pos in lua

@@ -74,7 +74,8 @@ class cUnit{
 
 /////////////// LUA API ///////////////////////////////////////////////////////
 	public:
-		// Get unit from tagged, return nullptr on failure
+		// Tagged container for unit pointer
+		static void pushTaggedUnit(lua_State *L, cUnit* pointer);
 		static auto getTaggedUnit(lua_State *L, int indx) -> cUnit*;
 
 		static void registerUnitApi(lua_State *L);

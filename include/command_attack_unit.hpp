@@ -11,10 +11,6 @@ class cCommandAttack : public cCommand {
 		// ~ LUA ~
 		cBattleLua &Lua;
 
-		// Tagged Units
-		sTagged m_attackingUnit;
-		sTagged m_targetUnit;
-
 		bool m_completed = false;
 	public:
 		// Constructor

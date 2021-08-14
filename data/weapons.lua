@@ -8,24 +8,24 @@ local WEAPON_AXE   = 4		-- 0000 0100
 
 -- ATTACK SEQUENCE -----------------------------------
 
-ATTACK_SEQUENCE = function(attackingUnit, targetUnit)
+ATTACK_SEQUENCE = function(attacker, target)
 	print("[LUA] Creating coroutine")
 
 	-- CREATE COROUTINE OF ATTACK SEQUENCE -------
 	local co = coroutine.create(function()
-		local weapon = Unit.getItem(attackingUnit)
+		local weapon = attacker:getItem()
 
 		-- Attack with weapon
-		print("[Lua] attakcing with " .. weapon.name)
-		weapon.Attack(attackingUnit, targetUnit)
+		print("[Lua] Attakcing with " .. weapon.name)
+		weapon.Attack(attacker, target)
 
 		-- Check if counter possible
-		local targetItem = Unit.getItem(targetUnit)
-		local targetHP   = Unit.getHP(targetUnit)
+		local targetItem = target:getItem()
+		local targetHP   = target:getHP()
 
 		if targetItem.Counter ~= nil and targetHP > 0 then
 			print("[LUA] Counter with " .. targetItem.name)
-			targetItem.Counter(targetUnit, attackingUnit)
+			targetItem.Counter(target, attacker)
 		end
 	end)
 	-- END OF COUROUTINE -------------------------
@@ -44,36 +44,36 @@ end
 
 -- DEFAULT ATTACK ------------------------------------
 
-DEFAULT_ATTACK = function(attackingUnit, targetUnit)
+DEFAULT_ATTACK = function(attacker, target)
 	-- Get weapon
-	local weapon = Unit.getItem(attackingUnit)
+	local weapon = attacker:getItem()
 
 	-- ANIMATE
 	local movX, movY
-	local aX, aY = Unit.getPos(attackingUnit)
-	local tX, tY = Unit.getPos(targetUnit)
+	local aX, aY = attacker:getPos()
+	local tX, tY = target:getPos()
 	movX = aX - tX
 	movY = aY - tY
 
 	for _ = 1, 8 do
-		Unit.offset(attackingUnit, movX, movY)
+		attacker:offset(movX, movY)
 		Fn.wait(2)
 	end
 
-	Unit.offset(attackingUnit, (-movX) * 4, (-movY) * 4)
+	attacker:offset((-movX) * 4, (-movY) * 4)
 	Fn.wait(2)
 
-	Unit.resetOffset(attackingUnit)
+	attacker:resetOffset()
 	Fn.wait(1)
 
-	Unit.offset(targetUnit, 3 * (-movX), 3 * (-movY))
+	target:offset(3 * (-movX), 3 * (-movY))
 	Fn.wait(4)
 
-	Unit.resetOffset(targetUnit)
+	target:resetOffset()
 
 	-- DEAL DAMAGE
-	local aSTR, _ = Unit.getPhysical(attackingUnit)
-	local _, tDEF = Unit.getPhysical(targetUnit)
+	local aSTR, _ = attacker:getPhysical()
+	local _, tDEF = target:getPhysical()
 
 	local armorAfterPierce = tDEF - weapon.pierce
 	if armorAfterPierce < 0 then armorAfterPierce = 0 end
@@ -81,7 +81,7 @@ DEFAULT_ATTACK = function(attackingUnit, targetUnit)
 	local damage = aSTR + weapon.power - armorAfterPierce
 	if damage < 0 then damage = 0 end
 
-	Unit.damage(targetUnit, damage)
+	target:damage(damage)
 	print("[LUA] Dealt " .. damage .. " damage to unit")
 
 	Fn.wait(5);
