@@ -64,6 +64,12 @@ cGame::cGame(){
 	std::cout << std::endl;
 }
 
+// Free resources
+void cGame::freeResources() {	
+	auto &assetAcces = cAssetManager::getInstance();
+	assetAcces.freeResources();
+}
+
 // Destructor quits game
 cGame::~cGame(){
 	// Delete scenes

@@ -26,6 +26,9 @@ class cGame{
 		// Init game
 		cGame();
 
+		// Free resources
+		void freeResources();
+
 		// Quit game
 		~cGame();
 

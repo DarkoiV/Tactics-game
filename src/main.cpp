@@ -9,6 +9,5 @@ auto main() -> int{
 	game();
 
 	// Free resources
-	auto &assetAcces = cAssetManager::getInstance();
-	assetAcces.freeResources();
+	game.freeResources();
 }
