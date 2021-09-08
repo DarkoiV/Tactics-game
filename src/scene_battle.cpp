@@ -184,11 +184,11 @@ void cSceneBattle::draw(){
 	m_blueTeam.drawUnits(m_cameraOffset, animationFrame);
 	m_redTeam.drawUnits(m_cameraOffset, animationFrame);
 
-	// Draw animations
-	m_animator.draw();
-
 	// Draw cursor
 	m_cursor.draw(m_cameraOffset, animationFrame);
+
+	// Draw animations
+	m_animator.draw();
 
 	// Draw UI
 	m_UI.qStats.draw();
