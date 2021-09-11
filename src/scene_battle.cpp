@@ -131,7 +131,7 @@ void cSceneBattle::command(const std::string &p_command){
 		}
 
 		if(arguments[1] == "red" ) {
-			m_blueTeam.spawnUnit(arguments[2], m_cursor.position());
+			m_redTeam.spawnUnit(arguments[2], m_cursor.position());
 			return;
 		}
 	}
