@@ -158,8 +158,73 @@ void cActionMenu::constructInventory() {
 }
 
 // Construct item options page
-void cActionMenu::constructItemOptions() {
+void cActionMenu::constructItemOptions(int p_pos) {
+	// Reset options
+	m_textOptions.clear();
+	m_subMenuVisible = true;
 
+	const auto item = unit->inventory().getItems()[p_pos];
+	lua_getglobal(Lua(), item.id.c_str());
+	if (not lua_istable(Lua(), -1)){
+		std::cout << "[ERROR] " << item.id << " is not item table, can't construct!" << std::endl;
+		construct(unit);
+		return;
+	}
+
+	lua_getfield(Lua(), -1, "name");
+	m_subMenuTitle.update(lua_tostring(Lua(), -1));
+	lua_pop(Lua(), -1);
+
+
+	// Get possible actions by this item
+	lua_getfield(Lua(), -1, "actions");
+	if (not lua_istable(Lua(), -1)){
+		std::cout << "[ERROR] actions in " << item.id << " is not table." << std::endl;
+
+		// Skip
+		goto postAction;
+	}
+
+	// Get actions from table
+	lua_pushnil(Lua());			// Starting key
+	while( lua_next(Lua(), -2) != 0){
+
+		// Check if read value is string
+		if(lua_isstring(Lua(), -1)) {
+			std::string action(lua_tostring(Lua(), -1));
+			std::cout << "[INFO] Item has action: " << action << std::endl;
+		}
+
+		// Add actions to menu
+		m_textOptions.emplace_back(cText({0, 0}, eTEXT_COLOR::YELLOW));
+		m_textOptions.back().update(lua_tostring(Lua(), -1));
+
+		// Pop read value
+		lua_pop(Lua(), 1);
+	}
+	lua_pop(Lua(), 1);			// Pop key
+
+postAction:
+
+	// Add all items options
+	m_textOptions.emplace_back(cText({0, 0}, eTEXT_COLOR::YELLOW));
+	m_textOptions.back().update("Make first");
+
+	m_textOptions.emplace_back(cText({0, 0}, eTEXT_COLOR::YELLOW));
+	m_textOptions.back().update("Discard");
+
+	// Resize
+	autoresize();
+
+	// Set first field as highlighted
+	m_textOptions[0].changeTextColor(eTEXT_COLOR::RED);
+	m_highlighted = 0;
+
+	// Pop everything from lua stack
+	lua_pop(Lua(), -1);
+
+	// Set menu page
+	m_menuPage = ePAGE::ITEM_OPTIONS;
 }
 
 // Autoresize
@@ -246,11 +311,13 @@ void cActionMenu::select() {
 				constructInventory();
 			}
 			else {
+				returnAction = m_textOptions[m_highlighted]();
 				m_isSelected = true;
 			}
 			break;
 
 		case ePAGE::INVENTORY:
+			constructItemOptions(m_highlighted);
 			break;
 
 		case ePAGE::ITEM_OPTIONS:
@@ -269,6 +336,7 @@ void cActionMenu::cancel() {
 			break;
 
 		case ePAGE::ITEM_OPTIONS:
+			constructInventory();
 			break;
 	}
 }
@@ -288,9 +356,9 @@ auto cActionMenu::getSelectedAction() -> const actionData {
 
 	// Get selected action info
 	return actionData{
-		m_textOptions[m_highlighted]()
-		, 1 
-		, 1
+		returnAction,
+		minRange, 
+		maxRange
 	};
 }
 

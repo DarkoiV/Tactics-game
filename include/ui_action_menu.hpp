@@ -37,7 +37,7 @@ class cActionMenu {
 
 		// Construct pages of inventory
 		void constructInventory();
-		void constructItemOptions();
+		void constructItemOptions(int p_pos);
 
 		// Autoresize
 		void autoresize();
@@ -48,6 +48,11 @@ class cActionMenu {
 		int    m_highlighted	= 0;				// Which option is highlighted
 		bool   m_isSelected	= false;			// True when option was selected 
 		cUnit* unit       	= nullptr;			// Pointer to unit for which menu is displayed
+
+		// Action data
+		std::string returnAction{"Wait"};
+		int minRange = 1;
+		int maxRange = 1;
 
 	public:
 		// Constructor
