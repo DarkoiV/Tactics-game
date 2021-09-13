@@ -61,6 +61,7 @@ class cUnit{
 
 		// Stats methods
 		auto getStats() -> const sStats&;
+		bool canUse(uint8_t p_itemType);
 
 		// Drawing
 		void draw(vec2D p_cameraOffset, int p_animationFrame);

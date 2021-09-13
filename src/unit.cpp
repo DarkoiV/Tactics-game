@@ -38,6 +38,8 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 
 	// Add swords to useable items
 	m_useableItems += (uint8_t)eITEM::SWORD;
+	m_useableItems += (uint8_t)eITEM::SPEAR;
+	m_useableItems += (uint8_t)eITEM::POTION;
 }
 
 // Set position on board
@@ -64,6 +66,11 @@ void cUnit::toggleActive(bool p_active){
 // Get unit stats
 auto cUnit::getStats() -> const sStats&{
 	return m_stats;
+}
+
+// Check if unit can use item
+bool cUnit::canUse(uint8_t p_itemType){
+	return (m_useableItems & p_itemType) == p_itemType; 
 }
 
 // Draw unit

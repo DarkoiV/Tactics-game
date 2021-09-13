@@ -35,6 +35,18 @@ void cActionMenu::construct(cUnit* p_unit) {
 		std::cout << "[INFO] Item in inventory: " << lua_tostring(Lua(), -1) << std::endl;
 		lua_pop(Lua(), 1);			// Pop name
 
+		// Get type of item, and check if class can use it
+		lua_getfield(Lua(), -1, "iType");
+		if (not lua_isnumber(Lua(), -1) ) {
+			std::cout << "[ERROR] " << item.id << " type is not a number" << std::endl;
+			continue;
+		}
+		uint8_t itemType = (uint8_t)lua_tonumber(Lua(), -1);
+		if (not p_unit->canUse(itemType) ) {
+			std::cout << "[INFO] " << item.id << " is not ueasable by unit" << std::endl;
+			continue;
+		}
+		lua_pop(Lua(), 1);			// Pop iType
 
 		// Get possible actions by this item
 		lua_getfield(Lua(), -1, "actions");
