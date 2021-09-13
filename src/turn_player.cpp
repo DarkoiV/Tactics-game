@@ -123,38 +123,6 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 
 		case eBUTTON::SELECT:
 			UI.aMenu.select();
-
-			// Check if menu reports selected action
-			if (UI.aMenu.isSelected()) {
-				// Get selected action
-				auto selectedAction = UI.aMenu.getSelectedAction();
-
-				// ON WAIT
-				if (selectedAction.actionName == "Wait") {
-					selectedUnit.toggleActive(false);
-					playerTeam.toggleMoveRange(false);
-
-					UI.aMenu[nullptr];
-					m_mode = POST_ACTION;
-				}
-
-				// ON ATTACK
-				if (selectedAction.actionName == "Attack") {
-					selectedUnit.range()
-						.calculateActionRange(
-							board, 
-							selectedAction.minRange, 
-							selectedAction.maxRange
-						);
-
-					playerTeam.toggleMoveRange(false);
-					playerTeam.toggleActionRange(true);
-
-					UI.aMenu[nullptr];
-					m_mode = SELECT_TARGET;
-				}
-					
-			}
 			break;
 
 		case eBUTTON::CANCEL:
@@ -165,6 +133,41 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 		default:
 		case eBUTTON::NONE:
 			break;
+	}
+
+	// Check if menu reports selected action
+	if (UI.aMenu.isSelected()) {
+		// Get selected action
+		auto selectedAction = UI.aMenu.getSelectedAction();
+
+		// Do selected action
+		switch(selectedAction.action) {
+			case eACTION::ATTACK:
+				selectedUnit.range()
+					.calculateActionRange(
+						board, 
+						selectedAction.minRange, 
+						selectedAction.maxRange
+					);
+
+				playerTeam.toggleMoveRange(false);
+				playerTeam.toggleActionRange(true);
+
+				m_mode = SELECT_TARGET;
+				break;
+
+			default:
+			case eACTION::WAIT:
+				selectedUnit.toggleActive(false);
+				playerTeam.toggleMoveRange(false);
+
+				m_mode = POST_ACTION;
+				break;
+
+		}
+
+		// Stop drawing action menu
+		UI.aMenu[nullptr];
 	}
 }
 

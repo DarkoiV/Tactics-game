@@ -306,20 +306,22 @@ void cActionMenu::moveDown() {
 // Select button press
 void cActionMenu::select() {
 	switch (m_menuPage) {
+		// If highlighted items move page, otherwise return selected action
 		case ePAGE::GENERAL:
 			if(m_textOptions[m_highlighted]() == "Items") {
 				constructInventory();
 			}
 			else {
-				returnAction = m_textOptions[m_highlighted]();
 				m_isSelected = true;
 			}
 			break;
 
+		// Open option for highlighted item
 		case ePAGE::INVENTORY:
 			constructItemOptions(m_highlighted);
 			break;
 
+		// Make item first, and optionally commit action
 		case ePAGE::ITEM_OPTIONS:
 			break;
 	}
@@ -328,13 +330,16 @@ void cActionMenu::select() {
 // Cancel button press
 void cActionMenu::cancel() {
 	switch (m_menuPage) {
+		// Reverse pos
 		case ePAGE::GENERAL:
 			break;
 
+		// Go back to general page
 		case ePAGE::INVENTORY:
 			construct(unit);
 			break;
 
+		// Go back to inventory page
 		case ePAGE::ITEM_OPTIONS:
 			constructInventory();
 			break;
@@ -350,6 +355,45 @@ bool cActionMenu::isSelected() {
 
 // Get selected action
 auto cActionMenu::getSelectedAction() -> const actionData {
+	// Construct action data
+	const auto &action = m_textOptions[m_highlighted]();
+	eACTION returnAction;
+	if(action == "Attack") {
+		returnAction = eACTION::ATTACK;
+	}
+	else {
+		returnAction = eACTION::WAIT;
+	}
+
+	// First item is ALWAYS action item
+	const auto &item = unit->inventory().getFirstItem();
+	lua_getglobal(Lua(), item->id.c_str());
+
+	lua_getfield(Lua(), -1, "minRange");
+	int minRange;
+	if (not lua_isnumber(Lua(), -1)) {
+		std::cout << "[ERROR] Item " << item->id.c_str() << " lacks minRange" << std::endl;
+		minRange = 0;
+	}
+	else {
+		minRange = (int)lua_tonumber(Lua(), -1);
+	}
+	lua_pop(Lua(), 1);
+
+	lua_getfield(Lua(), -1, "maxRange");
+	int maxRange;
+	if (not lua_isnumber(Lua(), -1)) {
+		std::cout << "[ERROR] Item " << item->id.c_str() << " lacks maxRange" << std::endl;
+		maxRange = 0;
+	}
+	else {
+		maxRange = (int)lua_tonumber(Lua(), -1);
+	}
+	lua_pop(Lua(), 1);
+
+	// Clean stack
+	lua_pop(Lua(), -1);
+
 	// Reset stored unit and isSelected
 	unit = nullptr;
 	m_isSelected = false;

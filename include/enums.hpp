@@ -49,3 +49,11 @@ enum class eITEM : uint8_t {
 	ORB    = 0b0100'0000,		// Magic high crit near attack
 	POTION = 0b1000'0000		// Self use
 };
+
+// Action types
+enum class eACTION {
+	ATTACK,
+	HEAL,
+	USE,
+	WAIT
+};
