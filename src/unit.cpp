@@ -35,6 +35,11 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 		eITEM::SPEAR,
 		1,
 	});
+	m_inventory.addItem({
+		"IRON_SWORD",
+		eITEM::SWORD,
+		1,
+	});
 
 	// Add swords to useable items
 	m_useableItems += (uint8_t)eITEM::SWORD;

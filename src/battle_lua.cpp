@@ -9,7 +9,7 @@ cBattleLua::cBattleLua(){
 	luaL_openlibs(L);
 
 	// Do files needed for scene battle
-	std::string weaponsFile = g_basePath + "data/weapons.lua";
+	std::string weaponsFile = g_basePath + "data/battle_includes.lua";
 	luaL_dofile(L, weaponsFile.c_str());
 }
 

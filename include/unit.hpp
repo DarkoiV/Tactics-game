@@ -33,7 +33,7 @@ class cUnit{
 		bool m_active = true;
 
 		// Bitmask of useable items by this unit
-		uint8_t m_useableItems;
+		uint8_t m_useableItems = 0;
 
 		// Components ////////////////
 		cUnitRange m_range = cUnitRange(*this);
