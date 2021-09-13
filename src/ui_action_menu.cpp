@@ -173,7 +173,7 @@ void cActionMenu::constructItemOptions(int p_pos) {
 
 	lua_getfield(Lua(), -1, "name");
 	m_subMenuTitle.update(lua_tostring(Lua(), -1));
-	lua_pop(Lua(), -1);
+	lua_pop(Lua(), 1);
 
 
 	// Get possible actions by this item
