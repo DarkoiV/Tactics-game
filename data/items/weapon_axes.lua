@@ -9,9 +9,7 @@ IRON_AXE = {
 	pierce   = 0,
 	minRange = 1,
 	maxRange = 1,
-	actions  = {
-		"Attack"
-	}
+	actions  = "Attack"
 }
 
 IRON_AXE["Attack"]  = DEFAULT_ATTACK

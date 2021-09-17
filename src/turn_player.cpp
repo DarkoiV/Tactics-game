@@ -211,7 +211,7 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 			}
 			break;
 
-		// Switch back to SELEC ACTION MODE
+		// Switch back to SELECT ACTION MODE
 		case eBUTTON::CANCEL:
 			playerTeam.toggleActionRange(false);
 			playerTeam.toggleMoveRange(true);

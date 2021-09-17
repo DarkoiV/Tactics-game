@@ -29,19 +29,7 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 	m_stats.STR = 2;
 	m_stats.MOV = 5 ;
 
-	// For now push iron_sword
-	m_inventory.addItem({
-		"IRON_SPEAR",
-		eITEM::SPEAR,
-		1,
-	});
-	m_inventory.addItem({
-		"IRON_SWORD",
-		eITEM::SWORD,
-		1,
-	});
-
-	// Add swords to useable items
+	// Add useable items
 	m_useableItems += (uint8_t)eITEM::SWORD;
 	m_useableItems += (uint8_t)eITEM::SPEAR;
 	m_useableItems += (uint8_t)eITEM::POTION;

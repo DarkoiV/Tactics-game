@@ -9,9 +9,7 @@ IRON_SWORD = {
 	pierce   = 0,
 	minRange = 1,
 	maxRange = 1,
-	actions  = {
-		"Attack"
-	}
+	actions  = "Attack"
 }
 
 IRON_SWORD["Attack"]  = DEFAULT_ATTACK
