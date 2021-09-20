@@ -141,17 +141,8 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 		auto selectedAction = UI.aMenu.getSelectedAction();
 
 		// Do selected action
-		switch(selectedAction.action) {
+		switch(selectedAction) {
 			case eACTION::ATTACK:
-				selectedUnit.range()
-					.calculateActionRange(
-						board, 
-						selectedAction.minRange, 
-						selectedAction.maxRange
-					);
-
-				playerTeam.toggleMoveRange(false);
-				playerTeam.toggleActionRange(true);
 
 				m_mode = SELECT_TARGET;
 				break;

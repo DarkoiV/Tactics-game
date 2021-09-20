@@ -18,7 +18,7 @@ class cItem {
 		eACTION m_action;
 		eITEM   m_type;
 
-		cItem();
+		cItem(){};
 
 	public:
 		// Create new item by ID, requires lua state with items data
