@@ -19,3 +19,8 @@ void cUnitInventory::makeFirst(int p_pos) {
 	if(m_items.size() < p_pos or p_pos <= 0) return;
 	std::swap(m_items[0], m_items[p_pos]);
 }
+
+void cUnitInventory::discardItem(int p_pos) {
+	if(m_items.size() < p_pos or p_pos <= 0) return;
+	m_items.erase(m_items.begin() + p_pos);
+}

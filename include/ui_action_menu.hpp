@@ -63,6 +63,7 @@ class cActionMenu {
 
 		// Item option page
 		void constructItemOptions(int p_itemNo);
+		int m_itemAcc;						// Stores which item was selected
 
 		// Autoresize action menu
 		void autoresize();

@@ -97,8 +97,9 @@ void cActionMenu::constructItemOptions(int p_itemNo) {
 	// Add item options
 	auto item = items[p_itemNo];
 
-	// Make item first
+	// Item options for all items
 	addTextOption("Make First", textOption::eOPTION::MAKE_FIRST);
+	addTextOption("Discard", textOption::eOPTION::DISCARD);
 
 	// Resize
 	autoresize();
@@ -135,6 +136,12 @@ void cActionMenu::moveDown() {
 void cActionMenu::select() {
 	switch (m_textOptions[m_highlighted].option) {
 
+		// Find first item with attack, make it 1st, send action
+		case textOption::eOPTION::ATTACK:
+			m_isSelected = true;
+			m_selectedAction = eACTION::ATTACK;
+			break;
+
 		// Send wait action
 		case textOption::eOPTION::WAIT:
 			m_isSelected = true;
@@ -148,7 +155,20 @@ void cActionMenu::select() {
 
 		// Go to highlighted item
 		case textOption::eOPTION::GO_ITEM:
+			m_itemAcc = m_highlighted;
 			constructItemOptions(m_highlighted);
+			break;
+
+		// Make item first (goes back to inventory)
+		case textOption::eOPTION::MAKE_FIRST:
+			unit->inventory().makeFirst(m_itemAcc);
+			constructInventory();
+			break;
+
+		// Discard item
+		case textOption::eOPTION::DISCARD:
+			unit->inventory().discardItem(m_itemAcc);
+			constructInventory();
 			break;
 
 
@@ -173,6 +193,7 @@ void cActionMenu::cancel() {
 
 		// Go back to items page
 		case ePAGE::ITEM_OPTIONS:
+			constructInventory();
 			break;
 	}
 }

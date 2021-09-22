@@ -27,4 +27,7 @@ class cUnitInventory{
 
 		// Moves item at pos to first place
 		void makeFirst(int p_pos);
+
+		// Discard item
+		void discardItem(int p_pos);
 };
