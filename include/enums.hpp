@@ -55,5 +55,6 @@ enum class eACTION {
 	ATTACK,
 	HEAL,
 	USE,
-	WAIT
+	WAIT,
+	RETURN
 };

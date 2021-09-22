@@ -1,9 +1,16 @@
 #include "ui_action_menu.hpp"
 
+void cActionMenu::addTextOption(const std::string& p_string, textOption::eOPTION p_option) {
+	m_textOptions.emplace_back( textOption {
+		cText({0,0}, eTEXT_COLOR::YELLOW), p_option
+	});
+	m_textOptions.back().text.update(p_string);
+}
+
 // PAGE CONSTRUCTION //////////////////////////////////////////////////////////
 
 void cActionMenu::constructGeneral() {
-	// Reset action menu
+	// Setup page
 	m_subMenuVisible = false;
 	m_visible = true;
 	m_highlighted = 0;
@@ -17,7 +24,7 @@ void cActionMenu::constructGeneral() {
 	bool oItems = inventory.getItems().size() > 0 ? true : false;
 
 	// Get possible actions from items
-	for(const auto item: inventory.getItems()) {
+	for(const auto &item: inventory.getItems()) {
 		// Check if unit can use
 		if(unit->canUse((uint8_t)item.getType())) {
 			// Get actions that will be displayed in action menu
@@ -37,36 +44,70 @@ void cActionMenu::constructGeneral() {
 	}
 
 	// Create textOptions
-	if(oAttack) {
-		m_textOptions.emplace_back( textOption {
-			cText({0,0}, eTEXT_COLOR::YELLOW), textOption::ATTACK
-		});
-		m_textOptions.back().text.update("Attack");
-	}
-	if(oHeal) {
-		m_textOptions.emplace_back( textOption {
-			cText({0,0}, eTEXT_COLOR::YELLOW), textOption::HEAL
-		});
-		m_textOptions.back().text.update("Heal");
-	}
-	if(oItems) {
-		m_textOptions.emplace_back( textOption {
-			cText({0,0}, eTEXT_COLOR::YELLOW), textOption::GO_INVENTORY
-		});
-		m_textOptions.back().text.update("Items");
-	}
+	if(oAttack) 	addTextOption("Attack", textOption::eOPTION::ATTACK);
+	if(oHeal) 	addTextOption("Heal", textOption::eOPTION::HEAL);
+	if(oItems) 	addTextOption("Items", textOption::eOPTION::GO_INVENTORY);
 
-
-	m_textOptions.emplace_back( textOption {
-		cText({0,0}, eTEXT_COLOR::YELLOW), textOption::WAIT
-	});
-	m_textOptions.back().text.update("Wait");
+	addTextOption("Wait", textOption::eOPTION::WAIT);
 
 	// Resize
 	autoresize();
 
 	// Set first option as highlighted
 	m_textOptions[0].text.changeTextColor(eTEXT_COLOR::RED);
+
+	// Set page as GENEREAL
+	m_currentPage = ePAGE::GENERAL;
+}
+
+void cActionMenu::constructInventory() {
+	// Setup page
+	m_subMenuVisible = true;
+	m_subMenuTitle.update("Items");
+	m_visible = true;
+	m_highlighted = 0;
+	m_textOptions.clear();
+
+	auto items = unit->inventory().getItems();
+
+	for(const auto &item: items) 
+		addTextOption(item.getName(), textOption::eOPTION::GO_ITEM);
+
+	// Resize
+	autoresize();
+
+	// Set first option as highlighted
+	m_textOptions[0].text.changeTextColor(eTEXT_COLOR::RED);
+
+	// Set page as Items
+	m_currentPage = ePAGE::ITEMS;
+}
+
+void cActionMenu::constructItemOptions(int p_itemNo) {
+	// Setup page
+	m_subMenuVisible = true;
+	m_visible = true;
+	m_highlighted = 0;
+	m_textOptions.clear();
+
+	// Set title as item at pos
+	auto items = unit->inventory().getItems();
+	m_subMenuTitle.update(items[p_itemNo].getName());
+
+	// Add item options
+	auto item = items[p_itemNo];
+
+	// Make item first
+	addTextOption("Make First", textOption::eOPTION::MAKE_FIRST);
+
+	// Resize
+	autoresize();
+
+	// Set first option as highlighted
+	m_textOptions[0].text.changeTextColor(eTEXT_COLOR::RED);
+
+	// Set page as Item Options
+	m_currentPage = ePAGE::ITEM_OPTIONS;
 }
 
 // PUBLIC METHODS /////////////////////////////////////////////////////////////
@@ -93,9 +134,23 @@ void cActionMenu::moveDown() {
 
 void cActionMenu::select() {
 	switch (m_textOptions[m_highlighted].option) {
-		case textOption::WAIT :
+
+		// Send wait action
+		case textOption::eOPTION::WAIT:
 			m_isSelected = true;
+			m_selectedAction = eACTION::WAIT;
 			break;
+
+		// Go to inventory
+		case textOption::eOPTION::GO_INVENTORY:
+			constructInventory();
+			break;
+
+		// Go to highlighted item
+		case textOption::eOPTION::GO_ITEM:
+			constructItemOptions(m_highlighted);
+			break;
+
 
 		default:
 			std::cout << "[WARN] Option not handled " << std::endl;
@@ -104,7 +159,22 @@ void cActionMenu::select() {
 }
 
 void cActionMenu::cancel() {
+	switch(m_currentPage) {
+		// Move unit back
+		case ePAGE::GENERAL:
+			m_isSelected = true;
+			m_selectedAction = eACTION::RETURN;
+			break;
 
+		// Go back to general page
+		case ePAGE::ITEMS:
+			constructGeneral();
+			break;
+
+		// Go back to items page
+		case ePAGE::ITEM_OPTIONS:
+			break;
+	}
 }
 
 void cActionMenu::operator[](cUnit* p_unit) {
@@ -133,7 +203,7 @@ auto cActionMenu::getSelectedAction() -> eACTION {
 	m_isSelected = false;
 
 	// Return action
-	return eACTION::WAIT;
+	return m_selectedAction;
 }
 
 void cActionMenu::autoresize() {

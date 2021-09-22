@@ -148,13 +148,13 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 				break;
 
 			default:
+				std::cout << "[ERROR] This action is not handled by turn player" << std::endl;
 			case eACTION::WAIT:
 				selectedUnit.toggleActive(false);
 				playerTeam.toggleMoveRange(false);
 
 				m_mode = POST_ACTION;
 				break;
-
 		}
 
 		// Stop drawing action menu

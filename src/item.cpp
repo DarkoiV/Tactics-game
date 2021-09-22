@@ -13,7 +13,16 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 		return item;
 	}
 
-	// Find ranges
+	// Get item name
+	lua_getfield(Lua(), -1, "name");
+	if(not lua_isstring(Lua(), -1)) {
+		std::cout << "[ERROR] no item name in " << p_id << std::endl;
+		return item;
+	}
+	item.m_name = lua_tostring(Lua(), -1);
+	lua_pop(Lua(), 1);
+
+	// Get ranges
 	lua_getfield(Lua(), -1, "minRange");
 	if(not lua_isnumber(Lua(), -1)) {
 		std::cout << "[ERROR] no min range value in item " << p_id << std::endl;
@@ -61,6 +70,10 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 
 auto cItem::getID() const -> const std::string& {
 	return m_id;
+}
+
+auto cItem::getName() const -> const std::string& {
+	return m_name;
 }
 
 auto cItem::getRange() const -> std::pair<int, int> {

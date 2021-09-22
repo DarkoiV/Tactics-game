@@ -10,6 +10,7 @@ class cItem {
 	private:
 		// Indentification
 		std::string m_id;
+		std::string m_name;
 
 		// Range of items action
 		int m_minRange;
@@ -26,6 +27,9 @@ class cItem {
 
 		// Get ID of item
 		auto getID() const -> const std::string&;
+
+		// Get name of item
+		auto getName() const -> const std::string&;
 
 		// Get range of item
 		auto getRange() const -> std::pair<int, int>;
