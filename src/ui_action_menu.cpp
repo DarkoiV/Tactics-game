@@ -241,7 +241,7 @@ void cActionMenu::autoresize() {
 	// Set box
 	int textHeight = m_textOptions.back().text.getPixelHeight();
 	int boxInnerHeight = (textHeight + 2) * m_textOptions.size();
-	if(m_subMenuVisible) boxInnerHeight += textHeight * 2;
+	if(m_subMenuVisible) boxInnerHeight += m_subMenuTitle.getPixelHeight() * 2;
 
 	m_box.setCapacity({widestText, boxInnerHeight}, 1);
 	m_box.setOrigin({0, 0});
