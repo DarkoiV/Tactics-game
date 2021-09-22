@@ -9,9 +9,7 @@ IRON_SPEAR = {
 	pierce   = 2,
 	minRange = 1,
 	maxRange = 1,
-	actions  = {
-		"Attack"
-	}
+	action   = "Attack"
 }
 
 IRON_SPEAR["Attack"]  = DEFAULT_ATTACK

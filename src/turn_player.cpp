@@ -141,29 +141,29 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 		auto selectedAction = UI.aMenu.getSelectedAction();
 
 		// Do selected action
-		switch(selectedAction.action) {
+		switch(selectedAction) {
 			case eACTION::ATTACK:
-				selectedUnit.range()
-					.calculateActionRange(
-						board, 
-						selectedAction.minRange, 
-						selectedAction.maxRange
-					);
+				// Calculate range of action
+				{
+					auto item = selectedUnit.inventory().getFirstItem();
+					auto [min, max] = item->getRange();
+					selectedUnit.range().calculateActionRange(board, min, max);
+				}
 
-				playerTeam.toggleMoveRange(false);
 				playerTeam.toggleActionRange(true);
+				playerTeam.toggleMoveRange(false);
 
 				m_mode = SELECT_TARGET;
 				break;
 
 			default:
+				std::cout << "[ERROR] This action is not handled by turn player" << std::endl;
 			case eACTION::WAIT:
 				selectedUnit.toggleActive(false);
 				playerTeam.toggleMoveRange(false);
 
 				m_mode = POST_ACTION;
 				break;
-
 		}
 
 		// Stop drawing action menu
@@ -211,7 +211,7 @@ void cTurnPlayer::processSelectTarget(eBUTTON p_input) {
 			}
 			break;
 
-		// Switch back to SELEC ACTION MODE
+		// Switch back to SELECT ACTION MODE
 		case eBUTTON::CANCEL:
 			playerTeam.toggleActionRange(false);
 			playerTeam.toggleMoveRange(true);

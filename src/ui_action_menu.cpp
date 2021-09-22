@@ -1,238 +1,237 @@
 #include "ui_action_menu.hpp"
-#include "lua.hpp"
 
-// Construct menu for unit
-void cActionMenu::construct(cUnit* p_unit) {
-	// Reset options
-	m_textOptions.clear();
+void cActionMenu::addTextOption(const std::string& p_string, textOption::eOPTION p_option) {
+	m_textOptions.emplace_back( textOption {
+		cText({0,0}, eTEXT_COLOR::YELLOW), p_option
+	});
+	m_textOptions.back().text.update(p_string);
+}
+
+// PAGE CONSTRUCTION //////////////////////////////////////////////////////////
+
+void cActionMenu::constructGeneral() {
+	// Setup page
 	m_subMenuVisible = false;
+	m_visible = true;
+	m_highlighted = 0;
+	m_textOptions.clear();
 
-	// Options
-	bool oAttack 	= false;
-	bool oHeal 	= false;
-	bool oItems	= false;
+	auto inventory = unit->inventory();
 
-	// Check unit inventory
-	auto const inventoryItems = p_unit->inventory().getItems();
-	bool items = (inventoryItems.size() > 0) ? true : false;
-	if (items) oItems = true;
+	// Options 
+	bool oAttack = false;
+	bool oHeal = false;
+	bool oItems = inventory.getItems().size() > 0 ? true : false;
 
-	// Loop through items, and add options to action menu
-	for(const auto &item : inventoryItems) {
-		// Check for item data in lua
-		lua_getglobal(Lua(), item.id.c_str());
-		if (not lua_istable(Lua(), -1)){
-			std::cout << "[ERROR] " << item.id << " is not item table, ignoring" << std::endl;
-			continue;
-		}
-
-		// Get name of this item
-		lua_getfield(Lua(), -1, "name");
-		if (not lua_isstring(Lua(), -1) ){
-			std::cout << "[ERROR] In table " << item.id << " field name is not string" << std::endl;
-			continue;
-		}
-		std::cout << "[INFO] Item in inventory: " << lua_tostring(Lua(), -1) << std::endl;
-		lua_pop(Lua(), 1);			// Pop name
-
-		// Get type of item, and check if class can use it
-		lua_getfield(Lua(), -1, "iType");
-		if (not lua_isnumber(Lua(), -1) ) {
-			std::cout << "[ERROR] " << item.id << " type is not a number" << std::endl;
-			continue;
-		}
-		uint8_t itemType = (uint8_t)lua_tonumber(Lua(), -1);
-		if (not p_unit->canUse(itemType) ) {
-			std::cout << "[INFO] " << item.id << " is not ueasable by unit" << std::endl;
-			continue;
-		}
-		lua_pop(Lua(), 1);			// Pop iType
-
-		// Get possible actions by this item
-		lua_getfield(Lua(), -1, "actions");
-		if (not lua_istable(Lua(), -1)){
-			std::cout << "[ERROR] actions in " << item.id << " is not table." << std::endl;
-			continue;
-		}
-
-		// Get actions from table
-		lua_pushnil(Lua());			// Starting key
-		while( lua_next(Lua(), -2) != 0){
-
-			// Check if read value is string
-			if(lua_isstring(Lua(), -1)) {
-				std::string action(lua_tostring(Lua(), -1));
-				std::cout << "[INFO] Item has action: " << action << std::endl;
-
-				if( action == "Attack" ) 	
+	// Get possible actions from items
+	for(const auto &item: inventory.getItems()) {
+		// Check if unit can use
+		if(unit->canUse((uint8_t)item.getType())) {
+			// Get actions that will be displayed in action menu
+			switch(item.getAction()) {
+				case eACTION::ATTACK:
 					oAttack = true;
-				else if( action == "Heal" ) 
+					break;
+
+				case eACTION::HEAL:
 					oHeal = true;
+					break;
+
+				default:
+					break;
 			}
-
-			// Pop read value
-			lua_pop(Lua(), 1);
 		}
-		lua_pop(Lua(), 1);			// Pop key
 	}
 
-	// Create menu texts
-	if (oAttack) {
-		m_textOptions.emplace_back( cText({0, 0}, eTEXT_COLOR::YELLOW) );
-		m_textOptions.back().update("Attack");
-	}
-	if (oHeal) {
-		m_textOptions.emplace_back( cText({0, 0}, eTEXT_COLOR::YELLOW) );
-		m_textOptions.back().update("Heal");
-	}
-	if (oItems) {
-		m_textOptions.emplace_back( cText({0, 0}, eTEXT_COLOR::YELLOW) );
-		m_textOptions.back().update("Items");
-	}
+	// Create textOptions
+	if(oAttack) 	addTextOption("Attack", textOption::eOPTION::ATTACK);
+	if(oHeal) 	addTextOption("Heal", textOption::eOPTION::HEAL);
+	if(oItems) 	addTextOption("Items", textOption::eOPTION::GO_INVENTORY);
 
-	m_textOptions.emplace_back( cText({0, 0}, eTEXT_COLOR::YELLOW) );
-	m_textOptions.back().update("Wait");
+	addTextOption("Wait", textOption::eOPTION::WAIT);
 
 	// Resize
 	autoresize();
 
-	// Set unit for which menu was drawn
-	unit = p_unit;
+	// Set first option as highlighted
+	m_textOptions[0].text.changeTextColor(eTEXT_COLOR::RED);
 
-	// Set first field as highlighted
-	m_textOptions[0].changeTextColor(eTEXT_COLOR::RED);
-	m_highlighted = 0;
-
-	// Pop everything from lua stack
-	lua_pop(Lua(), -1);
-
-	// Set menu page
-	m_menuPage = ePAGE::GENERAL;
+	// Set page as GENEREAL
+	m_currentPage = ePAGE::GENERAL;
 }
 
-// Construct inventory page
 void cActionMenu::constructInventory() {
-	// Reset options
-	m_textOptions.clear();
+	// Setup page
 	m_subMenuVisible = true;
 	m_subMenuTitle.update("Items");
-	
-	auto inventoryItems = unit->inventory().getItems();
-
-	// Loop through items
-	for(const auto &item : inventoryItems) {
-		// Check for item data in lua
-		lua_getglobal(Lua(), item.id.c_str());
-		if (not lua_istable(Lua(), -1)){
-			std::cout << "[ERROR] " << item.id << " is not item table, ignoring" << std::endl;
-			continue;
-		}
-
-		// Get name of this item
-		lua_getfield(Lua(), -1, "name");
-		if (not lua_isstring(Lua(), -1) ){
-			std::cout << "[ERROR] In table " << item.id << " name is not string" << std::endl;
-			continue;
-		}
-
-		// Add item name to inventory
-		m_textOptions.emplace_back( cText({0, 0}, eTEXT_COLOR::YELLOW) );
-		m_textOptions.back().update(lua_tostring(Lua(), -1));
-
-		// Pop name
-		lua_pop(Lua(), 1);
-	}
-
-	// Resize
-	autoresize();
-
-	// Set first field as highlighted
-	m_textOptions[0].changeTextColor(eTEXT_COLOR::RED);
+	m_visible = true;
 	m_highlighted = 0;
-
-	// Pop everything from lua stack
-	lua_pop(Lua(), -1);
-
-	// Set menu page
-	m_menuPage = ePAGE::INVENTORY;
-}
-
-// Construct item options page
-void cActionMenu::constructItemOptions(int p_pos) {
-	// Reset options
 	m_textOptions.clear();
-	m_subMenuVisible = true;
 
-	const auto item = unit->inventory().getItems()[p_pos];
-	lua_getglobal(Lua(), item.id.c_str());
-	if (not lua_istable(Lua(), -1)){
-		std::cout << "[ERROR] " << item.id << " is not item table, can't construct!" << std::endl;
-		construct(unit);
-		return;
-	}
+	auto items = unit->inventory().getItems();
 
-	lua_getfield(Lua(), -1, "name");
-	m_subMenuTitle.update(lua_tostring(Lua(), -1));
-	lua_pop(Lua(), 1);
-
-
-	// Get possible actions by this item
-	lua_getfield(Lua(), -1, "actions");
-	if (not lua_istable(Lua(), -1)){
-		std::cout << "[ERROR] actions in " << item.id << " is not table." << std::endl;
-
-		// Skip
-		goto postAction;
-	}
-
-	// Get actions from table
-	lua_pushnil(Lua());			// Starting key
-	while( lua_next(Lua(), -2) != 0){
-
-		// Check if read value is string
-		if(lua_isstring(Lua(), -1)) {
-			std::string action(lua_tostring(Lua(), -1));
-			std::cout << "[INFO] Item has action: " << action << std::endl;
-		}
-
-		// Add actions to menu
-		m_textOptions.emplace_back(cText({0, 0}, eTEXT_COLOR::YELLOW));
-		m_textOptions.back().update(lua_tostring(Lua(), -1));
-
-		// Pop read value
-		lua_pop(Lua(), 1);
-	}
-	lua_pop(Lua(), 1);			// Pop key
-
-postAction:
-
-	// Add all items options
-	m_textOptions.emplace_back(cText({0, 0}, eTEXT_COLOR::YELLOW));
-	m_textOptions.back().update("Make first");
-
-	m_textOptions.emplace_back(cText({0, 0}, eTEXT_COLOR::YELLOW));
-	m_textOptions.back().update("Discard");
+	for(const auto &item: items) 
+		addTextOption(item.getName(), textOption::eOPTION::GO_ITEM);
 
 	// Resize
 	autoresize();
 
-	// Set first field as highlighted
-	m_textOptions[0].changeTextColor(eTEXT_COLOR::RED);
-	m_highlighted = 0;
+	// Set first option as highlighted
+	m_textOptions[0].text.changeTextColor(eTEXT_COLOR::RED);
 
-	// Pop everything from lua stack
-	lua_pop(Lua(), -1);
-
-	// Set menu page
-	m_menuPage = ePAGE::ITEM_OPTIONS;
+	// Set page as Items
+	m_currentPage = ePAGE::ITEMS;
 }
 
-// Autoresize
+void cActionMenu::constructItemOptions(int p_itemNo) {
+	// Setup page
+	m_subMenuVisible = true;
+	m_visible = true;
+	m_highlighted = 0;
+	m_textOptions.clear();
+
+	// Set title as item at pos
+	auto items = unit->inventory().getItems();
+	m_subMenuTitle.update(items[p_itemNo].getName());
+
+	// Add item options
+	auto item = items[p_itemNo];
+
+	// Item options for all items
+	addTextOption("Make First", textOption::eOPTION::MAKE_FIRST);
+	addTextOption("Discard", textOption::eOPTION::DISCARD);
+
+	// Resize
+	autoresize();
+
+	// Set first option as highlighted
+	m_textOptions[0].text.changeTextColor(eTEXT_COLOR::RED);
+
+	// Set page as Item Options
+	m_currentPage = ePAGE::ITEM_OPTIONS;
+}
+
+// PUBLIC METHODS /////////////////////////////////////////////////////////////
+
+void cActionMenu::moveUp() {
+	if(m_highlighted == 0)
+		std::cout << "[INFO] Selection at top" << std::endl;
+	else {
+		m_textOptions[m_highlighted].text.changeTextColor(eTEXT_COLOR::YELLOW);
+		m_highlighted--;
+		m_textOptions[m_highlighted].text.changeTextColor(eTEXT_COLOR::RED);
+	}
+}
+
+void cActionMenu::moveDown() {
+	if(m_highlighted == (int)m_textOptions.size() - 1)
+		std::cout << "[INFO] Selection at bottom" << std::endl;
+	else {
+		m_textOptions[m_highlighted].text.changeTextColor(eTEXT_COLOR::YELLOW);
+		m_highlighted++;
+		m_textOptions[m_highlighted].text.changeTextColor(eTEXT_COLOR::RED);
+	}
+}
+
+void cActionMenu::select() {
+	switch (m_textOptions[m_highlighted].option) {
+
+		// Find first item with attack, make it 1st, send action
+		case textOption::eOPTION::ATTACK:
+			m_isSelected = true;
+			m_selectedAction = eACTION::ATTACK;
+			break;
+
+		// Send wait action
+		case textOption::eOPTION::WAIT:
+			m_isSelected = true;
+			m_selectedAction = eACTION::WAIT;
+			break;
+
+		// Go to inventory
+		case textOption::eOPTION::GO_INVENTORY:
+			constructInventory();
+			break;
+
+		// Go to highlighted item
+		case textOption::eOPTION::GO_ITEM:
+			m_itemAcc = m_highlighted;
+			constructItemOptions(m_highlighted);
+			break;
+
+		// Make item first (goes back to inventory)
+		case textOption::eOPTION::MAKE_FIRST:
+			unit->inventory().makeFirst(m_itemAcc);
+			constructInventory();
+			break;
+
+		// Discard item
+		case textOption::eOPTION::DISCARD:
+			unit->inventory().discardItem(m_itemAcc);
+			constructInventory();
+			break;
+
+
+		default:
+			std::cout << "[WARN] Option not handled " << std::endl;
+
+	}
+}
+
+void cActionMenu::cancel() {
+	switch(m_currentPage) {
+		// Move unit back
+		case ePAGE::GENERAL:
+			m_isSelected = true;
+			m_selectedAction = eACTION::RETURN;
+			break;
+
+		// Go back to general page
+		case ePAGE::ITEMS:
+			constructGeneral();
+			break;
+
+		// Go back to items page
+		case ePAGE::ITEM_OPTIONS:
+			constructInventory();
+			break;
+	}
+}
+
+void cActionMenu::operator[](cUnit* p_unit) {
+	// Hide for nullptr
+	if(p_unit == nullptr){
+		m_visible = false;
+		return;
+	}	
+	else m_visible = true;
+
+	// Check if menu was constructed for unit, if so return
+	if(p_unit == unit) return;
+
+	// If not construct general page for unit
+	unit = p_unit;
+	constructGeneral();
+}
+
+bool cActionMenu::isSelected() {
+	return m_isSelected;
+}
+
+auto cActionMenu::getSelectedAction() -> eACTION {
+	// Reset menu
+	unit = nullptr;
+	m_isSelected = false;
+
+	// Return action
+	return m_selectedAction;
+}
+
 void cActionMenu::autoresize() {
 	// Get widest text
 	int widestText = 0;
 	for(size_t i = 0; i < m_textOptions.size(); i++) {
-		int width = m_textOptions[i].getPixelWidth();
+		int width = m_textOptions[i].text.getPixelWidth();
 
 		if(width > widestText) widestText = width;
 	}
@@ -240,7 +239,7 @@ void cActionMenu::autoresize() {
 		widestText = m_subMenuTitle.getPixelWidth();
 
 	// Set box
-	int textHeight = m_textOptions.back().getPixelHeight();
+	int textHeight = m_textOptions.back().text.getPixelHeight();
 	int boxInnerHeight = (textHeight + 2) * m_textOptions.size();
 	if(m_subMenuVisible) boxInnerHeight += textHeight * 2;
 
@@ -251,7 +250,7 @@ void cActionMenu::autoresize() {
 	vec2D textOrigin = m_box.getInnerOrigin();
 	if(m_subMenuVisible) textOrigin.y += textHeight * 2;
 	for(size_t i = 0; i < m_textOptions.size(); i++) {
-		m_textOptions[i].setOriginPoint(textOrigin);
+		m_textOptions[i].text.setOriginPoint(textOrigin);
 		textOrigin.y += textHeight + 2;
 	}
 
@@ -263,155 +262,12 @@ void cActionMenu::autoresize() {
 	}
 }
 
-// Display menu for unit, or hide for nullptr
-void cActionMenu::operator[](cUnit *p_unit){
-	// Hide for nullptr
-	if(p_unit == nullptr){
-		m_visible = false;
-		return;
-	}	
-	else m_visible = true;
 
-	// Check if menu was constructed for unit, if so return
-	if(p_unit == unit) return;
-
-	// If not construct menu for unit
-	construct(p_unit);
-}
-
-// MOVE SELECTION /////////////////////////////////////////////////////////////////////////////////
-
-// Move selection up
-void cActionMenu::moveUp() {
-	if(m_highlighted == 0)
-		std::cout << "[INFO] Selection at top" << std::endl;
-	else {
-		m_textOptions[m_highlighted].changeTextColor(eTEXT_COLOR::YELLOW);
-		m_highlighted--;
-		m_textOptions[m_highlighted].changeTextColor(eTEXT_COLOR::RED);
-	}
-}
-
-// Move selection down
-void cActionMenu::moveDown() {
-	if(m_highlighted == (int)m_textOptions.size() - 1)
-		std::cout << "[INFO] Selection at bottom" << std::endl;
-	else {
-		m_textOptions[m_highlighted].changeTextColor(eTEXT_COLOR::YELLOW);
-		m_highlighted++;
-		m_textOptions[m_highlighted].changeTextColor(eTEXT_COLOR::RED);
-	}
-}
-
-// Select button press
-void cActionMenu::select() {
-	switch (m_menuPage) {
-		// If highlighted items move page, otherwise return selected action
-		case ePAGE::GENERAL:
-			if(m_textOptions[m_highlighted]() == "Items") {
-				constructInventory();
-			}
-			else {
-				m_isSelected = true;
-			}
-			break;
-
-		// Open option for highlighted item
-		case ePAGE::INVENTORY:
-			constructItemOptions(m_highlighted);
-			break;
-
-		// Make item first, and optionally commit action
-		case ePAGE::ITEM_OPTIONS:
-			break;
-	}
-}
-
-// Cancel button press
-void cActionMenu::cancel() {
-	switch (m_menuPage) {
-		// Reverse pos
-		case ePAGE::GENERAL:
-			break;
-
-		// Go back to general page
-		case ePAGE::INVENTORY:
-			construct(unit);
-			break;
-
-		// Go back to inventory page
-		case ePAGE::ITEM_OPTIONS:
-			constructInventory();
-			break;
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Returns true when option was selected
-bool cActionMenu::isSelected() {
-	return m_isSelected;
-}
-
-// Get selected action
-auto cActionMenu::getSelectedAction() -> const actionData {
-	// Construct action data
-	const auto &action = m_textOptions[m_highlighted]();
-	eACTION returnAction;
-	if(action == "Attack") {
-		returnAction = eACTION::ATTACK;
-	}
-	else {
-		returnAction = eACTION::WAIT;
-	}
-
-	// First item is ALWAYS action item
-	const auto &item = unit->inventory().getFirstItem();
-	lua_getglobal(Lua(), item->id.c_str());
-
-	lua_getfield(Lua(), -1, "minRange");
-	int minRange;
-	if (not lua_isnumber(Lua(), -1)) {
-		std::cout << "[ERROR] Item " << item->id.c_str() << " lacks minRange" << std::endl;
-		minRange = 0;
-	}
-	else {
-		minRange = (int)lua_tonumber(Lua(), -1);
-	}
-	lua_pop(Lua(), 1);
-
-	lua_getfield(Lua(), -1, "maxRange");
-	int maxRange;
-	if (not lua_isnumber(Lua(), -1)) {
-		std::cout << "[ERROR] Item " << item->id.c_str() << " lacks maxRange" << std::endl;
-		maxRange = 0;
-	}
-	else {
-		maxRange = (int)lua_tonumber(Lua(), -1);
-	}
-	lua_pop(Lua(), 1);
-
-	// Clean stack
-	lua_pop(Lua(), -1);
-
-	// Reset stored unit and isSelected
-	unit = nullptr;
-	m_isSelected = false;
-
-	// Get selected action info
-	return actionData{
-		returnAction,
-		minRange, 
-		maxRange
-	};
-}
-
-// draw
 void cActionMenu::draw() {
 	if(m_visible) {
 		m_box.draw();
-		for(auto &text : m_textOptions){
-			text.draw();
+		for(auto &textOption : m_textOptions){
+			textOption.text.draw();
 		}
 
 		if(m_subMenuVisible) m_subMenuTitle.draw();

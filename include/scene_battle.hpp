@@ -28,8 +28,8 @@ class cSceneBattle: public cScene{
 		cCommander 	m_commander 	= cCommander(m_lua, m_animator);
 
 		// Teams
-		cTeam m_blueTeam = cTeam(eTEAM_COLOR::BLUE);
-		cTeam m_redTeam  = cTeam(eTEAM_COLOR::RED);
+		cTeam m_blueTeam = cTeam(m_lua, eTEAM_COLOR::BLUE);
+		cTeam m_redTeam  = cTeam(m_lua, eTEAM_COLOR::RED);
 
 		// CAMERA
 		vec2D m_cameraOffset{0, 0};

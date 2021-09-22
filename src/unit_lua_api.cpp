@@ -141,7 +141,9 @@ int cUnit::l_getFirstItem(lua_State *L) {
 		return 1;
 	}
 
-	lua_getglobal(L, item->id.c_str());
+	// Pass id of first item
+	auto itemID = item->getID();
+	lua_getglobal(L, itemID.c_str());
 	return 1;
 }
 
