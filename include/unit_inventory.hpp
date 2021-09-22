@@ -19,6 +19,9 @@ class cUnitInventory{
 		// Get first item in inventory, or nullptr if none
 		auto getFirstItem() -> cItem*;
 
+		// Get vector with items
+		auto getItems() -> const std::vector<cItem>&;
+
 		// Adds item to inventory
 		bool addNewItem(cItem p_item);
 

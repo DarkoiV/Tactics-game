@@ -22,11 +22,17 @@ class cItem {
 
 	public:
 		// Create new item by ID, requires lua state with items data
-		static auto newItem(std::string& p_id, cBattleLua& Lua) -> cItem;
+		static auto newItem(const std::string& p_id, cBattleLua& Lua) -> cItem;
 
 		// Get ID of item
 		auto getID() const -> const std::string&;
 
 		// Get range of item
 		auto getRange() const -> std::pair<int, int>;
+
+		// Get type
+		auto getType() const -> eITEM;
+
+		// Get action
+		auto getAction() const -> eACTION;
 };

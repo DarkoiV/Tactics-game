@@ -2,6 +2,7 @@
 
 #include "struct_vec2D.hpp"
 #include "unit.hpp"
+#include "battle_lua.hpp"
 
 #include <vector>
 #include <memory>
@@ -12,6 +13,9 @@ class cCommander;
 // Team class
 class cTeam{
 	private:
+		// ~ LUA ~
+		cBattleLua &Lua;
+
 		// Units selected for battle in this team
 		std::vector<std::shared_ptr<cUnit>> m_units;
 
@@ -25,8 +29,9 @@ class cTeam{
 
 	public:
 		// Constructor decides which color are units
-		cTeam(eTEAM_COLOR p_teamColor)
-			:m_teamColor(p_teamColor){};
+		cTeam(cBattleLua &L, eTEAM_COLOR p_teamColor):
+			Lua(L),
+			m_teamColor(p_teamColor){};
 
 		// Spawn new unit by name
 		void spawnUnit(const std::string& p_name, vec2D p_pos);

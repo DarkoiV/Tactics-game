@@ -1,6 +1,6 @@
 #include "item.hpp"
 
-auto cItem::newItem(std::string& p_id, cBattleLua& Lua) -> cItem{
+auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	cItem item;
 
 	// On failure item id will be empty
@@ -65,4 +65,12 @@ auto cItem::getID() const -> const std::string& {
 
 auto cItem::getRange() const -> std::pair<int, int> {
 	return std::pair<int, int>{m_minRange, m_maxRange};
+}
+
+auto cItem::getType() const -> eITEM {
+	return m_type;
+}
+
+auto cItem::getAction() const -> eACTION {
+	return m_action;
 }

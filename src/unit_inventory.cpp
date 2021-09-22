@@ -5,6 +5,10 @@ auto cUnitInventory::getFirstItem() -> cItem* {
 	return &m_items[0];
 }
 
+auto cUnitInventory::getItems() -> const std::vector<cItem>& {
+	return m_items;
+}
+
 bool cUnitInventory::addNewItem(cItem p_item) {
 	if(m_items.size() >= 5) return false;
 	m_items.push_back(std::move(p_item));

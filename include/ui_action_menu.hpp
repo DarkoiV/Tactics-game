@@ -17,12 +17,31 @@ class cActionMenu {
 		// Background box, and texts displaying subMenu and options
 		cBox  m_box;
 		cText m_subMenuTitle;
-		std::vector<cText> m_textOptions;
+
+		// Structure holding selection options
+		struct textOption {
+			cText text;
+			enum {
+				ATTACK,
+				HEAL,
+				USE,
+				WAIT,
+				GO_INVENTORY,
+				GO_ITEM,
+				MAKE_FIRST,
+				DISCARD
+			} option;
+		};
+		std::vector<textOption> m_textOptions;
 
 		// Variables
 		bool   m_subMenuVisible	= false;			// Is subMenuTitle visible?
 		bool   m_visible 	= false;			// Is menu visible?
+		bool   m_isSelected	= false;			// Is selected?
 		int    m_highlighted	= 0;				// Which option is highlighted
+		
+		// General page
+		void constructGeneral();
 
 	public:
 		cActionMenu(cBattleLua &L):
