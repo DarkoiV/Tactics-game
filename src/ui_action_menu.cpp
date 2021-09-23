@@ -138,6 +138,16 @@ void cActionMenu::select() {
 
 		// Find first item with attack, make it 1st, send action
 		case textOption::eOPTION::ATTACK:
+			{
+				auto inventory = unit->inventory();
+				auto items = inventory.getItems();
+				for(size_t i = 0; i < items.size(); i++) {
+					if (items[i].getAction() == eACTION::ATTACK) {
+						unit->inventory().makeFirst(i);
+						break;
+					}
+				}
+			}
 			m_isSelected = true;
 			m_selectedAction = eACTION::ATTACK;
 			break;
