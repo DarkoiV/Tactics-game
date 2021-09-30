@@ -15,7 +15,7 @@ class cAnimationText : public cAnimation {
 		int m_displayedletters = 0;
 		int m_framesToDisplay;
 
-		const int NEW_CHAR_DELAY = 3;
+		constexpr static int NEW_CHAR_DELAY = 3;
 
 	public:
 		cAnimationText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale);
