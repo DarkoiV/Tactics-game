@@ -73,11 +73,11 @@ DEFAULT_ATTACK = function(attacker, target)
 	movX = aX - tX
 	movY = aY - tY
 
-	if movX > 0 then
+	if movX ~= 0 then
 		movX = movX // math.abs(movX)
 	end
 
-	if movY > 0 then
+	if movY ~= 0 then
 		movY = movY // math.abs(movY)
 	end
 
