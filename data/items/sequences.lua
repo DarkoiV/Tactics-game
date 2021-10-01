@@ -72,9 +72,14 @@ DEFAULT_ATTACK = function(attacker, target)
 	local tX, tY = target:getPos()
 	movX = aX - tX
 	movY = aY - tY
-	movX = movX // math.abs(movX)
-	movY = movY // math.abs(movY)
-	print (movX .. "x" .. movY)
+
+	if movX > 0 then
+		movX = movX // math.abs(movX)
+	end
+
+	if movY > 0 then
+		movY = movY // math.abs(movY)
+	end
 
 	for _ = 1, 8 do
 		attacker:offset(movX, movY)
