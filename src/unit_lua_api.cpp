@@ -101,8 +101,8 @@ int cUnit::l_offset(lua_State *L) {
 		std::cout << "[ERROR][LUA API] Function needs 2 numbers which were not provided" << std::endl;
 		return 0;
 	}
-	x = (int)lua_tonumber(L, -2);
-	y = (int)lua_tonumber(L, -1);
+	x = (int)lua_tointeger(L, -2);
+	y = (int)lua_tointeger(L, -1);
 
 	vec2D offset{x, y};
 

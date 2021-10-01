@@ -26,12 +26,25 @@ ATTACK_SEQUENCE = function(attacker, target)
 
 		-- Check if counter possible
 		local targetItem = target:getItem()
-		local targetHP   = target:getHP()
+		if targetItem == nil then goto CO_END end
+		if targetItem.Counter == nil then goto CO_END end
 
-		if targetItem.Counter ~= nil and targetHP > 0 then
-			print("[LUA] Counter with " .. targetItem.name)
-			targetItem.Counter(target, attacker)
+		local targetHP   = target:getHP()
+		if targetHP <= 0 then goto CO_END end
+
+		local aX, aY     = attacker:getPos()
+		local tX, tY     = target:getPos()
+		local distance = math.abs(aX - tX) + math.abs(aY - tY)
+
+		if distance > targetItem.maxRange
+		or distance < targetItem.minRange then
+			goto CO_END
 		end
+
+		print("[LUA] Counter with " .. targetItem.name)
+		targetItem.Counter(target, attacker)
+
+		::CO_END::
 	end)
 	-- END OF COUROUTINE -------------------------
 
@@ -59,6 +72,9 @@ DEFAULT_ATTACK = function(attacker, target)
 	local tX, tY = target:getPos()
 	movX = aX - tX
 	movY = aY - tY
+	movX = movX // math.abs(movX)
+	movY = movY // math.abs(movY)
+	print (movX .. "x" .. movY)
 
 	for _ = 1, 8 do
 		attacker:offset(movX, movY)
