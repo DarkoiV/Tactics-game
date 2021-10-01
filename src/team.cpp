@@ -21,6 +21,18 @@ void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 			spawnedUnit->inventory().addNewItem(ironSword);
 
 	}
+	else if(p_name == "archer"){
+		m_units.push_back(std::make_shared<cUnit>(p_name, m_teamColor));
+		m_units.back()->setPosition(p_pos);
+
+		// TMP add items
+		auto spawnedUnit = m_units.back();
+		auto ironBow = cItem::newItem("IRON_BOW", Lua);
+
+		if(ironBow.getID() != "")
+			spawnedUnit->inventory().addNewItem(ironBow);
+
+	}
 	else {
 		std::cout << "[WARN] Unknow unit type, spawning aborted" << std::endl;
 	}

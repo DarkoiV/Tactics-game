@@ -36,10 +36,12 @@ cSceneBattle::cSceneBattle(){
 	// TMP create units
 	m_blueTeam.spawnUnit("infantry", {8, 10});
 	m_blueTeam.spawnUnit("infantry", {9, 10});
+	m_blueTeam.spawnUnit("archer", {10, 10});
 
 	// m_redTeam.addNewUnit("TMP");
 	m_redTeam.spawnUnit("infantry", {5, 10});
 	m_redTeam.spawnUnit("infantry", {4, 10});
+	m_redTeam.spawnUnit("archer", {3, 10});
 
 	// Start current turn
 	currentTurn()->start();

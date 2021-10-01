@@ -8,7 +8,7 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 	m_name = p_name;
 
 	// Name of asset
-	std::string assetToLoad = "unit_infantry_";
+	std::string assetToLoad = "unit_" + p_name + "_";
 	switch (p_color){
 		case eTEAM_COLOR::BLUE:
 			assetToLoad += "blue";
@@ -32,6 +32,7 @@ cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
 	// Add useable items
 	m_useableItems += (uint8_t)eITEM::SWORD;
 	m_useableItems += (uint8_t)eITEM::SPEAR;
+	m_useableItems += (uint8_t)eITEM::BOW;
 	m_useableItems += (uint8_t)eITEM::POTION;
 }
 

@@ -15,6 +15,8 @@ cAssetManager::cAssetManager(){
 	// Unit sprites
 	loadSprite("unit_infantry_blue");
 	loadSprite("unit_infantry_red");
+	loadSprite("unit_archer_blue");
+	loadSprite("unit_archer_red");
 	loadSprite("move_range");
 	loadSprite("attack_range");
 
