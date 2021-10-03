@@ -4,17 +4,19 @@
 
 // Create new unit
 auto cUnit::newUnit(const std::string& p_className, 
-	eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit {
-	cUnit unit;
+	eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit* {
+	cUnit* unit = new cUnit;
 
-	// On failure unit name will be empty
-	unit.m_name = "";
+	auto failure = [&unit](){
+		delete unit;
+		return nullptr;
+	};
 	
 	// Find unit table
 	lua_getglobal(Lua(), p_className.c_str());
 	if(not lua_istable(Lua(), -1)) {
 		std::cout << "[ERROR] No class with name " << p_className << std::endl;
-		return unit;
+		return failure();
 	}
 
 	// Get field
@@ -30,26 +32,26 @@ auto cUnit::newUnit(const std::string& p_className,
 	};
 
 	// Get unit stats
-	auto &stats = unit.m_stats;
-	if(not getStat("hp", stats.HP)) return unit;
-	if(not getStat("mp", stats.MP)) return unit;
-	if(not getStat("def", stats.DEF)) return unit;
-	if(not getStat("str", stats.STR)) return unit;
-	if(not getStat("agi", stats.AGI)) return unit;
-	if(not getStat("int", stats.INT)) return unit;
-	if(not getStat("mov", stats.MOV)) return unit;
+	auto &stats = unit->m_stats;
+	if(not getStat("hp", stats.HP)) return failure();
+	if(not getStat("mp", stats.MP)) return failure();
+	if(not getStat("def", stats.DEF)) return failure();
+	if(not getStat("str", stats.STR)) return failure();
+	if(not getStat("agi", stats.AGI)) return failure();
+	if(not getStat("int", stats.INT)) return failure();
+	if(not getStat("mov", stats.MOV)) return failure();
 
 	// Get useable items
 	lua_getfield(Lua(), -1, "use");
 	if(not lua_istable(Lua(), -1)) {
 		std::cout << "[ERROR] No use table for " << p_className << std::endl;
-		return unit;
+		return failure();
 	}
 	lua_pushnil(Lua());		// Push key
 	while(lua_next(Lua(), -2) != 0) {
 		// Convert to useable flag
 		if(lua_isinteger(Lua(), -1)) {
-			unit.m_useableItems |= (uint8_t)lua_tointeger(Lua(), -1);
+			unit->m_useableItems |= (uint8_t)lua_tointeger(Lua(), -1);
 		}
 		else {
 			std::cout << "[WARN] Unrecognized use flag in " << p_className << std::endl;
@@ -81,26 +83,26 @@ auto cUnit::newUnit(const std::string& p_className,
 	// Add items
 	for(auto& itemID : items) {
 		auto item = cItem::newItem(itemID, Lua);
-		if(item.getID() != "") unit.inventory().addNewItem(item);
+		if(item.getID() != "") unit->inventory().addNewItem(item);
 	}
 
 	// Set name
-	unit.m_name = p_className;
-	for(auto& c: unit.m_name) c = tolower(c);
-	std::cout << "Unit name " << unit.m_name << std::endl;
+	unit->m_name = p_className;
+	for(auto& c: unit->m_name) c = tolower(c);
+	std::cout << "Unit name " << unit->m_name << std::endl;
 
 	// Get sprite
 	auto assets = cAssetManager::getInstance();
 	std::string spriteName;
 	switch(p_color) {
 		case eTEAM_COLOR::BLUE:
-			spriteName = "unit_" + unit.m_name + "_blue";
+			spriteName = "unit_" + unit->m_name + "_blue";
 			break;
 		case eTEAM_COLOR::RED:
-			spriteName = "unit_" + unit.m_name + "_red";
+			spriteName = "unit_" + unit->m_name + "_red";
 			break;
 	}
-	unit.m_sprite = assets.getSprite(unit.m_name, spriteName);
+	unit->m_sprite = assets.getSprite(unit->m_name, spriteName);
 
 	return unit;
 }

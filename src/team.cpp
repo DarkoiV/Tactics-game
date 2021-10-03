@@ -5,8 +5,9 @@
 void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 	std::cout << "[INFO] Creating unit by name: " << p_name << std::endl;
 	auto newUnit = cUnit::newUnit(p_name, m_teamColor, Lua);
-	if(newUnit.getName() != "") {
-		m_units.push_back(std::make_unique<cUnit>(newUnit));
+	if(newUnit != nullptr) {
+		auto unit_ptr = std::unique_ptr<cUnit>(newUnit);
+		m_units.push_back(std::move(unit_ptr));
 		m_units.back()->setPosition(p_pos);
 	}
 	else {

@@ -51,9 +51,7 @@ class cUnit{
 	public:
 		// Create new item by class name and 
 		static auto newUnit(const std::string& p_className, 
-			eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit;
-
-		cUnit(cUnit&) = default;
+			eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit*;
 
 		auto getName() const -> const std::string&;
 
