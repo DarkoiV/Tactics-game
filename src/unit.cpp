@@ -2,38 +2,111 @@
 #include "globals.hpp"
 #include "asset_manager.hpp"
 
-// Constructor by name
-cUnit::cUnit(const std::string &p_name, eTEAM_COLOR p_color){
-	// Set name
-	m_name = p_name;
+// Create new unit
+auto cUnit::newUnit(const std::string& p_className, 
+	eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit {
+	cUnit unit;
 
-	// Name of asset
-	std::string assetToLoad = "unit_" + p_name + "_";
-	switch (p_color){
-		case eTEAM_COLOR::BLUE:
-			assetToLoad += "blue";
-			break;
-		case eTEAM_COLOR::RED:
-			assetToLoad += "red";
-			break;
+	// On failure unit name will be empty
+	unit.m_name = "";
+	
+	// Find unit table
+	lua_getglobal(Lua(), p_className.c_str());
+	if(not lua_istable(Lua(), -1)) {
+		std::cout << "[ERROR] No class with name " << p_className << std::endl;
+		return unit;
 	}
 
-	// Set sprite
-	auto &assetAcces = cAssetManager::getInstance();
-	m_sprite = assetAcces.getSprite(p_name, assetToLoad);
+	// Get field
+	auto getStat = [&Lua, &p_className](const std::string& field, uint8_t &stat) {
+		lua_getfield(Lua(), -1, field.c_str());
+		if(not lua_isinteger(Lua(), -1)) {
+			std::cout << "[ERROR] No " << field << " for " << p_className << std::endl; 
+			return 0;
+		}
+		stat = (uint8_t)lua_tointeger(Lua(), -1);
+		lua_pop(Lua(), 1);
+		return 1;
+	};
 
-	// Default stats
-	m_stats.HP  = 10;
-	m_stats.MP  = 10;
-	m_stats.DEF = 2;
-	m_stats.STR = 2;
-	m_stats.MOV = 5 ;
+	// Get unit stats
+	auto &stats = unit.m_stats;
+	if(not getStat("hp", stats.HP)) return unit;
+	if(not getStat("mp", stats.MP)) return unit;
+	if(not getStat("def", stats.DEF)) return unit;
+	if(not getStat("str", stats.STR)) return unit;
+	if(not getStat("agi", stats.AGI)) return unit;
+	if(not getStat("int", stats.INT)) return unit;
+	if(not getStat("mov", stats.MOV)) return unit;
 
-	// Add useable items
-	m_useableItems += (uint8_t)eITEM::SWORD;
-	m_useableItems += (uint8_t)eITEM::SPEAR;
-	m_useableItems += (uint8_t)eITEM::BOW;
-	m_useableItems += (uint8_t)eITEM::POTION;
+	// Get useable items
+	lua_getfield(Lua(), -1, "use");
+	if(not lua_istable(Lua(), -1)) {
+		std::cout << "[ERROR] No use table for " << p_className << std::endl;
+		return unit;
+	}
+	lua_pushnil(Lua());		// Push key
+	while(lua_next(Lua(), -2) != 0) {
+		// Convert to useable flag
+		if(lua_isinteger(Lua(), -1)) {
+			unit.m_useableItems |= (uint8_t)lua_tointeger(Lua(), -1);
+		}
+		else {
+			std::cout << "[WARN] Unrecognized use flag in " << p_className << std::endl;
+		}
+		lua_pop(Lua(), 1);
+	}
+	lua_pop(Lua(), 1);
+
+	// Get starting gear
+	std::vector<std::string> items(5);
+	lua_getfield(Lua(), -1, "gear");
+	if(not lua_istable(Lua(), -1)){
+		std::cout << "[ERROR] No starting gear for " << p_className << std::endl;
+	}
+	else {
+		lua_pushnil(Lua());		// Push key
+		while(lua_next(Lua(), -2) != 0) {
+			if(lua_isstring(Lua(), -1)) {
+				items.push_back(lua_tostring(Lua(), -1));
+			}
+			else {
+				std::cout << "[WARN] Unrecognized gear in " << p_className << std::endl;
+			}
+			lua_pop(Lua(), 1);
+		}
+		lua_pop(Lua(), 1);
+	}
+
+	// Add items
+	for(auto& itemID : items) {
+		auto item = cItem::newItem(itemID, Lua);
+		if(item.getID() != "") unit.inventory().addNewItem(item);
+	}
+
+	// Set name
+	unit.m_name = p_className;
+	for(auto& c: unit.m_name) c = tolower(c);
+	std::cout << "Unit name " << unit.m_name << std::endl;
+
+	// Get sprite
+	auto assets = cAssetManager::getInstance();
+	std::string spriteName;
+	switch(p_color) {
+		case eTEAM_COLOR::BLUE:
+			spriteName = "unit_" + unit.m_name + "_blue";
+			break;
+		case eTEAM_COLOR::RED:
+			spriteName = "unit_" + unit.m_name + "_red";
+			break;
+	}
+	unit.m_sprite = assets.getSprite(unit.m_name, spriteName);
+
+	return unit;
+}
+
+auto cUnit::getName() const -> const std::string& {
+	return m_name;
 }
 
 // Set position on board

@@ -34,14 +34,14 @@ cSceneBattle::cSceneBattle(){
 	cUnit::registerUnitApi(m_lua());
 
 	// TMP create units
-	m_blueTeam.spawnUnit("infantry", {8, 10});
-	m_blueTeam.spawnUnit("infantry", {9, 10});
-	m_blueTeam.spawnUnit("archer", {10, 10});
+	m_blueTeam.spawnUnit("INFANTRY", {8, 10});
+	m_blueTeam.spawnUnit("INFANTRY", {9, 10});
+	m_blueTeam.spawnUnit("ARCHER", {10, 10});
 
 	// m_redTeam.addNewUnit("TMP");
-	m_redTeam.spawnUnit("infantry", {5, 10});
-	m_redTeam.spawnUnit("infantry", {4, 10});
-	m_redTeam.spawnUnit("archer", {3, 10});
+	m_redTeam.spawnUnit("INFANTRY", {5, 10});
+	m_redTeam.spawnUnit("INFANTRY", {4, 10});
+	m_redTeam.spawnUnit("ARCHER", {3, 10});
 
 	// Start current turn
 	currentTurn()->start();
@@ -108,8 +108,10 @@ void cSceneBattle::command(const std::string &p_command){
 	{
 		std::string current_argument;
 		std::stringstream commandStream(p_command);
-		while(getline(commandStream, current_argument, ' '))
-				arguments.push_back(current_argument);
+		while(getline(commandStream, current_argument, ' ')){
+			for( auto& c : current_argument ) c = toupper(c);
+			arguments.push_back(current_argument);
+		}
 	}
 
 	if(arguments.size() < 1) {
@@ -117,7 +119,7 @@ void cSceneBattle::command(const std::string &p_command){
 		return;
 	}
 
-	if(arguments[0] == "nextturn") {
+	if(arguments[0] == "NEXTTURN") {
 		std::cout << "[INFO] Switching to next turn via command" << std::endl;
 		nextTurn();
 	}
@@ -126,13 +128,13 @@ void cSceneBattle::command(const std::string &p_command){
 	if(arguments.size() < 3) return;
 
 	// Spawn unit commands
-	if(arguments[0] == "spawn") {
-		if(arguments[1] == "blue" ) {
+	if(arguments[0] == "SPAWN") {
+		if(arguments[1] == "BLUE" ) {
 			m_blueTeam.spawnUnit(arguments[2], m_cursor.position());
 			return;
 		}
 
-		if(arguments[1] == "red" ) {
+		if(arguments[1] == "RED" ) {
 			m_redTeam.spawnUnit(arguments[2], m_cursor.position());
 			return;
 		}

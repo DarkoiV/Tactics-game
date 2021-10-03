@@ -4,37 +4,13 @@
 // Spawn new unit, add it to team, by name
 void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 	std::cout << "[INFO] Creating unit by name: " << p_name << std::endl;
-	// Create TMP unit
-	if(p_name == "infantry"){
-		m_units.push_back(std::make_shared<cUnit>(p_name, m_teamColor));
+	auto newUnit = cUnit::newUnit(p_name, m_teamColor, Lua);
+	if(newUnit.getName() != "") {
+		m_units.push_back(std::make_unique<cUnit>(newUnit));
 		m_units.back()->setPosition(p_pos);
-
-		// TMP add items
-		auto spawnedUnit = m_units.back();
-		auto ironSpear = cItem::newItem("IRON_SPEAR", Lua);
-		auto ironSword = cItem::newItem("IRON_SWORD", Lua);
-
-		if(ironSpear.getID() != "")
-			spawnedUnit->inventory().addNewItem(ironSpear);
-
-		if(ironSword.getID() != "")
-			spawnedUnit->inventory().addNewItem(ironSword);
-
-	}
-	else if(p_name == "archer"){
-		m_units.push_back(std::make_shared<cUnit>(p_name, m_teamColor));
-		m_units.back()->setPosition(p_pos);
-
-		// TMP add items
-		auto spawnedUnit = m_units.back();
-		auto ironBow = cItem::newItem("IRON_BOW", Lua);
-
-		if(ironBow.getID() != "")
-			spawnedUnit->inventory().addNewItem(ironBow);
-
 	}
 	else {
-		std::cout << "[WARN] Unknow unit type, spawning aborted" << std::endl;
+		std::cout << "[WARN] Unit not spawned" << std::endl;
 	}
 }
 
