@@ -7,7 +7,15 @@ auto cUnit::newUnit(const std::string& p_className,
 	eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit* {
 	cUnit* unit = new cUnit;
 
-	auto failure = [&unit](){
+	// Save stack top for cleaning
+	int l_top = lua_gettop(Lua());
+	auto cleanLuaStack = [&](){
+		lua_settop(Lua(), l_top);
+	};
+
+	//  Return failure will free heap memory, and clean stack
+	auto failure = [&unit, &cleanLuaStack](){
+		cleanLuaStack();
 		delete unit;
 		return nullptr;
 	};
@@ -61,7 +69,6 @@ auto cUnit::newUnit(const std::string& p_className,
 	lua_pop(Lua(), 1);
 
 	// Get starting gear
-	std::vector<std::string> items(5);
 	lua_getfield(Lua(), -1, "gear");
 	if(not lua_istable(Lua(), -1)){
 		std::cout << "[ERROR] No starting gear for " << p_className << std::endl;
@@ -70,7 +77,9 @@ auto cUnit::newUnit(const std::string& p_className,
 		lua_pushnil(Lua());		// Push key
 		while(lua_next(Lua(), -2) != 0) {
 			if(lua_isstring(Lua(), -1)) {
-				items.push_back(lua_tostring(Lua(), -1));
+				auto itemID = lua_tostring(Lua(), -1);
+				auto item = cItem::newItem(itemID, Lua);
+				if(item.getID() != "") unit->inventory().addNewItem(item);
 			}
 			else {
 				std::cout << "[WARN] Unrecognized gear in " << p_className << std::endl;
@@ -78,12 +87,6 @@ auto cUnit::newUnit(const std::string& p_className,
 			lua_pop(Lua(), 1);
 		}
 		lua_pop(Lua(), 1);
-	}
-
-	// Add items
-	for(auto& itemID : items) {
-		auto item = cItem::newItem(itemID, Lua);
-		if(item.getID() != "") unit->inventory().addNewItem(item);
 	}
 
 	// Set name
@@ -104,6 +107,7 @@ auto cUnit::newUnit(const std::string& p_className,
 	}
 	unit->m_sprite = assets.getSprite(unit->m_name, spriteName);
 
+	cleanLuaStack();
 	return unit;
 }
 

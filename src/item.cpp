@@ -6,10 +6,17 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	// On failure item id will be empty
 	item.m_id = "";
 
+	// Save stack top for cleaning
+	int l_top = lua_gettop(Lua());
+	auto cleanLuaStack = [&](){
+		lua_settop(Lua(), l_top);
+	};
+
 	// Find item table
 	lua_getglobal(Lua(), p_id.c_str());
 	if(not lua_istable(Lua(), -1)) {
 		std::cout << "[ERROR] No item with id " << p_id << std::endl;
+		cleanLuaStack();
 		return item;
 	}
 
@@ -17,6 +24,7 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	lua_getfield(Lua(), -1, "name");
 	if(not lua_isstring(Lua(), -1)) {
 		std::cout << "[ERROR] no item name in " << p_id << std::endl;
+		cleanLuaStack();
 		return item;
 	}
 	item.m_name = lua_tostring(Lua(), -1);
@@ -26,6 +34,7 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	lua_getfield(Lua(), -1, "minRange");
 	if(not lua_isnumber(Lua(), -1)) {
 		std::cout << "[ERROR] no min range value in item " << p_id << std::endl;
+		cleanLuaStack();
 		return item;
 	}
 	item.m_minRange = (int)lua_tonumber(Lua(), -1);
@@ -34,6 +43,7 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	lua_getfield(Lua(), -1, "maxRange");
 	if(not lua_isnumber(Lua(), -1)) {
 		std::cout << "[ERROR] no max range value in item " << p_id << std::endl;
+		cleanLuaStack();
 		return item;
 	}
 	item.m_maxRange = (int)lua_tonumber(Lua(), -1);
@@ -43,6 +53,7 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	lua_getfield(Lua(), -1, "iType");
 	if(not lua_isnumber(Lua(), -1)) {
 		std::cout << "[ERROR] No item type " << p_id << std::endl;
+		cleanLuaStack();
 		return item;
 	}
 	item.m_type = (eITEM)lua_tonumber(Lua(), -1);
@@ -52,12 +63,12 @@ auto cItem::newItem(const std::string& p_id, cBattleLua& Lua) -> cItem{
 	lua_getfield(Lua(), -1, "action");
 	if(not lua_isstring(Lua(), -1)) {
 		std::cout << "[ERROR] item has no action " << p_id << std::endl;
+		cleanLuaStack();
 		return item;
 	}
 	std::string action = lua_tostring(Lua(), -1);
+	cleanLuaStack();
 
-	// Clean stack
-	lua_pop(Lua(), -1);
 
 	if      (action == "Attack") item.m_action = eACTION::ATTACK;
 	else if (action == "Heal")   item.m_action = eACTION::HEAL;
