@@ -192,7 +192,7 @@ void cSceneBattle::draw(){
 	m_cursor.draw(m_cameraOffset, animationFrame);
 
 	// Draw animations
-	m_animator.draw();
+	m_animator.draw(m_cameraOffset);
 
 	// Draw UI
 	m_UI.qStats.draw();

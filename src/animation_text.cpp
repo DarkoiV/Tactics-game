@@ -22,7 +22,7 @@ cAnimationText::cAnimationText(const std::string& p_text, eTEXT_COLOR p_color, i
 }
 
 // Draw text to screen
-void cAnimationText::draw() {
+void cAnimationText::draw(vec2D p_cameraOffset) {
 	m_text.draw();
 
 	m_animationFrame++;

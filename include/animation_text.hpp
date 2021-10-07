@@ -21,7 +21,7 @@ class cAnimationText : public cAnimation {
 		cAnimationText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale);
 
 		// Animation methods
-		void draw() 		override;
-		bool isCompleted() 	override;
+		void draw(vec2D p_cameraOffset) override;
+		bool isCompleted() 		override;
 
 };

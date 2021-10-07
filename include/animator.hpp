@@ -1,6 +1,7 @@
 #pragma once
 
 #include "animation.hpp"
+#include "struct_vec2D.hpp"
 
 #include <vector>
 #include <memory>
@@ -14,7 +15,7 @@ class cAnimator {
 
 	public:
 		// Draw all animations
-		void draw();
+		void draw(vec2D p_cameraOffset);
 
 		// Draw info about killed unit
 		void animateText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale);
