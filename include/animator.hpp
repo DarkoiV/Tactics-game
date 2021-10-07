@@ -2,6 +2,7 @@
 
 #include "animation.hpp"
 #include "struct_vec2D.hpp"
+#include "animation_effect.hpp"
 
 #include <vector>
 #include <memory>
@@ -17,6 +18,9 @@ class cAnimator {
 		// Draw all animations
 		void draw(vec2D p_cameraOffset);
 
-		// Draw info about killed unit
+		// Animate text on screen
 		void animateText(const std::string& p_text, eTEXT_COLOR p_color, int p_scale);
+
+		// Animate effect on screen
+		void animateEffect(const vec2D p_pos, cAnimationEffect::eTYPE p_type);
 };

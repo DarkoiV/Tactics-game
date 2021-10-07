@@ -29,6 +29,9 @@ cAssetManager::cAssetManager(){
 	loadSprite("text_red");
 	loadSprite("text_yellow");
 
+	// Effects animation
+	loadSprite("effect_heal");
+
 	// Box sprite
 	loadSprite("box_border");
 	loadSprite("box_background");

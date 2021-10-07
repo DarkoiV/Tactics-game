@@ -124,8 +124,22 @@ void cSceneBattle::command(const std::string &p_command){
 		nextTurn();
 	}
 
+	// Commands after that requires at least 2 args
+	if(arguments.size() < 2) {
+		std::cout << "[WARN] Unknown command" << std::endl;
+		return;
+	}
+
+	if(arguments[0] == "HEAL") {
+		m_animator.animateEffect(m_cursor.position(), cAnimationEffect::eTYPE::HEAL);
+		return;
+	}
+
 	// Commands after that requires at least 3 args
-	if(arguments.size() < 3) return;
+	if(arguments.size() < 3) {
+		std::cout << "[WARN] Unknown command" << std::endl;
+		return;
+	}
 
 	// Spawn unit commands
 	if(arguments[0] == "SPAWN") {
