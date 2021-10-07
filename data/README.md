@@ -16,3 +16,4 @@ List of possible method calls in LUA scripts.
  | `UNIT:getPhysical()` | Returns physical stats of UNIT *(STR, DEF and AGI)* |
  | `UNIT:getHP()` | Returns HP of UNIT  |
  | `UNIT:damage(x)` | Deals x amount of damage to HP of UNIT |
+ | `UNIT:heal(x)` | Heals UNIT x amount of missing health |

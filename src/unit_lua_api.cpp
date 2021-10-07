@@ -61,6 +61,9 @@ void cUnit::registerUnitApi(lua_State *L) {
 	lua_pushcfunction(L, l_damage);
 	lua_setfield(L, -2, "damage");
 
+	lua_pushcfunction(L, l_heal);
+	lua_setfield(L, -2, "heal");
+
 	// Create metatable and register functions
 	luaL_newmetatable(L, "UnitMetatable");
 	lua_pushvalue(L, tableIndex);
@@ -204,6 +207,27 @@ int cUnit::l_damage(lua_State *L) {
 		unit->m_stats.HP -= damage;
 	else
 		unit->m_stats.HP = 0;
+
+	return 0;
+}
+
+// Heal unit from LUA
+int cUnit::l_heal(lua_State *L) {
+	// Takes unit, and amount of heal as arguments
+	cUnit* unit;
+	int healAmount;
+
+	// Get unit from lua stack
+	unit = cUnit::getTaggedUnit(L, -2);
+	if(unit == nullptr) return 0;
+
+	if (not lua_isnumber(L, -1)) {
+		std::cout << "[ERROR][LUA API] Function needs number, which were not provided" << std::endl;
+		return 0;
+	}
+
+	healAmount = (int)lua_tonumber(L, -1);
+	unit->heal(healAmount);
 
 	return 0;
 }

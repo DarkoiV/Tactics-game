@@ -96,4 +96,5 @@ class cUnit{
 		static int l_getHP(lua_State *L);		// Get HP of unit
 
 		static int l_damage(lua_State *L);		// Deal damage to unit
+		static int l_heal(lua_State* L);		// Heal unit
 };
