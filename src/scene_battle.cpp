@@ -132,6 +132,10 @@ void cSceneBattle::command(const std::string &p_command){
 
 	if(arguments[0] == "HEAL") {
 		m_animator.animateEffect(m_cursor.position(), cAnimationEffect::eTYPE::HEAL);
+		int amount = atoi(arguments[1].c_str());
+		cUnit* unit;
+		if(m_blueTeam.isAnyHere(m_cursor.position(), &unit)) unit->heal(amount);
+		if(m_redTeam.isAnyHere(m_cursor.position(), &unit)) unit->heal(amount);
 		return;
 	}
 

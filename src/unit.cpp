@@ -49,6 +49,10 @@ auto cUnit::newUnit(const std::string& p_className,
 	if(not getStat("int", stats.INT)) return failure();
 	if(not getStat("mov", stats.MOV)) return failure();
 
+	// Set MAX HP and MAX MP
+	stats.MHP = stats.HP;
+	stats.MMP = stats.MP;
+
 	// Get useable items
 	lua_getfield(Lua(), -1, "use");
 	if(not lua_istable(Lua(), -1)) {
@@ -139,6 +143,13 @@ void cUnit::toggleActive(bool p_active){
 // Get unit stats
 auto cUnit::getStats() -> const sStats&{
 	return m_stats;
+}
+
+// Heal unit
+void cUnit::heal(int p_amount) {
+	if(p_amount < 0) return;
+	m_stats.HP += p_amount;
+	if (m_stats.HP > m_stats.MHP) m_stats.HP = m_stats.MHP;
 }
 
 // Check if unit can use item
