@@ -24,7 +24,7 @@ void cAnimationEffect::draw(vec2D p_cameraOffset) {
 	};
 	SDL_Rect dstRect = {
 		(m_pos.x + p_cameraOffset.x) * TILE_SIZE,
-		(m_pos.y + p_cameraOffset.y) * TILE_SIZE,
+		(m_pos.y + p_cameraOffset.y) * TILE_SIZE + RENDER_OFFSET_Y,
 		TILE_SIZE,
 		TILE_SIZE
 	};
