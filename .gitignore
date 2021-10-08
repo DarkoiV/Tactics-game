@@ -3,8 +3,10 @@ lib/Lua5.4/*.h
 lib/Lua5.4/*.hpp
 lib/Lua5.4/Makefile
 
-build
-game*
+linux_build
+web_build
+game
+web
 
 compile_flags.txt
 compile_commands.json

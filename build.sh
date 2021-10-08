@@ -27,8 +27,19 @@ echo "        Starting build"
 echo "------------------------------"
 echo
 
+# default build folder
+BUILD_FOLDER=linux_build
+
 # check for cmake
 require "cmake"
+
+# -w enables web build mode
+if test "$1" = "-w"; then
+	BUILD_FOLDER=web_build
+	require "emcc"
+	require "emcmake" 
+	require "emmake"
+fi
 
 # check for ~ LUA ~
 if test -f "./lib/Lua5.4/lua.hpp"; then
@@ -51,13 +62,18 @@ fi
 echo
 
 # check for build directory
-if ! test -d "./build"; then
-	mkdir build
+if ! test -d "./$BUILD_FOLDER"; then
+	mkdir $BUILD_FOLDER
 fi
 
-cd build
-must "cmake .."
-must "make"
+cd $BUILD_FOLDER
+if test "$1" = "-w"; then
+	must "emcmake cmake .."
+	must "emmake make"
+else
+	must "cmake .."
+	must "make"
+fi
 
 echo
 echo "------------------------------"
