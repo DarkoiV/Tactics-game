@@ -26,6 +26,9 @@ class cGame{
 		// Init game
 		cGame();
 
+		// Game loop
+		void loop();
+
 		// Quit game
 		~cGame();
 

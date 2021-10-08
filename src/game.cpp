@@ -6,6 +6,11 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#ifdef __EMSCRIPTEN__
+	#include <emscripten.h>
+	#include <emscripten/html5.h>
+#endif
+
 // Constructor inits game
 cGame::cGame(){
 	// Load base path
@@ -84,24 +89,38 @@ cGame::~cGame(){
 	SDL_Quit();
 }
 
+#ifdef __EMSCRIPTEN__
+
+// emLoop exist only for managing cGame loop in WASM builds
+void emLoop(void* p_game) {
+	auto game = (cGame*)p_game;
+	game->loop();
+}
+
+#endif
+
 // Operator() runs game
 void cGame::operator()(){
 	// TMP 
 	m_currentScene = new cSceneBattle;
 
-	// Game loop
-	while(m_running){
+#ifdef __EMSCRIPTEN__
+	emscripten_set_main_loop_arg(emLoop, this, 60, true);
+#else
+	while(m_running) loop();
+#endif
+}
 
-		// Run scene
-		m_currentScene->update(getInput());
-		m_currentScene->draw();
+void cGame::loop() {
+	// Run scene
+	m_currentScene->update(getInput());
+	m_currentScene->draw();
 
-		// Draw console
-		drawConsole();
-	
-		// Create frame
-		createFrame();
-	}
+	// Draw console
+	drawConsole();
+
+	// Create frame
+	createFrame();
 }
 
 // Load settings from Lua file
@@ -138,12 +157,14 @@ bool cGame::loadSettings(){
 
 // Create single frame of game
 void cGame::createFrame(){
-	// Create frame tick counter
-	static Uint32 previousFrameTicks;
-
 	// Render frame
 	SDL_RenderPresent(g_renderer);
 	SDL_RenderClear(g_renderer);
+
+#ifndef __EMSCRIPTEN__
+
+	// Create frame tick counter
+	static Uint32 previousFrameTicks;
 
 	// Wait for enough time to cap FPS
 	int waitTime = (1000/FPS) - (SDL_GetTicks() - previousFrameTicks);
@@ -156,6 +177,7 @@ void cGame::createFrame(){
 
 	// Keep track of ticks at the end of previous frame
 	previousFrameTicks = SDL_GetTicks();
+#endif
 }
 
 // Draw console to screen

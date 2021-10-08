@@ -4,7 +4,7 @@ lib/Lua5.4/*.hpp
 lib/Lua5.4/Makefile
 
 build
-game
+game*
 
 compile_flags.txt
 compile_commands.json
