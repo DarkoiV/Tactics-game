@@ -4,14 +4,12 @@
 // Spawn new unit, add it to team, by name
 void cTeam::spawnUnit(const std::string &p_name, vec2D p_pos) {
 	std::cout << "[INFO] Creating unit by name: " << p_name << std::endl;
-	auto newUnit = cUnit::newUnit(p_name, m_teamColor, Lua);
-	if(newUnit != nullptr) {
-		auto unit_ptr = std::unique_ptr<cUnit>(newUnit);
-		m_units.push_back(std::move(unit_ptr));
+	try {
+		m_units.emplace_back(std::make_unique<cUnit>(p_name, m_teamColor, Lua));
 		m_units.back()->setPosition(p_pos);
-	}
-	else {
-		std::cout << "[WARN] Unit not spawned" << std::endl;
+	} 
+	catch(std::invalid_argument const &ex) {
+		std::cout << "[WARN] Unit not spawned, " << ex.what() << std::endl;
 	}
 }
 

@@ -21,8 +21,6 @@ class cUnit{
 		// Identification
 		std::string m_name;
 
-		cUnit() = default;
-
 		// Position on map in tiles, offset in pixels
 		vec2D m_pos{-1, -1};
 		vec2D m_offset{0, 0};
@@ -50,8 +48,8 @@ class cUnit{
 		SDL_Texture* m_sprite;
 	public:
 		// Create new item by class name and 
-		static auto newUnit(const std::string& p_className, 
-			eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit*;
+		cUnit(const std::string& p_className, 
+			eTEAM_COLOR p_color, cBattleLua &Lua);
 
 		auto getName() const -> const std::string&;
 

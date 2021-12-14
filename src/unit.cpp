@@ -3,9 +3,8 @@
 #include "asset_manager.hpp"
 
 // Create new unit
-auto cUnit::newUnit(const std::string& p_className, 
-	eTEAM_COLOR p_color, cBattleLua &Lua) -> cUnit* {
-	cUnit* unit = new cUnit;
+cUnit::cUnit(const std::string& p_className, 
+	eTEAM_COLOR p_color, cBattleLua &Lua) {
 
 	// Save stack top for cleaning
 	int l_top = lua_gettop(Lua());
@@ -13,18 +12,17 @@ auto cUnit::newUnit(const std::string& p_className,
 		lua_settop(Lua(), l_top);
 	};
 
-	//  Return failure will free heap memory, and clean stack
-	auto failure = [&unit, &cleanLuaStack](){
+	//  Failure will throw
+	auto failure = [&cleanLuaStack](){
 		cleanLuaStack();
-		delete unit;
-		return nullptr;
+		throw std::invalid_argument("Lua definition for unit is wrong");
 	};
 	
 	// Find unit table
 	lua_getglobal(Lua(), p_className.c_str());
 	if(not lua_istable(Lua(), -1)) {
 		std::cout << "[ERROR] No class with name " << p_className << std::endl;
-		return failure();
+		failure();
 	}
 
 	// Get field
@@ -40,14 +38,14 @@ auto cUnit::newUnit(const std::string& p_className,
 	};
 
 	// Get unit stats
-	auto &stats = unit->m_stats;
-	if(not getStat("hp", stats.HP)) return failure();
-	if(not getStat("mp", stats.MP)) return failure();
-	if(not getStat("def", stats.DEF)) return failure();
-	if(not getStat("str", stats.STR)) return failure();
-	if(not getStat("agi", stats.AGI)) return failure();
-	if(not getStat("int", stats.INT)) return failure();
-	if(not getStat("mov", stats.MOV)) return failure();
+	auto &stats = m_stats;
+	if(not getStat("hp", stats.HP)) failure();
+	if(not getStat("mp", stats.MP)) failure();
+	if(not getStat("def", stats.DEF)) failure();
+	if(not getStat("str", stats.STR)) failure();
+	if(not getStat("agi", stats.AGI)) failure();
+	if(not getStat("int", stats.INT)) failure();
+	if(not getStat("mov", stats.MOV)) failure();
 
 	// Set MAX HP and MAX MP
 	stats.MHP = stats.HP;
@@ -57,13 +55,13 @@ auto cUnit::newUnit(const std::string& p_className,
 	lua_getfield(Lua(), -1, "use");
 	if(not lua_istable(Lua(), -1)) {
 		std::cout << "[ERROR] No use table for " << p_className << std::endl;
-		return failure();
+		failure();
 	}
 	lua_pushnil(Lua());		// Push key
 	while(lua_next(Lua(), -2) != 0) {
 		// Convert to useable flag
 		if(lua_isinteger(Lua(), -1)) {
-			unit->m_useableItems |= (uint8_t)lua_tointeger(Lua(), -1);
+			m_useableItems |= (uint8_t)lua_tointeger(Lua(), -1);
 		}
 		else {
 			std::cout << "[WARN] Unrecognized use flag in " << p_className << std::endl;
@@ -83,7 +81,7 @@ auto cUnit::newUnit(const std::string& p_className,
 			if(lua_isstring(Lua(), -1)) {
 				auto itemID = lua_tostring(Lua(), -1);
 				auto item = cItem::newItem(itemID, Lua);
-				if(item.getID() != "") unit->inventory().addNewItem(item);
+				if(item.getID() != "") inventory().addNewItem(item);
 			}
 			else {
 				std::cout << "[WARN] Unrecognized gear in " << p_className << std::endl;
@@ -94,25 +92,24 @@ auto cUnit::newUnit(const std::string& p_className,
 	}
 
 	// Set name
-	unit->m_name = p_className;
-	for(auto& c: unit->m_name) c = tolower(c);
-	std::cout << "Unit name " << unit->m_name << std::endl;
+	m_name = p_className;
+	for(auto& c: m_name) c = tolower(c);
+	std::cout << "Unit name " << m_name << std::endl;
 
 	// Get sprite
 	auto assets = cAssetManager::getInstance();
 	std::string spriteName;
 	switch(p_color) {
 		case eTEAM_COLOR::BLUE:
-			spriteName = "unit_" + unit->m_name + "_blue";
+			spriteName = "unit_" + m_name + "_blue";
 			break;
 		case eTEAM_COLOR::RED:
-			spriteName = "unit_" + unit->m_name + "_red";
+			spriteName = "unit_" + m_name + "_red";
 			break;
 	}
-	unit->m_sprite = assets.getSprite(unit->m_name, spriteName);
+	m_sprite = assets.getSprite(m_name, spriteName);
 
 	cleanLuaStack();
-	return unit;
 }
 
 auto cUnit::getName() const -> const std::string& {
