@@ -26,8 +26,8 @@ class cUnitInventory{
 		bool addNewItem(cItem p_item);
 
 		// Moves item at pos to first place
-		void makeFirst(int p_pos);
+		void makeFirst(uint p_pos);
 
 		// Discard item
-		void discardItem(int p_pos);
+		void discardItem(uint p_pos);
 };

@@ -15,12 +15,13 @@ bool cUnitInventory::addNewItem(cItem p_item) {
 	return true;
 }
 
-void cUnitInventory::makeFirst(int p_pos) {
-	if(m_items.size() < p_pos or p_pos <= 0) return;
+void cUnitInventory::makeFirst(uint p_pos) {
+	if(m_items.size() < p_pos) return;
 	std::swap(m_items[0], m_items[p_pos]);
 }
 
-void cUnitInventory::discardItem(int p_pos) {
-	if(m_items.size() < p_pos or p_pos < 0) return;
+void cUnitInventory::discardItem(uint p_pos) {
+	if(m_items.size() < p_pos) return;
+	std::cout << "[WARN] Something tried to discard non-existing item" << std::endl;
 	m_items.erase(m_items.begin() + p_pos);
 }
