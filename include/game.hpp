@@ -1,16 +1,15 @@
 #pragma once
 
-#include "scene.hpp"
 #include "enums.hpp"
-#include "scene_battle.hpp"
 #include "ui_text.hpp"
+#include "scene_manager.hpp"
 #include <vector>
 
 class cGame{
 	private:
 		// Game state
-		bool    m_running      = false  ;
-		cScene* m_currentScene = nullptr;
+		bool          m_running = false;
+		cSceneManager m_sceneManager;
 		
 		// Console command
 		std::string m_command = "";

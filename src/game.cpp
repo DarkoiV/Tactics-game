@@ -11,6 +11,8 @@
 	#include <emscripten/html5.h>
 #endif
 
+using eSCENE_TYPE = cSceneManager::eSCENE_TYPE;
+
 // Constructor inits game
 cGame::cGame(){
 	// Load base path
@@ -59,6 +61,9 @@ cGame::cGame(){
 	// Stop accepting text input, as it is on by default
 	SDL_StopTextInput();
 
+	// Load first scene
+	m_sceneManager.loadScene(eSCENE_TYPE::SCENE_BATTLE_PVP);
+
 	// If all went ok, set game as running
 	m_running = true;
 
@@ -74,9 +79,6 @@ cGame::~cGame(){
 	// Free resources
 	auto &assetAcces = cAssetManager::getInstance();
 	assetAcces.freeResources();
-
-	// Delete scenes
-	delete m_currentScene;
 
 	// Delete console text
 	delete m_consoleText;
@@ -101,8 +103,6 @@ void emLoop(void* p_game) {
 
 // Operator() runs game
 void cGame::operator()(){
-	// TMP 
-	m_currentScene = new cSceneBattle;
 
 #ifdef __EMSCRIPTEN__
 	emscripten_set_main_loop_arg(emLoop, this, 60, true);
@@ -113,8 +113,11 @@ void cGame::operator()(){
 
 void cGame::loop() {
 	// Run scene
-	m_currentScene->update(getInput());
-	m_currentScene->draw();
+	auto scene = m_sceneManager.currentScene();
+	auto input = getInput();
+
+	scene->update(input);
+	scene->draw();
 
 	// Draw console
 	drawConsole();
@@ -200,7 +203,8 @@ eBUTTON cGame::getInput(){
 		else if(SDL_IsTextInputActive()){
 			// On enter send command to scene, and end text input
 			if(g_events.type == SDL_KEYDOWN and g_events.key.keysym.sym == SDLK_RETURN){
-				m_currentScene->command(m_command);
+				auto scene = m_sceneManager.currentScene();
+				scene->command(m_command);
 				m_command = "";
 				SDL_StopTextInput();
 			}
