@@ -41,12 +41,13 @@ class cSceneBattle: public cScene{
 		void nextTurn();
 
 		// Turn components
-		std::vector<cTurn*> m_turnVector;
+		std::vector<std::unique_ptr<cTurn>> m_turnVector;
 
 	public:
-		// Constructor/destructor
+		// Constructors
 		cSceneBattle();
-		~cSceneBattle();
+		cSceneBattle(cSceneBattle&) = delete;
+		cSceneBattle(cSceneBattle&&) = delete;
 
 		// Parse console command
 		void command(const std::string& p_command) override;

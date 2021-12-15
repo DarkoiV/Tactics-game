@@ -9,6 +9,9 @@ class cBattleLua{
 		// Constructor opens lua state
 		cBattleLua();
 
+		cBattleLua(cBattleLua&) = delete;
+		cBattleLua(cBattleLua&&) = delete;
+
 		// Destructor closes lua state
 		~cBattleLua();
 

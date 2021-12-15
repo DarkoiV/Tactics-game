@@ -59,6 +59,7 @@ void cTeam::deselectUnit(){
 auto cTeam::selected() -> cUnit&{
 	if(m_selectedUnit == nullptr){
 		std::cout << "[ERROR] Call to selected unit, when no unit selected" << std::endl;
+		std::terminate();
 	}
 	return *m_selectedUnit;
 }
@@ -70,7 +71,7 @@ void cTeam::calculateRange(cBoard &board, cTeam &opposingTeam){
 
 	auto passableTiles = board.getPassable(opposingTeam);
 
-	for(auto UNIT : m_units){
+	for(auto &UNIT : m_units){
 		UNIT->range().calculateRange(board, passableTiles);
 	}
 	std::cout << "[INFO] Calculating ranges took: "<< SDL_GetTicks() - startTime << "ms" << std::endl;

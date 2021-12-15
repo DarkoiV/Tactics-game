@@ -46,6 +46,9 @@ class cTurnPlayer: public cTurn{
 			playerTeam(pt),
 			enemyTeam(et){};
 
+		cTurnPlayer(cTurnPlayer&) = delete;
+		cTurnPlayer(cTurnPlayer&&) = delete;
+
 		// Override turn functions
 		void start()       		override;
 		auto status() -> eTURN_STATUS 	override;

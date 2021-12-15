@@ -17,7 +17,7 @@ class cTeam{
 		cBattleLua &Lua;
 
 		// Units selected for battle in this team
-		std::vector<std::shared_ptr<cUnit>> m_units;
+		std::vector<std::unique_ptr<cUnit>> m_units;
 
 		// Curently selected unit
 		cUnit* m_selectedUnit = nullptr;
@@ -32,6 +32,9 @@ class cTeam{
 		cTeam(cBattleLua &L, eTEAM_COLOR p_teamColor):
 			Lua(L),
 			m_teamColor(p_teamColor){};
+
+		cTeam(cTeam&) = delete;
+		cTeam(cTeam&&) = delete;
 
 		// Spawn new unit by name
 		void spawnUnit(const std::string& p_name, vec2D p_pos);

@@ -31,6 +31,9 @@ class cUnitRange{
 		// Constructor loads sprites
 		cUnitRange(cUnit &u);
 
+		cUnitRange(cUnitRange&) = delete;
+		cUnitRange(cUnitRange&&) = delete;
+
 		// Move range
 		void calculateRange(cBoard &board, std::vector<bool> passableTiles);		// Calculates range
 		void calculateActionRange(cBoard &board, int minRange, int maxRange);		// Calculates attack range

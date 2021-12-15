@@ -2,14 +2,6 @@
 
 #include <cstdint>
 
-// Scene types in game
-enum class eSCENE {
-	MAIN_MENU,
-	SETTINGS,
-	BATTLE,
-	EDIT
-};
-
 // Button types
 enum class eBUTTON {
 	SELECT,

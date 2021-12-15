@@ -47,15 +47,6 @@ cSceneBattle::cSceneBattle(){
 	currentTurn()->start();
 }
 
-// Destructor
-cSceneBattle::~cSceneBattle(){
-	// Free memory
-	std::cout << "[INFO] Deleting turns data" << std::endl;
-	for(size_t i = 0; i < m_turnVector.size(); i++){
-		delete m_turnVector[i];
-	}
-}
-
 // Update camera position
 inline void cSceneBattle::updateCamera(){
 	// X axis
@@ -83,7 +74,7 @@ inline void cSceneBattle::updateCamera(){
 
 // Get current turn
 auto cSceneBattle::currentTurn() -> cTurn*{
-	return m_turnVector[m_turnIndex];
+	return m_turnVector[m_turnIndex].get();
 }
 
 // Switch to next turn

@@ -16,6 +16,9 @@ class cUnitInventory{
 		cUnitInventory(cUnit &u):
 			unit(u){};
 
+		cUnitInventory(cUnitInventory&) = delete;
+		cUnitInventory(cUnitInventory&&) = delete;
+
 		// Get first item in inventory, or nullptr if none
 		auto getFirstItem() -> cItem*;
 
