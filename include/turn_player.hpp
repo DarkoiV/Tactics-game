@@ -37,6 +37,9 @@ class cTurnPlayer: public cTurn{
 		void processSelectTarget(eBUTTON p_input);		// SELECT TARGET MODE
 		void processPostAction();				// POST ACTION CHECKUP
 
+		// vars
+		vec2D m_savedUnitPos = {0, 0};
+
 	public:
 		cTurnPlayer(cBoard &b, cCursor &c, cUI &UI, cCommander &com, cTeam &pt, cTeam &et):
 			board(b),

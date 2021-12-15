@@ -77,6 +77,9 @@ void cTurnPlayer::processMoveUnit(eBUTTON p_input){
 			if( selectedUnit.getPosition() == cursor.position() 
 			or ( selectedUnit.range().inRange( board, cursor.position())
 			and not playerTeam.isAnyHere(cursor.position(), nullptr)) ) {
+				// Save pos
+				m_savedUnitPos = selectedUnit.getPosition();
+
 				// Get path to selected position
 				auto path = selectedUnit.range().getPath(board, cursor.position());
 
@@ -154,6 +157,11 @@ void cTurnPlayer::processSelectAction(eBUTTON p_input){
 				playerTeam.toggleMoveRange(false);
 
 				m_mode = SELECT_TARGET;
+				break;
+
+			case eACTION::RETURN:
+				selectedUnit.setPosition(m_savedUnitPos);
+				m_mode = MOVE_UNIT;
 				break;
 
 			default:
