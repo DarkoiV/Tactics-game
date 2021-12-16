@@ -129,10 +129,6 @@ void cGame::loop() {
 		// Create frame
 		createFrame();
 	}
-
-	// Go back to main menu after completed scene
-	m_sceneManager.nextScene(eSCENE_TYPE::MAIN_MENU);
-
 }
 
 // Load settings from Lua file

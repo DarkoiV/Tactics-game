@@ -20,6 +20,7 @@ class cSceneManager {
 
 		// Requested scene
 		eSCENE_TYPE m_requested;
+		bool m_wasRequested = false;
 
 	public:
 
