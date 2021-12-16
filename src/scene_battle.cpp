@@ -152,6 +152,10 @@ void cSceneBattle::command(const std::string &p_command){
 	std::cout << "[WARN] Unknown command" << std::endl;
 }
 
+bool cSceneBattle::completed() {
+	return m_completed;
+}
+
 // Update scene
 void cSceneBattle::update(eBUTTON p_input){
 	// Process turn related input
@@ -165,7 +169,15 @@ void cSceneBattle::update(eBUTTON p_input){
 
 		// Switch to next turn
 		case eTURN_STATUS::COMPLETED:
-			nextTurn();
+			if(not m_redTeam.alive()) {
+				std::cout << "[INFO] Blue team won" << std::endl; 
+				m_completed = true;
+			}
+			else if(not m_blueTeam.alive()) {
+				std::cout << "[INGO] Red team won" << std::endl;
+				m_completed = true;
+			}
+			else nextTurn();
 			break;
 
 		// Switch to next turn after deleting turn from vector

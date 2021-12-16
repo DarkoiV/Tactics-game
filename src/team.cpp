@@ -36,6 +36,12 @@ bool cTeam::checkForActive() {
 	return false;
 }
 
+
+// Check if any unit remains alive
+bool cTeam::alive() {
+	return m_units.size() > 0;
+}
+
 // Try to select unit on target position, return true if any selectable unit is present on target position
 bool cTeam::selectUnit(vec2D p_targetPos){
 	for(const auto &UNIT : m_units){

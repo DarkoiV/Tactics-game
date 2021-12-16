@@ -43,6 +43,8 @@ class cSceneBattle: public cScene{
 		// Turn components
 		std::vector<std::unique_ptr<cTurn>> m_turnVector;
 
+		bool m_completed = false;
+
 	public:
 		// Constructors
 		cSceneBattle();
@@ -51,6 +53,8 @@ class cSceneBattle: public cScene{
 
 		// Parse console command
 		void command(const std::string& p_command) override;
+
+		bool completed() override;
 
 		// Scene loop methods override
 		void update(eBUTTON p_INPUT) override;

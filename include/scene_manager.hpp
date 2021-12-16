@@ -11,6 +11,7 @@ class cSceneManager {
 	public:
 		// Scene types
 		enum class eSCENE_TYPE {
+			SCENE_MAIN_MENU,
 			SCENE_BATTLE_PVP
 		};
 

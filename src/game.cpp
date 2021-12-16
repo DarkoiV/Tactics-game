@@ -112,18 +112,23 @@ void cGame::operator()(){
 }
 
 void cGame::loop() {
+
 	// Run scene
 	auto scene = m_sceneManager.currentScene();
-	auto input = getInput();
 
-	scene->update(input);
-	scene->draw();
+	while(not scene->completed())
+	{
+		auto input = getInput();
 
-	// Draw console
-	drawConsole();
+		scene->update(input);
+		scene->draw();
 
-	// Create frame
-	createFrame();
+		// Draw console
+		drawConsole();
+
+		// Create frame
+		createFrame();
+	}
 }
 
 // Load settings from Lua file

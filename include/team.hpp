@@ -40,8 +40,9 @@ class cTeam{
 		void spawnUnit(const std::string& p_name, vec2D p_pos);
 
 		// Check units status
-		int checkDeadUnits();				// Returns how many units have died
-		bool checkForActive();				// Returns false when no unit reamins active
+		int checkDeadUnits();		// Returns how many units have died, and deletes them from vactor
+		bool checkForActive();		// Returns false when no unit remains active
+		bool alive();			// Returns false when no unit remains alive
 
 		// Select unit, returns true if unit selected
 		bool selectUnit(vec2D p_targetPos);
