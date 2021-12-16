@@ -98,7 +98,7 @@ void cText::update(const std::string& p_newText){
 }
 
 // Draw text to screen
-void cText::draw(){
+void cText::draw() const {
 	SDL_Rect srcRect = {0, 0, m_characterSize.x, m_characterSize.y};
 	SDL_Rect dstRect = {
 		m_originPoint.x, 

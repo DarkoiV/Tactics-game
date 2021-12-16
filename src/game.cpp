@@ -62,7 +62,7 @@ cGame::cGame(){
 	SDL_StopTextInput();
 
 	// Load first scene
-	m_sceneManager.loadScene(eSCENE_TYPE::SCENE_BATTLE_PVP);
+	m_sceneManager.nextScene(eSCENE_TYPE::MAIN_MENU);
 
 	// If all went ok, set game as running
 	m_running = true;
@@ -114,10 +114,10 @@ void cGame::operator()(){
 void cGame::loop() {
 
 	// Run scene
+	m_sceneManager.switchScene();
 	auto scene = m_sceneManager.currentScene();
 
-	while(not scene->completed())
-	{
+	while(not scene->completed() and m_running) {
 		auto input = getInput();
 
 		scene->update(input);
@@ -129,6 +129,10 @@ void cGame::loop() {
 		// Create frame
 		createFrame();
 	}
+
+	// Go back to main menu after completed scene
+	m_sceneManager.nextScene(eSCENE_TYPE::MAIN_MENU);
+
 }
 
 // Load settings from Lua file

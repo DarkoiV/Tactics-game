@@ -5,18 +5,29 @@
 #include <memory>
 
 class cSceneManager {
-	private:
-		std::unique_ptr<cScene> m_currentScene;
-
 	public:
 		// Scene types
 		enum class eSCENE_TYPE {
-			SCENE_MAIN_MENU,
-			SCENE_BATTLE_PVP
+			MAIN_MENU,
+			BATTLE_PVP
 		};
+
+	private:
+		std::unique_ptr<cScene> m_currentScene;
 
 		// Load scene based on it's type
 		void loadScene(const eSCENE_TYPE p_type);
+
+		// Requested scene
+		eSCENE_TYPE m_requested;
+
+	public:
+
+		// Request change of scene
+		void nextScene(const eSCENE_TYPE p_type);
+
+		// Switch to requested scene
+		void switchScene();
 
 		// Return current scene
 		auto currentScene() const -> cScene*;

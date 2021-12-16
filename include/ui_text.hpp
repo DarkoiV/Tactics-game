@@ -36,5 +36,5 @@ class cText{
 		auto operator()() -> std::string&;			// Access internal string
 
 		void update(const std::string& p_newText);		// Changes text which will be displaied
-		void draw();
+		void draw() const;
 };
