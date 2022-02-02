@@ -1,6 +1,15 @@
 # Simple tactics game
 Simple tactics game made with SDL2 and Lua.
 
+
+https://user-images.githubusercontent.com/25897608/152091319-0db488d0-9f7f-4b46-83de-a8cfb423b852.mp4
+
+
+
+https://user-images.githubusercontent.com/25897608/152091326-be7e4d00-d4a3-4f7a-b92b-32b22bd616bb.mp4
+
+
+
 ## Requirements
 C++17 compiler  
 SDL 2.0    
