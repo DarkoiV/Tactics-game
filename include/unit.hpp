@@ -51,6 +51,9 @@ class cUnit{
 		cUnit(const std::string& p_className, 
 			eTEAM_COLOR p_color, cBattleLua &Lua);
 
+		cUnit(cUnit&) = delete;
+		cUnit(cUnit&&) = delete;
+
 		auto getName() const -> const std::string&;
 
 		// Methods for position
